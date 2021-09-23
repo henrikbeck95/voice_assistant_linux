@@ -1,7 +1,2 @@
-#README.md
-#AssistenVritual.py
 organizing/
-#AssistenVritual.bak
-#container.sh
-#Dockerfile
-voice_user.wav
+src/voice_user.wav

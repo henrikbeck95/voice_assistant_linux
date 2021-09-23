@@ -1,0 +1,49 @@
+version: '2'
+
+system:
+  message_running: "VAL is listening..."
+  message_error: "An error has occurred. Your microphone device might not be correctly configured. Please, check it out before try again."
+  language: "pt-BR"
+software:
+  #terminal: "alacritty"
+  terminal: "exec i3-sensible-terminal"
+  browser: "firefox"
+  music: "spotify"
+  file_browser: "nautilus"
+  menu: "/home/joker/.dotfiles/scripts/rofi_launcher.sh --rofi-theme-launchpad"
+  #menu: "rofi -show"
+user:
+  file_recording: "voice_user.wav"
+val:
+  message_welcome: "Val here!"
+  message_introduction: "How can I help you!?"
+graphical_interface:
+  config:
+    reload: "i3 reload"
+    restart: "i3 restart"
+  window:
+    close: ""
+    floating: "i3 floating toggle"
+    stick: "i3 sticky toggle"
+    fullscreen: "i3 fullscreen toggle"
+    go_to:
+      up: ""
+      left: ""
+      right: ""
+      down: ""
+    move_to:
+      up: ""
+      left: ""
+      right: ""
+      down: ""
+  workspace:
+    go_to:
+      last: "i3 back_and_forth"
+      number: "i3 workspace number $wsHome"
+      next: "i3 workspace next"
+      prev: "i3 workspace prev"
+    move_to:
+      last: "i3 move container to workspace back_and_forth"
+      number: "i3 move container to workspace number $wsHome"
+      next: "i3 move container to workspace next"
+      prev: "i3 move container to workspace prev"
