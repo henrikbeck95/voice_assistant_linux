@@ -1,49 +1,57 @@
-version: '2'
-
-system:
-  message_running: "VAL is listening..."
-  message_error: "An error has occurred. Your microphone device might not be correctly configured. Please, check it out before try again."
-  language: "pt-BR"
+settings:
+  #debug: "on"
+  #debug: "off"
+  language: "en-US"
+  #language: "pt-BR"
 software:
-  #terminal: "alacritty"
-  terminal: "exec i3-sensible-terminal"
-  browser: "firefox"
-  music: "spotify"
-  file_browser: "nautilus"
-  menu: "/home/joker/.dotfiles/scripts/rofi_launcher.sh --rofi-theme-launchpad"
-  #menu: "rofi -show"
-user:
-  file_recording: "voice_user.wav"
-val:
-  message_welcome: "Val here!"
-  message_introduction: "How can I help you!?"
-graphical_interface:
-  config:
-    reload: "i3 reload"
-    restart: "i3 restart"
+  firefox: "firefox &"
+  menu: "$HOME/.dotfiles/scripts/rofi_launcher.sh --rofi-theme-launchpad &"
+  nautilus: "nautilus &"
+  spotify: "spotify &"
+  terminal: "exec i3-sensible-terminal &"
+system:
+  brightness:
+    up: "$HOME/.dotfiles/scripts/system_brightness.sh --max"
+    down: "$HOME/.dotfiles/scripts/system_brightness.sh --min"
+  volume:
+    up: "$HOME/.dotfiles/scripts/system_dbus_player.sh --system-volume-up"
+    down: "$HOME/.dotfiles/scripts/system_dbus_player.sh --system-volume-down"
+  #config:
+  #  reload: "i3 reload"
+  #  restart: "i3 restart"
   window:
-    close: ""
+    close: "i3 kill"
     floating: "i3 floating toggle"
+    full_screen: "i3 fullscreen toggle"
     stick: "i3 sticky toggle"
-    fullscreen: "i3 fullscreen toggle"
-    go_to:
-      up: ""
-      left: ""
-      right: ""
-      down: ""
-    move_to:
-      up: ""
-      left: ""
-      right: ""
-      down: ""
+    focus:
+      up: "i3 focus up"
+      left: "i3 focus left"
+      right: "i3 focus right"
+      down: "i3 focus down"
+    move:
+      up: "i3 move up"
+      left: "i3 move left"
+      right: "i3 move right"
+      down: "i3 move down"
   workspace:
-    go_to:
-      last: "i3 back_and_forth"
+    go:
+      last: "i3 workspace back_and_forth"
       number: "i3 workspace number $wsHome"
       next: "i3 workspace next"
       prev: "i3 workspace prev"
-    move_to:
+    move:
       last: "i3 move container to workspace back_and_forth"
       number: "i3 move container to workspace number $wsHome"
       next: "i3 move container to workspace next"
       prev: "i3 move container to workspace prev"
+user:
+  file_recording: "voice_user.wav"
+val:
+  message_error_command_not_listed: "Command could not be detected"
+  message_error_microphone: "An error has occurred. Your microphone device might not be correctly configured. Please, check it out before try again."
+  message_introduction: "How can I help you!?"
+  message_success_command_listed: "Command has been validated!"
+  message_running: "VAL is listening..."
+  message_welcome: "Val here!"
+  #message_welcome: "Estou tentando entender a sua fala..."
