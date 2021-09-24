@@ -1,5 +1,6 @@
 #Import system libraries
 import os
+import platform
 import subprocess
 import time
 #import webbrowser
@@ -7,10 +8,9 @@ import time
 #Import external libraries
 import pyttsx3
 import speech_recognition as sr
-
-#Import settings file
 import yaml
 
+#Import settings file
 with open('settings.yml') as file_settings:
     content = yaml.load(file_settings, Loader=yaml.FullLoader)
     #print(content)
@@ -19,9 +19,18 @@ with open('settings.yml') as file_settings:
 t = time.localtime()
 audio = sr.Recognizer()
 
+#############################
 #VAL speech settings
+#############################
+
+#Speech engine
 #engine = pyttsx3.init()
-engine = pyttsx3.init('espeak') #Speech engine
+if platform.system() == "Darwin":
+    engine = pyttsx3.init('nsss')
+elif platform.system() == "Linux":
+    engine = pyttsx3.init('espeak')
+elif platform.system() == "Windows":
+    engine = pyttsx3.init('sapi5')
 
 #Speech percent speed
 if content.get('settings').get('speech_speed') == "low":
@@ -43,8 +52,11 @@ engine.say(content.get('val').get('message_welcome')) #Speech sentence
 engine.runAndWait()
 engine.stop()
 
+#############################
+#Functions
+#############################
+
 def main():
-    #Stand voice assistant up
     if content.get('settings').get('debug') == "on":
         detectUserVoice()
     else:
