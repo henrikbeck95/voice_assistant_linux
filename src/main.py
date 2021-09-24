@@ -19,16 +19,37 @@ with open('settings.yml') as file_settings:
 t = time.localtime()
 audio = sr.Recognizer()
 
-#Speech settings
+#VAL speech settings
 #engine = pyttsx3.init()
 engine = pyttsx3.init('espeak') #Speech engine
-engine.setProperty('rate', 128) #Speech percent speed
-#engine.setProperty('rate', 178) #Speech percent speed
-#engine.setProperty('rate', 278) #Speech percent speed
-engine.setProperty('volume', 0.7) #Speech percent volume (0-1)
+
+#Speech percent speed
+if content.get('settings').get('speech_speed') == "low":
+    engine.setProperty('rate', 118)
+elif content.get('settings').get('speech_speed') == "normal":
+    engine.setProperty('rate', 178)
+elif content.get('settings').get('speech_speed') == "fast":
+    engine.setProperty('rate', 278)
+
+#Speech percent volume (0-1)
+if content.get('settings').get('speech_volume') == "low":
+    engine.setProperty('volume', 0.5)
+elif content.get('settings').get('speech_volume') == "normal":
+    engine.setProperty('volume', 0.7)
+elif content.get('settings').get('speech_volume') == "high":
+    engine.setProperty('volume', 1)
+
 engine.say(content.get('val').get('message_welcome')) #Speech sentence
 engine.runAndWait()
 engine.stop()
+
+def main():
+    #Stand voice assistant up
+    if content.get('settings').get('debug') == "on":
+        virtualAssistantExecuting()
+    else:
+        while True:
+            virtualAssistantExecuting()
 
 def virtualAssistantExecuting():
     try:
@@ -65,7 +86,8 @@ def virtualAssistantExecuting():
                 executeVoiceCommand(user_command_array)
 
     except:
-        print(user_command)
+        #print(user_command)
+        print(user_command_array)
         print(content.get('val').get('message_error_microphone'))
         engine.say(content.get('val').get('message_error_microphone'))
 
@@ -219,7 +241,4 @@ def executeVoiceCommand_system(user_command_array):
     else:
         engine.say(content.get('val').get('message_error_command_not_listed'))
 
-#Stand voice assistant up
-virtualAssistantExecuting()
-#while True:
-    #virtualAssistantExecuting()
+main()
