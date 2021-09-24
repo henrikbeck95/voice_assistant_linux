@@ -59,5 +59,5 @@ val:
   message_introduction: "How can I help you!?"
   message_success_command_listed: "Command has been validated!"
   message_running: "VAL is listening..."
-  #message_welcome: "Val here!"
-  message_welcome: "Estou tentando entender a sua fala..."
+  message_welcome: "Val here!"
+  #message_welcome: "Estou tentando entender a sua fala..."

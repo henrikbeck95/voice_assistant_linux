@@ -46,17 +46,17 @@ engine.stop()
 def main():
     #Stand voice assistant up
     if content.get('settings').get('debug') == "on":
-        virtualAssistantExecuting()
+        detectUserVoice()
     else:
         while True:
-            virtualAssistantExecuting()
+            detectUserVoice()
 
-def virtualAssistantExecuting():
+def detectUserVoice():
     try:
         with sr.Microphone() as source:
             if content.get('settings').get('debug') == "on":
                 #Debug a the commands from a text command example
-                user_command = commandExample()
+                userCommand = commandExample()
             else:
                 #???
                 audio.adjust_for_ambient_noise(source)
@@ -68,26 +68,26 @@ def virtualAssistantExecuting():
                     file_external.write(voz.get_wav_data())
 
                 #Load the user's voice recording
-                user_command = audio.recognize_google(voz, language=content.get('settings').get('language'))
+                userCommand = audio.recognize_google(voz, language=content.get('settings').get('language'))
                 time.sleep(1)
 
             #Transcribe on terminal the user's voice command
-            user_command = user_command.lower()
-            print(user_command)
+            userCommand = userCommand.lower()
+            print(userCommand)
 
             #Split all text word into an array
-            user_command_array = user_command.split()
+            userCommandArray = userCommand.split()
             
             #Check if command exists
-            voiceCommandKey = validateVoiceCommand(user_command_array[0])
+            voiceCommandKey = commandValidation(userCommandArray[0])
 
             #Execute asked command
             if voiceCommandKey == True:
-                executeVoiceCommand(user_command_array)
+                commandExecution(userCommandArray)
 
     except:
-        #print(user_command)
-        print(user_command_array)
+        #print(userCommand)
+        print(userCommandArray)
         print(content.get('val').get('message_error_microphone'))
         engine.say(content.get('val').get('message_error_microphone'))
 
@@ -125,118 +125,118 @@ def commandExample():
     #return "system workspace move next"
     #return "system workspace move previous"
 
-def validateVoiceCommand(user_command_array):
-    if user_command_array in content:
+def commandValidation(userCommandArray):
+    if userCommandArray in content:
         print(content.get('val').get('message_success_command_listed'))
         return True
     else:
         print(content.get('val').get('message_error_command_not_listed'))
         return False
 
-def executeVoiceCommand(user_command_array):
-    print("Comando do usuário: {}".format(user_command_array))
+def commandExecution(userCommandArray):
+    print("Comando do usuário: {}".format(userCommandArray))
 
-    if 'software' in user_command_array[0] or 'open' in user_command_array[0] or 'abrir' in user_command_array[0]:
-        executeVoiceCommand_software(user_command_array)
-    elif 'system' in user_command_array[0] or 'sistema' in user_command_array[0]:
-        executeVoiceCommand_system(user_command_array)
+    if 'software' in userCommandArray[0] or 'open' in userCommandArray[0] or 'abrir' in userCommandArray[0]:
+        commandExecution_software(userCommandArray)
+    elif 'system' in userCommandArray[0] or 'sistema' in userCommandArray[0]:
+        commandExecution_system(userCommandArray)
 
-def executeVoiceCommand_software(user_command_array):
-    if 'firefox' in user_command_array[1]:
+def commandExecution_software(userCommandArray):
+    if 'firefox' in userCommandArray[1]:
         os.system(content.get('software').get('firefox'))
     
-    elif 'menu' in user_command_array[1]:
+    elif 'menu' in userCommandArray[1]:
         os.system(content.get('software').get('menu'))
     
-    elif 'nautilus' in user_command_array[1]:
+    elif 'nautilus' in userCommandArray[1]:
         os.system(content.get('software').get('nautilus'))
 
-    elif 'spotify' in user_command_array[1]:
+    elif 'spotify' in userCommandArray[1]:
         os.system(content.get('software').get('spotify'))
 
-    elif 'terminal' in user_command_array[1]:
+    elif 'terminal' in userCommandArray[1]:
         os.system(content.get('software').get('terminal'))
 
     else:
         engine.say(content.get('val').get('message_error_command_not_listed'))
 
 #Must be fixed
-def executeVoiceCommand_system(user_command_array):
-    if 'brightness' in user_command_array[1]:
-        if 'up' in user_command_array[2]:
+def commandExecution_system(userCommandArray):
+    if 'brightness' in userCommandArray[1]:
+        if 'up' in userCommandArray[2]:
             os.system(content.get('system').get('brightness').get('up'))
-        elif 'down' in user_command_array[2]:
+        elif 'down' in userCommandArray[2]:
             os.system(content.get('system').get('brightness').get('down'))
         else:
             engine.say(content.get('val').get('message_error_command_not_listed'))
 
-    elif 'volume' in user_command_array[1]:
-        if 'up' in user_command_array[2]:
+    elif 'volume' in userCommandArray[1]:
+        if 'up' in userCommandArray[2]:
             os.system(content.get('system').get('volume').get('up'))
-        elif 'down' in user_command_array[2]:
+        elif 'down' in userCommandArray[2]:
             os.system(content.get('system').get('volume').get('down'))
         else:
             engine.say(content.get('val').get('message_error_command_not_listed'))
 
-    elif 'window' in user_command_array[1]:
-        if 'close' in user_command_array[2]:
+    elif 'window' in userCommandArray[1]:
+        if 'close' in userCommandArray[2]:
             os.system(content.get('system').get('window').get('close'))
-        elif 'floating' in user_command_array[2]:
+        elif 'floating' in userCommandArray[2]:
             os.system(content.get('system').get('window').get('floating'))
-        elif 'full' in user_command_array[2]:
+        elif 'full' in userCommandArray[2]:
             os.system(content.get('system').get('window').get('full_screen'))
-        elif 'stick' in user_command_array[2]:
+        elif 'stick' in userCommandArray[2]:
             os.system(content.get('system').get('window').get('stick'))
-        elif 'focus' in user_command_array[2]:
-            if 'up' in user_command_array[3]:
+        elif 'focus' in userCommandArray[2]:
+            if 'up' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('focus').get('up'))
-            elif 'left' in user_command_array[3]:
+            elif 'left' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('focus').get('left'))
-            elif 'right' in user_command_array[3]:
+            elif 'right' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('focus').get('right'))
-            elif 'down' in user_command_array[3]:
+            elif 'down' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('focus').get('down'))
             else:
                 engine.say(content.get('val').get('message_error_command_not_listed'))
-        elif 'move' in user_command_array[2]:
-            if 'up' in user_command_array[3]:
+        elif 'move' in userCommandArray[2]:
+            if 'up' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('move').get('up'))
-            elif 'left' in user_command_array[3]:
+            elif 'left' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('move').get('left'))
-            elif 'right' in user_command_array[3]:
+            elif 'right' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('move').get('right'))
-            elif 'down' in user_command_array[3]:
+            elif 'down' in userCommandArray[3]:
                 os.system(content.get('system').get('window').get('move').get('down'))
             else:
                 engine.say(content.get('val').get('message_error_command_not_listed'))
         else:
             engine.say(content.get('val').get('message_error_command_not_listed'))
 
-    elif 'workspace' in user_command_array[1]:
-        if 'go' in user_command_array[2]:
-            if 'last' in user_command_array[3]:
+    elif 'workspace' in userCommandArray[1]:
+        if 'go' in userCommandArray[2]:
+            if 'last' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('go').get('last'))
-            elif 'number' in user_command_array[3]:
+            elif 'number' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('go').get('number'))
-            elif 'next' in user_command_array[3]:
+            elif 'next' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('go').get('next'))
-            elif 'previous' in user_command_array[3]:
+            elif 'previous' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('go').get('prev'))
             else:
                 engine.say(content.get('val').get('message_error_command_not_listed'))
-        elif 'move' in user_command_array[2]:
-            if 'last' in user_command_array[3]:
+        elif 'move' in userCommandArray[2]:
+            if 'last' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('move').get('last'))
-            elif 'number' in user_command_array[3]:
+            elif 'number' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('move').get('number'))
-            elif 'next' in user_command_array[3]:
+            elif 'next' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('move').get('next'))
-            elif 'previous' in user_command_array[3]:
+            elif 'previous' in userCommandArray[3]:
                 os.system(content.get('system').get('workspace').get('move').get('prev'))
             else:
                 engine.say(content.get('val').get('message_error_command_not_listed'))
 
-    #if 'terminal' in user_command_array[1]:
+    #if 'terminal' in userCommandArray[1]:
     #    os.system(content.get('software').get('terminal'))
     else:
         engine.say(content.get('val').get('message_error_command_not_listed'))
