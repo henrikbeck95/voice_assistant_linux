@@ -1,12 +1,4 @@
-# Engenharia de software
-
-## ???
-
-- Eu como usuário quero...
-	> me comunicar com a assistente virtual através de comandos por voz.
-	> que a assistente controle...
-
-## Histórias de usuário
+# Histórias de usuário
 
 - O usuário deseja que a assistente virtual...
 	1. reconheça comandos de voz no idioma inglês.
