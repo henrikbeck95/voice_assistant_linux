@@ -6,9 +6,14 @@ import time
 #import webbrowser
 
 #Import external libraries
-import pyttsx3
-import speech_recognition as sr
-import yaml
+
+#Python 3.6 ASDF
+#PyAudio
+#conda install -c anaconda pyaudio
+#pip install PyAudio
+import pyttsx3                      #pip install pyttsx3
+import speech_recognition as sr     #pip install SpeechRecognition
+import yaml                         #pip install yaml-1.3
 
 #Import settings file
 with open('settings.yml') as file_settings:

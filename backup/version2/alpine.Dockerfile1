@@ -1,0 +1,16 @@
+#FROM docker.io/continuumio/anaconda3
+FROM docker.io/continuumio/miniconda3:4.10.3-alpine
+MAINTAINER Henrik Beck <henrikbeck95@gmail.com>
+
+RUN \
+	conda install -c conda-forge wikipedia && \
+	conda install -c conda-forge speechrecognition && \
+	conda install -c anaconda pyaudio && \
+	conda install -c anaconda portaudio && \
+	pip install pyttsx3==2.71 && \
+	pip install wolframalpha
+	#conda install -c anaconda wolframalpha #&& \
+	#conda install -c wolframresearch wolframclient && \
+
+ADD virtual.py virtual.py
+

@@ -1,0 +1,13 @@
+#Directories
+.git/
+documents/
+#media/
+others/
+
+#Files
+.dockerignore
+.gitignore
+alpine.Dockerfile
+centos.Dockerfile
+Dockerfile
+Dockerfile.bak
