@@ -1,12 +1,12 @@
-# Voice Assistent for Linux
+# Voice Assistant for Linux
 
-Say hi to VAL (Voice Assistente for Linux)
+Say hi to VAL (Voice Assistant for Linux)
 
 ## Description
 
+Virtual assistant from voice commands to control operating system graphical user interface.
 
-
-## Setup
+## Setup environment
 
 ### Requirements
 
@@ -28,11 +28,24 @@ pip install pyttsx3
 #conda install -c conda-forge yaml
 #conda install -c conda-forge pyyaml
 #pip install yaml2
-#pip install yaml-1.3
+pip install yaml-1.3
 #conda install -c anaconda yaml
 
 pip install python-espeak
 ```
+
+<!--
+#Import system libraries
+import os
+import platform
+import subprocess
+import time
+
+#Import external libraries
+import pyttsx3
+import speech_recognition as sr
+import yaml
+-->
 
 ### Installation
 
@@ -46,7 +59,8 @@ pip install python-espeak
 
 ### Uninstallation
 
-
+???
 
 ## Usage
 
+???

@@ -1,6 +1,6 @@
 settings:
-  #debug: "on"
-  debug: "off"
+  debug: "on"
+  #debug: "off"
   language: "en-US"
   #language: "pt-BR"
   speech_speed: "low"
