@@ -3,14 +3,14 @@ import os
 import time
 
 #Import external libraries
-import speech_recognition as sr
+import speech_recognition
 import yaml
 
 #Loading the libraries functions as variables
 t = time.localtime()
-audio = sr.Recognizer()
+audio = speech_recognition.Recognizer()
 
-class SpeechSettings:
+class ValSpeechSettings:
     def fileSettingsRead():
         with open('./src/settings.yml') as fileSettings:
             return yaml.load(fileSettings, Loader=yaml.FullLoader)

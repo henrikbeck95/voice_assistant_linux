@@ -8,6 +8,61 @@ Virtual assistant from voice commands to control operating system graphical user
 
 ## Setup environment
 
+### Virtual environment
+
+- ASDF
+	```bash
+	#!/usr/bin/env sh
+
+	#Add Python plugin to ASDF
+	asdf plugin-add python
+	#asdf list all python | less
+
+	#Install Python Anaconda3 2021.11 version
+	asdf install python anaconda3-2021.11
+	asdf global python anaconda3-2021.11
+
+	#Fix cURL path 
+	echo -e '#!/usr/bin/env bash              
+	# asdf-plugin: python anaconda3-2021.11
+	#exec /home/henrikbeck95/.asdf/bin/asdf exec "curl" "$@"
+	exec /usr/bin/curl exec "curl" "$@"
+	' > $HOME/.asdf/shims/curl
+
+	#Install Python 3.10.4 version
+	asdf install python 3.10.4
+
+	#Install Python 3.7.13 version
+	asdf install python 3.7.13
+	asdf global python 3.7.13
+
+	#Install Python 3.6-dev version
+	asdf global python anaconda3-2021.11
+	asdf install python 3.6-dev
+	asdf global python 3.6-dev
+	#python -V #Python 3.6.15+
+	```
+
+- Python libraries
+	```bash
+	#!/usr/bin/env sh
+
+	#sudo pacman -S python-pip
+
+
+	#python -m pip install pip==18.1
+	#/usr/bin/pip -v
+	
+
+	/usr/bin/pip3 install pyttsx3
+	/usr/bin/pip3 install speechrecognition
+	/usr/bin/pip3 install yaml-1.3
+	#/usr/bin/pip3 install 
+	#/usr/bin/pip3 install python-espeak
+	
+	#/usr/bin/pip3 list
+	```
+
 ### Requirements
 
 1. Use a Linux operating system.

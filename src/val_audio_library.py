@@ -4,7 +4,7 @@ import platform
 #Import external libraries
 import pyttsx3
 
-class AudioLibrary:
+class ValAudioLibrary:
     def speechEngineSelection():
         if platform.system() == "Darwin":
             return pyttsx3.init('nsss')
