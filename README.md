@@ -66,12 +66,11 @@ Virtual assistant from voice commands to control operating system graphical user
 ### Requirements
 
 1. Use a Linux operating system.
+1. Install [Git](https://git-scm.com/).
 
 - Python package manager
-
-1. Install [Anaconda on Linux](https://docs.anaconda.com/anaconda/install/linux/).
-1. Install [Anaconda documents](https://docs.anaconda.com/anaconda/install/index.html).
-1. Install [Git](https://git-scm.com/).
+	1. Install [Anaconda on Linux](https://docs.anaconda.com/anaconda/install/linux/).
+	1. Install [Anaconda documents](https://docs.anaconda.com/anaconda/install/index.html).
 
 - Python libraries
 

@@ -1,5 +1,8 @@
 #Import system libraries
 import time
+#import platform
+#import subprocess
+#import webbrowser
 
 #Import external libraries
 import speech_recognition
