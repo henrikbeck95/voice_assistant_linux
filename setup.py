@@ -29,7 +29,7 @@ setup(
         'yaml-1.3'
     ],
     
-    python_requires='>=3.6',
+    python_requires='>=3.10',
 
     include_package_data=True
 )

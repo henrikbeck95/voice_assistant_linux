@@ -12,8 +12,8 @@ from Utils import Utils
 class __main__:
     def main():
         #Make sure that shell script file has executable permission
-        #Utils.shellScriptCommandRun("chmod +x ./src/speaking.sh")
-        Utils.shellScriptCommandSpeak("Hi, my name is Val!")
+        Utils.shellScriptCommandRun("chmod +x ./src/speaking.sh")
+        #Utils.shellScriptCommandSpeak("Hi, my name is Val!")
 
         #Import VAL settings file
         fileContent = Utils.fileSettingsRead('./src/settings.yml')
@@ -23,8 +23,8 @@ class __main__:
 
     def controller(fileContent):
         #Capture user voice command
-        #userCommand = __main__.detectUserVoice(fileContent)
-        userCommand = "software terminal"
+        userCommand = __main__.detectUserVoice(fileContent)
+        #userCommand = "software terminal"
         print(userCommand)
 
         #userCommand = userCommand[1:] #Get all elements from list except first - the 'VAL' calling
@@ -37,11 +37,9 @@ class __main__:
         #Check if command exists
         voiceCommandKey = Utils.valCommandValidation(fileContent, userCommandArray[0])
 
-        '''
         #Execute asked command
         if voiceCommandKey == True:
             Utils.valCommandExecutionMenu(fileContent, userCommandArray)
-        '''
 
     def detectUserVoice(fileContent):
         #print(speech_recognition.Microphone.list_microphone_names())
