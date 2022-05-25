@@ -195,14 +195,14 @@ class Utils:
 
     def valCommandDebugOn(fileContent):
         #Debugging commands for softwares
-        userCommand = "software firefox"
+        #userCommand = "software firefox"
         #userCommand = "software menu"
         #userCommand = "software nautilus"
         #userCommand = "software spotify" #Not working
         #userCommand = "software terminal"
 
         #Debugging commands for system
-        #userCommand = "system brightness up"
+        userCommand = "system brightness up"
         #userCommand = "system brightness down"
         #userCommand = "system volume up"
         #userCommand = "system volume down"

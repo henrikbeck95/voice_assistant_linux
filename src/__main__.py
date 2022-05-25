@@ -26,7 +26,7 @@ class __main__:
         if fileContent.get('settings').get('debug') == 'off':
             userCommand = __main__.detectUserVoice(fileContent)
         elif fileContent.get('settings').get('debug') == 'on':
-            userCommand = "SoFtWaRe terminal"
+            userCommand = Utils.valCommandDebugOn(fileContent)
         else:
             #codeError = fileContent.get('val').get('message_error_microphone')
             codeError = "A debug value on settings file must be defined to procedure"

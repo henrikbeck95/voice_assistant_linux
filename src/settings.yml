@@ -19,6 +19,7 @@ software:
 system:
   brightness:
     up: "$HOME/.dotfiles/scripts/system_brightness.sh --max"
+    #up: "echo 937 > /sys/class/backlight/intel_backlight/brightness"
     down: "$HOME/.dotfiles/scripts/system_brightness.sh --min"
   volume:
     up: "$HOME/.dotfiles/scripts/system_dbus_player.sh --system-volume-up"
