@@ -23,48 +23,58 @@ class __main__:
 
     def controller(fileContent):
         #Capture user voice command
-        userCommand = __main__.detectUserVoice(fileContent)
-        #userCommand = "software terminal"
-        print(userCommand)
+        if fileContent.get('settings').get('debug') == 'off':
+            userCommand = __main__.detectUserVoice(fileContent)
+        elif fileContent.get('settings').get('debug') == 'on':
+            userCommand = "SoFtWaRe terminal"
+        else:
+            #codeError = fileContent.get('val').get('message_error_microphone')
+            codeError = "A debug value on settings file must be defined to procedure"
+            
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+            exit()
 
+        #print(userCommand)
+
+        #Format the voice command transcription
         #userCommand = userCommand[1:] #Get all elements from list except first - the 'VAL' calling
         #userCommand = "val " + userCommand #Get all elements from list except first - the 'VAL' calling
-
-        userCommand = userCommand.lower() #Transcribe on terminal the user's voice command
+        userCommand = userCommand.lower() #Convert all the characters to lower case
         userCommandArray = userCommand.split() #Split all text word into an array
+
+        #Transcribe on terminal the user's voice command
         #print(userCommandArray)
+        print("User command: {}".format(userCommandArray))
         
         #Check if command exists
         voiceCommandKey = Utils.valCommandValidation(fileContent, userCommandArray[0])
 
         #Execute asked command
         if voiceCommandKey == True:
-            Utils.valCommandExecutionMenu(fileContent, userCommandArray)
+            codeError = codeError = fileContent.get('val').get('message_error_command_not_listed')
+            Utils.valCommandExecutionMenu(fileContent, userCommandArray, codeError)
 
     def detectUserVoice(fileContent):
-        #print(speech_recognition.Microphone.list_microphone_names())
         print("Listening...")
+        Utils.shellScriptCommandSpeak("Listening...")
+
+        #List all available microphones
+        #print(speech_recognition.Microphone.list_microphone_names())
 
         try:
             with speech_recognition.Microphone() as source:
-                if fileContent.get('settings').get('debug') == 'off':
-                    print('Debug option has been turned off')
-                    time.sleep(1)
-                    return Utils.valCommandDebugOff(fileContent, source)
-                elif fileContent.get('settings').get('debug') == 'on': #Debug a the commands from a text command example
-                    print('Debug option has been turned on')
-                    return Utils.valCommandDebugOn(fileContent)
-                else:
-                    print('Debug option has not been found')
-                    exit()
+                time.sleep(1)
+                return Utils.valCommandRecording(fileContent, source)
 
         except:
-            print("Something unexpected has been happened!")
-            
-            print(fileContent.get('val').get('message_error_microphone'))
-            #engine.say(fileContent.get('val').get('message_error_microphone'))
+            codeError = fileContent.get('val').get('message_error_microphone')
 
-            exit()
+            print("Something unexpected has been happened!")
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+            #exit()
     
 if __name__ == '__main__':
+    #while True:
     __main__.main()

@@ -43,24 +43,21 @@ class Utils:
 
         if Utils.checkIfFileExists(fileSpeaking) == True:
             command = "source " + fileSpeaking + " && voice_assistant_speech_text_val " + "'" + voiceSpeech + "'"
-            #print(f"Testing: {command}")
             Utils.shellScriptCommandRun(command)
         else:
             print("Shell script has not been found")
     
-    def valCommandExecutionMenu(fileContent, userCommandArray):
-        print("User command: {}".format(userCommandArray))
-
+    def valCommandExecutionMenu(fileContent, userCommandArray, codeError):
         match userCommandArray[0]:
             case "abrir" | "open" | "software":
-                Utils.valCommandExecutionSoftware(fileContent, userCommandArray)
+                Utils.valCommandExecutionSoftware(fileContent, userCommandArray, codeError)
             case "sistema" | "system":
-                Utils.valCommandExecutionSystem(fileContent, userCommandArray)
+                Utils.valCommandExecutionSystem(fileContent, userCommandArray, codeError)
             case _:
-                print("")
-                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                print(codeError)
+                Utils.shellScriptCommandSpeak(codeError)
         
-    def valCommandExecutionSoftware(fileContent, userCommandArray):
+    def valCommandExecutionSoftware(fileContent, userCommandArray, codeError):
         match userCommandArray[1]:
             case "firefox":
                 os.system(fileContent.get('software').get('firefox'))
@@ -73,10 +70,10 @@ class Utils:
             case "terminal":
                 os.system(fileContent.get('software').get('terminal'))
             case _:
-                print("")
-                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                print(codeError)
+                Utils.shellScriptCommandSpeak(codeError)
 
-    def valCommandExecutionSystem(fileContent, userCommandArray):
+    def valCommandExecutionSystem(fileContent, userCommandArray, codeError):
         match userCommandArray[1]:
             case "brightness":
                 match userCommandArray[2]:
@@ -85,8 +82,8 @@ class Utils:
                     case "down":
                         os.system(fileContent.get('system').get('brightness').get('down'))
                     case _:
-                        print("")
-                        #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                        print(codeError)
+                        Utils.shellScriptCommandSpeak(codeError)
 
             case "volume":
                 match userCommandArray[2]:
@@ -95,8 +92,8 @@ class Utils:
                     case "down":
                         os.system(fileContent.get('system').get('volume').get('down'))
                     case _:
-                        print("")
-                        #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                        print(codeError)
+                        Utils.shellScriptCommandSpeak(codeError)
 
             case "window":
                 match userCommandArray[2]:
@@ -119,8 +116,9 @@ class Utils:
                             case "down":
                                 os.system(fileContent.get('system').get('window').get('focus').get('down'))
                             case _:
-                                print("")
-                                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                                print(codeError)
+                                Utils.shellScriptCommandSpeak(codeError)
+
                     case "move":
                         match userCommandArray[3]:
                             case "up":
@@ -132,11 +130,11 @@ class Utils:
                             case "down":
                                 os.system(fileContent.get('system').get('window').get('move').get('down'))
                             case _:
-                                print("")
-                                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                                print(codeError)
+                                Utils.shellScriptCommandSpeak(codeError)
                     case _:
-                        print("")
-                        #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                        print(codeError)
+                        Utils.shellScriptCommandSpeak(codeError)
                 
             case "workspace":
                 match userCommandArray[2]:
@@ -151,8 +149,9 @@ class Utils:
                             case "previous":
                                 os.system(fileContent.get('system').get('workspace').get('go').get('prev'))
                             case _:
-                                print("")
-                                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                                print(codeError)
+                                Utils.shellScriptCommandSpeak(codeError)
+
                     case "move":
                         match userCommandArray[3]:
                             case "last":
@@ -164,14 +163,14 @@ class Utils:
                             case "previous":
                                 os.system(fileContent.get('system').get('workspace').get('move').get('prev'))
                             case _:
-                                print("")
-                                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                                print(codeError)
+                                Utils.shellScriptCommandSpeak(codeError)
                     case _:
-                        print("")
-                        #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                        print(codeError)
+                        Utils.shellScriptCommandSpeak(codeError)
             case _:
-                print("")
-                #engine.say(fileContent.get('val').get('message_error_command_not_listed'))
+                print(codeError)
+                Utils.shellScriptCommandSpeak(codeError)
 
     def valCommandValidation(fileContent, userCommandArray):
         if userCommandArray in fileContent:
@@ -181,49 +180,51 @@ class Utils:
             print(fileContent.get('val').get('message_error_command_not_listed'))
             return False
 
-    def valCommandDebugOff(fileContent, source):
-        #???
+    def valCommandRecording(fileContent, source):
+        #Inspect audio file for removing some ambient noise
         audio.adjust_for_ambient_noise(source)
         print(fileContent.get('val').get('message_running'))
         
         #Save the user's voice recording as an external file
         with open(fileContent.get('user').get('file_recording'), 'wb') as file_external:
-            voz = audio.listen(source)
-            file_external.write(voz.get_wav_data())
+            userVoiceTranscription = audio.listen(source)
+            file_external.write(userVoiceTranscription.get_wav_data())
 
         #Load the user's voice recording
-        return audio.recognize_google(voz, language=fileContent.get('settings').get('language'))
+        return audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
 
     def valCommandDebugOn(fileContent):
         #Debugging commands for softwares
-        #return "software firefox"
-        #return "software menu"
-        #return "software nautilus"
-        #return "software spotify" #Not working
-        return "software terminal"
+        userCommand = "software firefox"
+        #userCommand = "software menu"
+        #userCommand = "software nautilus"
+        #userCommand = "software spotify" #Not working
+        #userCommand = "software terminal"
 
         #Debugging commands for system
-        #return "system brightness up"
-        #return "system brightness down"
-        #return "system volume up"
-        #return "system volume down"
-        #return "system window close"
-        #return "system window floating"
-        #return "system window stick"
-        #return "system window full screen"
-        #return "system window focus up"
-        #return "system window focus left"
-        #return "system window focus right"
-        #return "system window focus down"
-        #return "system window move up"
-        #return "system window move left"
-        #return "system window move right"
-        #return "system window move down"
-        #return "system workspace go last"
-        #return "system workspace go number" #Not working
-        #return "system workspace go next"
-        #return "system workspace go previous"
-        #return "system workspace move last"
-        #return "system workspace move number" #Not working
-        #return "system workspace move next"
-        #return "system workspace move previous"
+        #userCommand = "system brightness up"
+        #userCommand = "system brightness down"
+        #userCommand = "system volume up"
+        #userCommand = "system volume down"
+        #userCommand = "system window close"
+        #userCommand = "system window floating"
+        #userCommand = "system window stick"
+        #userCommand = "system window full screen"
+        #userCommand = "system window focus up"
+        #userCommand = "system window focus left"
+        #userCommand = "system window focus right"
+        #userCommand = "system window focus down"
+        #userCommand = "system window move up"
+        #userCommand = "system window move left"
+        #userCommand = "system window move right"
+        #userCommand = "system window move down"
+        #userCommand = "system workspace go last"
+        #userCommand = "system workspace go number" #Not working
+        #userCommand = "system workspace go next"
+        #userCommand = "system workspace go previous"
+        #userCommand = "system workspace move last"
+        #userCommand = "system workspace move number" #Not working
+        #userCommand = "system workspace move next"
+        #userCommand = "system workspace move previous"
+
+        return userCommand
