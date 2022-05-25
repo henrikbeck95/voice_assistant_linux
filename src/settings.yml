@@ -1,6 +1,6 @@
 settings:
-  debug: "on"
-  #debug: "off"
+  #debug: "on"
+  debug: "off"
   language: "en-US"
   #language: "pt-BR"
   speech_speed: "low"
@@ -14,7 +14,8 @@ software:
   menu: "$HOME/.dotfiles/scripts/rofi_launcher.sh --rofi-theme-launchpad &"
   nautilus: "nautilus &"
   spotify: "spotify &"
-  terminal: "exec i3-sensible-terminal &"
+  #terminal: "exec i3-sensible-terminal &"
+  terminal: "konsole &"
 system:
   brightness:
     up: "$HOME/.dotfiles/scripts/system_brightness.sh --max"
