@@ -1,0 +1,6043 @@
+#############################
+#Shell Script Library
+#############################
+#
+#Credits
+#
+#Author: Henrik Beck
+#E-mail: henrikbeck95@gmail.com
+#License: BSD 3-Clause License
+#Version: 0.0.2
+#
+#############################
+
+#############################
+#Instructions
+#############################
+#
+#Warning!
+#This is an auto generated file. DO NOT edit it.
+#
+#Labels
+#NO LABEL					= There is nothing to do for this function tag
+#label_must_be_chosen		= Must be created a selection menu
+#label_must_be_created		= There is no content inside this function tag
+#label_must_be_deprecated   = Must be replaced by another method soon
+#label_must_be_edited		= Create a display message for this function tag
+#label_must_be_fixed		= There is a detected bug for this function tag
+#label_must_be_improved		= Must be organized this function tag
+#label_must_be_override     = This function overrides the original function
+#label_must_be_tested		= Must debug this function tag
+#
+#Installation setup
+#Move this generated file to /usr/local/bin/shell-script-library for installing this library correctly
+#
+#Usage
+#Import this library on your source code by typing
+#$ source /usr/local/bin/shell-script-library
+#
+#############################
+
+##############################
+#Alias
+##############################
+
+#NAME
+#    declare - Set variable values and attributes.
+#
+#SYNOPSIS
+#    declare [-aAfFgilnrtux] [-p] [name[=value] ...]
+#
+#DESCRIPTION
+#    Set variable values and attributes.
+#    
+#    Declare variables and give them attributes.  If no NAMEs are given,
+#    display the attributes and values of all variables.
+#    
+#    Options:
+#      -f	restrict action or display to function names and definitions
+#      -F	restrict display to function names only (plus line number and
+#    		source file when debugging)
+#      -g	create global variables when used in a shell function; otherwise
+#    		ignored
+#      -p	display the attributes and value of each NAME
+#    
+#    Options which set attributes:
+#      -a	to make NAMEs indexed arrays (if supported)
+#      -A	to make NAMEs associative arrays (if supported)
+#      -i	to make NAMEs have the `integer' attribute
+#      -l	to convert the value of each NAME to lower case on assignment
+#      -n	make NAME a reference to the variable named by its value
+#      -r	to make NAMEs readonly
+#      -t	to make NAMEs have the `trace' attribute
+#      -u	to convert the value of each NAME to upper case on assignment
+#      -x	to make NAMEs export
+#    
+#    Using `+' instead of `-' turns off the given attribute.
+
+##############################
+#Alias primitive types
+##############################
+
+#alias 'array_boolean'=''
+#alias 'array_char'=''
+#alias 'array_float'=''
+#alias 'array_int'=''
+#alias 'array_object'=''
+#alias 'array_string'=''
+
+#alias 'final_array_boolean'=''
+#alias 'final_array_char'=''
+#alias 'final_array_float'=''
+#alias 'final_array_int'=''
+#alias 'final_array_object'=''
+#alias 'final_array_string'=''
+
+#alias 'final_boolean'=''
+#alias 'final_char'=''
+#alias 'final_float'=''
+#alias 'final_int'='declare -r -i'
+#alias 'final_object'=''
+#alias 'final_string'=''
+
+#alias 'boolean'=''
+#alias 'char'=''
+#alias 'float'=''
+#alias 'int'='declare -i'
+#alias 'object'=''
+#alias 'string'=''
+
+#alias 'static ...'='declare -g' #create global variables when used in a shell function; otherwise ignored
+
+#alias 'static array_boolean'=''
+#alias 'static array_char'=''
+#alias 'static array_float'=''
+#alias 'static array_int'=''
+#alias 'static array_object'=''
+#alias 'static array_string'=''
+
+#alias 'static final_array_boolean'=''
+#alias 'static final_array_char'=''
+#alias 'static final_array_float'=''
+#alias 'static final_array_int'=''
+#alias 'static final_array_object'=''
+#alias 'static final_array_string'=''
+
+#alias 'static final_boolean'=''
+#alias 'static final_char'=''
+#alias 'static final_float'=''
+#alias 'static final_int'='declare -r -g -i'
+#alias 'static final_object'=''
+#alias 'static final_string'=''
+
+#alias 'static boolean'=''
+#alias 'static char'=''
+#alias 'static float'=''
+#alias 'static int'='declare -g -i'
+#alias 'static object'=''
+#alias 'static string'=''
+
+##############################
+#Alias visibility
+##############################
+
+alias 'cd'='>/dev/null cd'
+
+#alias 'function'=''
+alias 'function'='declare -F'
+
+alias 'import'='source'
+
+#Create visibility methods
+#alias 'private'=''
+#alias 'protected'=''
+#alias 'public'=''
+
+#############################
+#Array
+#############################
+
+array_display_element_all_horizontal(){
+    #array_display_element_all_horizontal "${ARRAY[@]}"
+    local ARRAY=($@)
+
+    echo -e "${ARRAY[@]}"
+    #display_message_default_complex "${ARRAY[@]}"
+}
+
+array_display_element_all_vertical(){
+    #array_display_element_all_vertical "${ARRAY[@]}"
+    local ARRAY=($@)
+
+    for i in "${ARRAY[@]}"; do
+        echo $i
+        #display_message_default_complex $i
+    done
+}
+
+array_edit_element_remove_index_first(){
+    #array_get_element_index_first "${ARRAY[@]}"
+    local ARRAY_ELEMENT_ALL=($@)
+
+    unset ARRAY_ELEMENT_ALL[0]
+
+    display_message_default_complex "${ARRAY_ELEMENT_ALL[@]}"
+}
+
+array_edit_element_remove_index_last(){
+    #array_get_element_index_last "${ARRAY[@]}"
+    #result=($(array_get_element_index_last "${ARRAY[@]}"))
+    local ARRAY_ELEMENT_ALL=($@)
+
+    unset ARRAY_ELEMENT_ALL[-1]
+
+    display_message_default_complex "${ARRAY_ELEMENT_ALL[@]}"
+}
+
+array_edit_element_sort_normal(){
+    printf '%s\n' "${ARRAY_OPERATING_SYSTEM_FILE[@]}" | sort
+    #display_message_default_complex "${ARRAY_OPERATING_SYSTEM_FILE[@]}" | sort
+}
+
+array_edit_element_sort_inverted(){
+    printf '%s\n' "${ARRAY_OPERATING_SYSTEM_FILE[@]}" | sort --reverse
+    #display_message_default_complex "${ARRAY_OPERATING_SYSTEM_FILE[@]}" | sort --reverse
+}
+
+array_get_element_index_first(){
+    #array_edit_element_remove_index_first "${ARRAY[@]}"
+    local ARRAY_ELEMENT_ALL=($@)
+    local ARRAY_ELEMENT_FIRST="${ARRAY_ELEMENT_ALL[0]}"
+
+    display_message_default_simple $ARRAY_ELEMENT_FIRST
+}
+
+array_get_element_index_last(){
+    #array_edit_element_remove_index_last "${ARRAY[@]}"
+    local ARRAY_ELEMENT_ALL=($@)
+    local ARRAY_LENGTH_NORMAL=${#ARRAY_ELEMENT_ALL[@]}
+    local ARRAY_LENGTH_AUX=$(($ARRAY_LENGTH_NORMAL-1))
+    local ARRAY_ELEMENT_LAST="${ARRAY_ELEMENT_ALL[$ARRAY_LENGTH_AUX]}"
+
+    display_message_default_simple $ARRAY_ELEMENT_LAST
+}
+
+#arraylength=${#array[@]}
+#array_get_size_total(){}
+
+#array_get_size_less_one(){}
+
+array_find_element_index_from_value(){
+    #array_find_element_index_from_value "${ARRAY[@]}" "apt"
+    local ARRAY_ELEMENT_ALL=($@)
+    local ARRAY_ELEMENT_AUX=($(array_edit_element_remove_index_last "${ARRAY_ELEMENT_ALL[@]}"))
+    local ARRAY_LENGTH_NORMAL=${#ARRAY_ELEMENT_ALL[@]}
+    local ARRAY_LENGTH_AUX=$(($ARRAY_LENGTH_NORMAL-1))
+    local ARRAY_ELEMENT_LAST="${ARRAY_ELEMENT_ALL[$ARRAY_LENGTH_AUX]}"
+    local ARRAY_ELEMENT_INDEX=-1
+
+    for i in "${!ARRAY_ELEMENT_AUX[@]}"; do
+        if [[ "${ARRAY_ELEMENT_AUX[$i]}" = "$ARRAY_ELEMENT_LAST" ]]; then
+            ARRAY_ELEMENT_INDEX=$i
+            break
+        fi
+    done
+
+    if [ $ARRAY_ELEMENT_INDEX -gt -1 ]; then
+        display_message_default_simple "$ARRAY_ELEMENT_INDEX"
+    else
+        display_message_default_simple "Element $ARRAY_ELEMENT_LAST is not in Array."
+    fi
+}
+
+#array_check_if_element_exists "${ARRAY[@]}" "yummy"
+array_check_if_element_exists(){
+    local ARRAY_ELEMENT_ALL=($@)
+    local RESULT=$(array_find_element_index_from_value "${ARRAY_ELEMENT_ALL[@]}")
+
+    case $(utils_check_if_variable_is_number "$RESULT") in
+        "false") display_message_default_simple "false" ;;
+        "true") display_message_default_simple "true" ;;
+    esac
+}
+
+#############################
+#Color
+#############################
+
+export COLOR_BLACK="\033[0;30m"
+export COLOR_BLUE="\033[0;34m"
+export COLOR_BLUE_LIGHT="\033[1;34m"
+export COLOR_CYAN="\033[0;36m"
+export COLOR_CYAN_LIGHT="\033[1;36m"
+export COLOR_GRAY_DARK="\033[1;30m"
+export COLOR_GRAY_LIGHT="\033[0;37m"
+export COLOR_GREEN="\033[0;32m"
+export COLOR_GREEN_LIGHT="\033[1;32m"
+export COLOR_ORANGE="\033[0;33m"
+export COLOR_PURPLE="\033[0;35m"
+export COLOR_PURPLE_LIGHT="\033[1;35m"
+export COLOR_RED="\033[0;31m"
+export COLOR_RED_LIGHT="\033[1;31m"
+export COLOR_WHITE="\033[1;37m"
+export COLOR_YELLOW="\033[1;33m"
+export COLOR_END="\033[0m"
+
+export COLOR_TEXT_BLINK="\e[5m" #\e[25m
+export COLOR_TEXT_BOLD="\e[1m"
+export COLOR_TEXT_BOLD_AND_ITALIC="\e[3m\e[1m"
+export COLOR_TEXT_ITALIC="\e[3m"
+export COLOR_TEXT_REVERSE="\e[7m" #\e[27m
+export COLOR_TEXT_STRIKETHROUGH="\e[9m"
+export COLOR_TEXT_UNDERLINE="\e[4m"
+export COLOR_TEXT_YYY="\e[31m"
+export COLOR_TEXT_ZZZ="\x1B[31m"
+export COLOR_TEXT_END="\e[0m"
+
+export COLOR_TEXT_BACKGROUND_WHITE_CYAN="\e[48:5:42m"
+export COLOR_TEXT_BACKGROUND_WHITE_ORANGE="\e[48:2::240:143:104m"
+export COLOR_TEXT_BACKGROUND_END="\e[49m"
+
+#Color according to status
+export COLOR_STATUS_DEFAULT="${COLOR_GRAY_DARK}"
+export COLOR_STATUS_EMPTY="${COLOR_GRAY_DARK}"
+export COLOR_STATUS_ERROR="${COLOR_RED_LIGHT}"
+export COLOR_STATUS_SUCCESS="${COLOR_GREEN_LIGHT}"
+export COLOR_STATUS_WARNING="${COLOR_ORANGE}"
+
+#############################
+#Commentary for multiple lines
+#############################
+
+#alias "%%"='eval $(: << "COMMENT" $@ COMMENT)'
+#alias "%"='eval : << "COMMENT"'
+# alias "%"='eval : << %%'
+alias "%"='eval : <<%%'
+#alias "%%"='eval COMMENT'
+
+#############################
+#Container
+#############################
+
+container_distrobox_image_download(){
+	local DISTRO_NICKNAME="$1"
+	local DISTRO_NAME_OFFICIAL="$2"
+
+	#distrobox-create --name debian10-distrobox --image debian:10
+	distrobox-create --name $DISTRO_NICKNAME --image $DISTRO_NAME_OFFICIAL
+}
+
+container_distrobox_image_enter(){
+	local DISTRO_NICKNAME="$1"
+
+	#distrobox-enter --name debian10-distrobox
+	distrobox-enter --name $DISTRO_NICKNAME
+}
+
+container_manager_container_list_all(){
+    $CONTAINER_MANAGER container ls -a
+}
+
+container_manager_container_list_running(){
+    $CONTAINER_MANAGER ps -a
+}
+
+container_manager_container_network_create(){
+    $CONTAINER_MANAGER network create --driver bridge $@
+}
+
+container_manager_container_network_remove(){
+    $CONTAINER_MANAGER network rm -f $@
+}
+
+container_manager_container_remove(){
+	#$CONTAINER_MANAGER --log-level=debug stop $@
+    $CONTAINER_MANAGER container stop $@
+    $CONTAINER_MANAGER container rm $@
+    #$CONTAINER_MANAGER container rm -f $@
+}
+
+container_manager_image_backup(){
+	#$CONTAINER_MANAGER save -o $HOME/Desktop/centos.tgz centos:latest
+	$CONTAINER_MANAGER save -o $HOME/Desktop/$@.tgz $@
+}
+
+container_manager_image_download(){
+	$CONTAINER_MANAGER pull $@
+}
+
+container_manager_image_execute(){
+	$CONTAINER_MANAGER run -it $@
+}
+
+container_manager_image_list(){
+    $CONTAINER_MANAGER image ls
+}
+
+container_manager_image_remove(){
+    $CONTAINER_MANAGER image rm $@
+}
+
+container_manager_kube_generate_yaml(){
+    $CONTAINER_MANAGER generate kube $1 > $2
+}
+
+container_manager_kube_play_yaml(){
+    $CONTAINER_MANAGER play kube $@
+}
+
+container_manager_pod_create(){
+	$CONTAINER_MANAGER pod create "$@"
+}
+
+container_manager_pod_list_all(){
+	$CONTAINER_MANAGER ps -a --pod
+}
+
+container_manager_pod_list_running(){
+	#$CONTAINER_MANAGER pod list
+	$CONTAINER_MANAGER ps --pod
+}
+
+container_manager_pod_network_create(){
+    $CONTAINER_MANAGER pod create --net $1 -n $2
+}
+
+container_manager_pod_network_remove(){
+	$CONTAINER_MANAGER pod rm -f $@
+}
+
+container_manager_pod_pause(){
+	$CONTAINER_MANAGER pod pause $@
+}
+
+container_manager_pod_remove(){
+	$CONTAINER_MANAGER pod stop $@
+	$CONTAINER_MANAGER pod rm $@
+}
+
+container_manager_pod_run(){
+	local NAME_POD=$1
+	local NAME_CONTAINER=$2
+	local ADDITIONAL_FLAGS=$3
+	local REPOSITORY_IMAGE=$4
+
+	display_message_warning_complex "Connecting containers $2 into the pods $1..."
+
+    case $# in
+        3) 
+            $CONTAINER_MANAGER run -d \
+                --pod $1 \
+                --name $2 \
+                $3
+            ;;
+        4) 
+            $CONTAINER_MANAGER run -d \
+                --pod $1 \
+                --name $2 \
+                $3 \
+                $4
+            ;;
+        *) display_message_error_simple "Connection not established"
+    esac
+}
+
+#label_must_be_improved
+container_manager_pod_run_temporarily(){
+	local NAME_POD=$1
+	local NAME_CONTAINER=$2
+	local ADDITIONAL_FLAGS=$3
+	local REPOSITORY_IMAGE=$4
+
+	display_message_warning_complex "Connecting containers $2 into the pods $1..."
+
+    case $# in
+        3) 
+            $CONTAINER_MANAGER run --rm -t -i \
+                --pod $1 \
+                --name $2 \
+                $3 \
+				/bin/bash
+            ;;
+        4) 
+            $CONTAINER_MANAGER run --rm -it \
+                --pod $1 \
+                --name $2 \
+                $3 \
+                $4 \
+				/bin/bash
+            ;;
+        *) display_message_error_simple "Connection not established"
+    esac
+}
+
+container_manager_pod_start(){
+	$CONTAINER_MANAGER pod start $@
+}
+
+container_manager_pod_status(){
+	#View the current status of the containers running in your pod:
+	$CONTAINER_MANAGER pod stats $@
+}
+
+container_manager_pod_stop(){
+	$CONTAINER_MANAGER pod stop $@
+}
+
+container_manager_pod_unpause(){
+	$CONTAINER_MANAGER pod unpause $@
+}
+
+container_manager_software(){
+	case $(util_check_if_software_is_installed "podman") in
+		"false")
+			case $(util_check_if_software_is_installed "docker") in
+				"false")
+                    display_message_default_simple "none"
+					break
+                    ;;
+
+				"true")
+                    display_message_default_simple "docker"
+					break
+                    ;;
+			esac
+
+			break
+		;;
+
+		"true")
+            display_message_default_simple "podman"
+			break
+		;;
+	esac
+}
+
+#############################
+#Display dialog
+#############################
+
+display_dialog_ask_press_a_key() {
+	local DISPLAY_TEXT="Press any key to continue..."
+
+    display_message_default_simple "\n${COLOR_TEXT_REVERSE}${COLOR_TEXT_BOLD_AND_ITALIC}${DISPLAY_TEXT}${COLOR_TEXT_END}"
+    read -n1
+}
+
+display_dialog_ask_question_yes_or_no(){
+    local VALUE_MESSAGE_QUESTION_HEADER=$1
+    local VALUE_MESSAGE_QUESTION_ANSWER
+
+    while true; do
+        read -p "$VALUE_MESSAGE_QUESTION_HEADER [Y/n] " VALUE_MESSAGE_QUESTION_ANSWER
+
+        case $VALUE_MESSAGE_QUESTION_ANSWER in
+            [Yy]*)
+                display_message_default_simple "true"
+                break
+                ;;
+            [Nn]*)
+                display_message_default_simple "false"
+                break
+                ;;
+            *) display_message_error_simple "Incorrect Input. Please answer Y for yes or N for no."
+        esac
+    done
+}
+
+display_dialog_ask_question_number(){
+    local VALUE_MESSAGE_QUESTION_HEADER=$1
+    local VALUE_MESSAGE_QUESTION_ANSWER
+
+    while true; do
+        read -p "$VALUE_MESSAGE_QUESTION_HEADER [Type a number value] " VALUE_MESSAGE_QUESTION_ANSWER
+
+        case $(utils_check_if_variable_is_number "$VALUE_MESSAGE_QUESTION_ANSWER") in
+            "false")
+                display_message_error_simple "Incorrect Input. Please answer a number value."
+				break
+                ;;
+            "true")
+                display_message_default_simple "$VALUE_MESSAGE_QUESTION_ANSWER"
+                break
+                ;;
+        esac
+    done
+}
+
+#label_must_be_tested
+display_dialog_ask_question_text(){
+    local VALUE_MESSAGE_QUESTION_HEADER=$1
+    local VALUE_MESSAGE_QUESTION_ANSWER
+
+    while true; do
+        read -p "$VALUE_MESSAGE_QUESTION_HEADER [Y/n] " VALUE_MESSAGE_QUESTION_ANSWER
+
+        case $(utils_check_if_variable_is_null "$VALUE_MESSAGE_QUESTION_ANSWER") in
+            "false") 
+                display_message_default_simple "$VALUE_MESSAGE_QUESTION_ANSWER"
+                break
+                ;;
+            "true")
+				display_message_error_simple "Incorrect Input. Please answer the question."
+                break
+                ;;
+        esac
+    done
+}
+
+#label_must_be_tested
+#label_must_be_fixed
+#It is working but not attributing the result to a variable when encapsuled
+display_dialog_ask_question_menu(){
+	local MENU_OPTION
+
+    display_message_warning_complex "Select a correspondent number of the description. Type '0' to exit!"
+
+    select MENU_OPTION; do # in "$@" is the default
+        if [ "$REPLY" -eq "0" ]; then
+            display_message_default_simple "Exiting..."
+            break
+        elif [ 1 -le "$REPLY" ] && [ "$REPLY" -le $(($#)) ]; then
+            case $(display_dialog_ask_question_yes_or_no "You have selected '$MENU_OPTION' which is option '$REPLY'. Are you sure?") in
+                "false")
+					:
+					break
+					;;
+                "true")
+                    display_message_default_simple "$MENU_OPTION"
+                    break
+                    ;;
+            esac
+        else
+            display_message_error_simple "Incorrect Input. Please select a number between 1 and $#"
+        fi
+    done
+}
+
+#############################
+#Display message
+#############################
+
+#Rename functions to the following style
+#display_message_status_success_complex
+#display_message_position_align_center
+#display_message_separator_complex
+#display_message_value_number_complex
+#display_message_value_text_complex
+
+#display_message_table_text_complex
+#display_message_table_text_number
+
+#display_message_table_number_complex
+#display_message_table_number_number
+
+display_message_content_clear(){
+	#echo -n "\r"
+    printf "\r"
+}
+
+display_message_number_complex(){
+	local DISPLAY_TEXT="$1"
+
+	printf "%s\n" "$DISPLAY_TEXT"
+	#printf '%.2f\n' "$DISPLAY_TEXT"
+}
+
+display_message_number_simple(){
+	local DISPLAY_TEXT="$1"
+
+	printf "%s" "$DISPLAY_TEXT" 2> /dev/null
+	#printf "%s" "$DISPLAY_TEXT" 2>&1 /dev/null
+}
+
+display_message_center_complex(){
+    local DISPLAY_TEXT_MESSAGE=$1
+	local CHARACTER_REPETITION="#"
+	local DISPLAY_TEXT_LENGTH=$(string_count_character "$DISPLAY_TEXT_MESSAGE")
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_MAXIMUM=$(utils_screen_size_count_limit_maximum_characters_horizontal)
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF="$(utils_screen_size_count_limit_half_characters_horizontal $SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_MAXIMUM $DISPLAY_TEXT_LENGTH)"
+
+    #Displaying before text
+    utils_screen_size_fill_limit_half_characters_horizontal "$CHARACTER_REPETITION" "$SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF" "${COLOR_STATUS_SUCCESS}"
+
+    #Displaying the text
+    display_message_default_simple "${DISPLAY_TEXT_MESSAGE}"
+
+    #Displaying after text
+    case $(utils_check_if_variable_number_is_even "$DISPLAY_TEXT_LENGTH") in
+        "false") SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF=$(($SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF+1)) ;;
+        #"true") SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF=$(($SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF+0)) ;;
+    esac
+
+    utils_screen_size_fill_limit_half_characters_horizontal "$CHARACTER_REPETITION" "$SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF" "${COLOR_STATUS_SUCCESS}"
+}
+
+display_message_center_simple(){
+    local DISPLAY_TEXT_MESSAGE=$1
+	local CHARACTER_REPETITION=" "
+	local DISPLAY_TEXT_LENGTH=$(string_count_character "$DISPLAY_TEXT_MESSAGE")
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_MAXIMUM=$(utils_screen_size_count_limit_maximum_characters_horizontal)
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF="$(utils_screen_size_count_limit_half_characters_horizontal $SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_MAXIMUM $DISPLAY_TEXT_LENGTH)"
+
+    #Displaying before text
+    utils_screen_size_fill_limit_half_characters_horizontal "$CHARACTER_REPETITION" "$SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF" "${COLOR_STATUS_SUCCESS}"
+
+    #Displaying the text
+    display_message_default_simple "${DISPLAY_TEXT_MESSAGE}"
+
+    #Displaying after text
+    case $(utils_check_if_variable_number_is_even "$DISPLAY_TEXT_LENGTH") in
+        "false") SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF=$(($SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF+1)) ;;
+        #"true") SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF=$(($SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF+0)) ;;
+    esac
+
+    utils_screen_size_fill_limit_half_characters_horizontal "$CHARACTER_REPETITION" "$SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF" "${COLOR_STATUS_SUCCESS}"
+}
+
+display_message_default_complex(){
+	local DISPLAY_TEXT="$1"
+
+	#echo -e "$DISPLAY_TEXT"
+	printf "$DISPLAY_TEXT\n"
+	#printf "%s\n" "$DISPLAY_TEXT"
+}
+
+display_message_default_simple(){
+	local DISPLAY_TEXT="$1"
+
+	#echo -n "$DISPLAY_TEXT"
+	printf "$DISPLAY_TEXT"
+	#printf "%s" "$DISPLAY_TEXT"
+}
+
+display_message_empty_complex(){
+	local DISPLAY_TEXT="This is an empty function. Please fill it with some instructions"
+	local CHARACTERS_UNITS=$(string_count_character "$DISPLAY_TEXT")
+	local CHARACTER_REPETITION=$(string_repeat_character $CHARACTERS_UNITS "#")
+
+	display_message_default_complex "${COLOR_STATUS_EMPTY}${CHARACTER_REPETITION}\n${DISPLAY_TEXT}\n${CHARACTER_REPETITION}${COLOR_END}"
+}
+
+display_message_empty_simple(){
+	local DISPLAY_TEXT="This is an empty function. Please fill it with some instructions"
+
+	#display_message_default_simple "${DISPLAY_TEXT}"
+	display_message_default_simple "${COLOR_STATUS_EMPTY}${DISPLAY_TEXT}${COLOR_END}"
+}
+
+display_message_error_complex(){
+	local DISPLAY_TEXT="ERROR! ${1}"
+	local CHARACTERS_UNITS=$(string_count_character "$DISPLAY_TEXT")
+	local CHARACTER_REPETITION=$(string_repeat_character $CHARACTERS_UNITS "#")
+
+	display_message_default_complex "${COLOR_STATUS_ERROR}${CHARACTER_REPETITION}\n${DISPLAY_TEXT}\n${CHARACTER_REPETITION}${COLOR_END}"
+}
+
+display_message_error_simple(){
+	local DISPLAY_TEXT="ERROR! $1"
+
+	#display_message_default_simple "${DISPLAY_TEXT}"
+	display_message_default_simple "${COLOR_STATUS_ERROR}${DISPLAY_TEXT}${COLOR_END}"
+}
+
+display_message_separator_complex(){
+	local CHARACTER_REPETITION="#"
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF=$(utils_screen_size_count_limit_maximum_characters_horizontal)
+    local i=0
+
+    utils_screen_size_fill_limit_half_characters_horizontal "$CHARACTER_REPETITION" "$SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF" "${COLOR_STATUS_SUCCESS}"
+
+    display_message_default_simple "\n"
+}
+
+display_message_separator_simple(){
+	local CHARACTERS_UNITS=30 #$(string_count_character "$DISPLAY_TEXT")
+	local CHARACTER_REPETITION=$(string_repeat_character $CHARACTERS_UNITS "#")
+
+	display_message_default_simple "${COLOR_STATUS_DEFAULT}${CHARACTER_REPETITION}${COLOR_END}"
+}
+
+display_message_success_complex(){
+	local DISPLAY_TEXT="***${1}***"
+	local CHARACTERS_UNITS=$(string_count_character "$DISPLAY_TEXT")
+	local CHARACTER_REPETITION=$(string_repeat_character $CHARACTERS_UNITS "#")
+
+	display_message_default_complex "${COLOR_STATUS_SUCCESS}${CHARACTER_REPETITION}\n${DISPLAY_TEXT}\n${CHARACTER_REPETITION}${COLOR_END}"
+}
+
+display_message_success_simple(){
+	local DISPLAY_TEXT="$1"
+
+	#display_message_default_simple "${DISPLAY_TEXT}"
+	display_message_default_simple "${COLOR_STATUS_SUCCESS}${DISPLAY_TEXT}${COLOR_END}"
+
+}
+
+display_message_tabular_text_complex(){
+    #display_message_tabular_text_complex "Henrik:Beck:henrikbeck95@gmail.com\nSomebody:Surname:some_email_address@something.com"
+    #display_message_tabular_text_complex "$(head -4 /etc/passwd)"
+    
+    local DISPLAY_TEXT="$1"
+    #local DISPLAY_TEXT="$@"
+
+	display_message_default_complex "$DISPLAY_TEXT" | tr : , | sed -e 's/^/| /' -e 's/,/,| /g' -e 's/$/,|/' | column -t -s,
+}
+
+display_message_tabular_text_simple(){
+    #display_message_tabular_text_simple "Henrik:Beck:henrikbeck95@gmail.com\nSomebody:Surname:some_email_address@something.com"
+    #display_message_tabular_text_simple "$(head -4 /etc/passwd)"
+    
+    local DISPLAY_TEXT="$1"
+    #local DISPLAY_TEXT="$@"
+
+	display_message_default_simple "$DISPLAY_TEXT" | tr : , | sed -e 's/^/| /' -e 's/,/,| /g' -e 's/$/,|/' | column -t -s,
+}
+
+display_message_warning_complex(){
+	local DISPLAY_TEXT="$1"
+	local CHARACTERS_UNITS=$(string_count_character "$DISPLAY_TEXT")
+	local CHARACTER_REPETITION=$(string_repeat_character $CHARACTERS_UNITS "#")
+
+	display_message_default_complex "${COLOR_STATUS_WARNING}${CHARACTER_REPETITION}\n${DISPLAY_TEXT}\n${CHARACTER_REPETITION}${COLOR_END}"
+}
+
+display_message_warning_simple(){
+	local DISPLAY_TEXT="$1"
+
+	#display_message_default_simple "${DISPLAY_TEXT}"
+	display_message_default_simple "${COLOR_STATUS_WARNING}${DISPLAY_TEXT}${COLOR_END}"
+}
+
+#############################
+#Display notification
+#############################
+
+display_notification_low(){
+    local VALUE_MESSAGE=$1
+    local VALUE_ICONS=$2
+
+    if [[ $VALUE_ICONS != "" ]]; then
+        notify-send --expire-time 1500 --urgency=low --icon=${VALUE_ICONS} "$VALUE_MESSAGE"
+    else
+        notify-send --expire-time 1500 --urgency=low "$VALUE_MESSAGE"
+    fi
+}
+
+display_notification_normal(){
+    local VALUE_MESSAGE=$1
+    local VALUE_ICONS=$2
+
+    if [[ $VALUE_ICONS != "" ]]; then
+        notify-send --expire-time 1500 --urgency=normal --icon=${VALUE_ICONS} "$VALUE_MESSAGE"
+    else
+        notify-send --expire-time 1500 --urgency=normal "$VALUE_MESSAGE"
+    fi
+}
+
+display_notification_warning(){
+    local VALUE_MESSAGE=$1
+    local VALUE_ICONS=$2
+
+    if [[ $VALUE_ICONS != "" ]]; then
+        notify-send --expire-time 1500 --urgency=critical --icon=${VALUE_ICONS} "$VALUE_MESSAGE"
+    else
+        notify-send --expire-time 1500 --urgency=critical "$VALUE_MESSAGE"
+    fi
+}
+
+#############################
+#Math
+#############################
+
+#math_calc(){}
+
+#############################
+#Math - Angular conversion
+#############################
+
+math_degrees(){
+    local VALUE_NUMBER_RADIANS=$1
+    local VALUE_NUMBER_PI=$(math_pi)
+    local VALUE_RESULT=$(math_calc "($VALUE_NUMBER_RADIANS * 180) / $VALUE_NUMBER_PI")
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_radians(){
+    local VALUE_NUMBER_DEGREES=$1
+    local VALUE_NUMBER_PI=$(math_pi)
+    local VALUE_RESULT=$(math_calc "($VALUE_NUMBER_DEGREES * $VALUE_NUMBER_PI) / 180")
+    
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+#############################
+#Math - Constants
+#############################
+
+math_pi(){
+    display_message_default_simple "3.14159265358979323846"
+}
+
+math_e(){
+    display_message_default_simple "2.7182818284590452354"
+}
+
+math_phi(){
+    display_message_default_simple "1.61803398874989484820"
+}
+
+math_tau(){
+    display_message_default_simple "6.283185307179586"
+}
+
+math_inf_negative(){
+    display_message_default_simple "-Infinity"
+}
+
+math_inf_positive(){
+    display_message_default_simple "Infinity"
+}
+
+math_nan(){
+    display_message_default_simple "NaN"
+}
+
+#############################
+#Math - Number-theoretic and representation functions
+#############################
+
+math_ceil(){
+    local VALUE_NUMBER=$1
+    local VALUE_NUMBER_INTEGER=$(string_split_number_digits_integer $VALUE_NUMBER)
+    local VALUE_NUMBER_DECIMAL=$(string_split_number_digits_decimal $VALUE_NUMBER)
+
+    if [[ $VALUE_NUMBER_DECIMAL -gt 0 ]]; then
+        local VALUE_RESULT=$(($VALUE_NUMBER_INTEGER+1))
+    else
+        local VALUE_RESULT=$VALUE_NUMBER_INTEGER
+    fi
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+#math_comb(){}
+#math_copysign(){}
+
+math_fabs(){
+    local VALUE_NUMBER=$1
+
+    if [[ $VALUE_NUMBER -lt 0 ]]; then
+        display_message_default_simple "$((-1 * $VALUE_NUMBER))"
+    else
+        display_message_default_simple "$VALUE_NUMBER"
+    fi
+}
+
+math_factorial(){
+    local VALUE_NUMBER=$1
+
+    if [[ VALUE_NUMBER -lt 0 ]]; then
+        local RESULT=$(math_nan)
+        display_message_default_simple "$RESULT"
+    elif [[ VALUE_NUMBER -eq 0 ]]; then
+        display_message_default_simple "1"
+    elif [[ VALUE_NUMBER -lt 2 ]]; then
+        display_message_default_simple "$VALUE_NUMBER"
+    else
+        local RESULT=1
+
+        while [[ VALUE_NUMBER -gt 1 ]]; do
+            RESULT=$((RESULT * $VALUE_NUMBER))
+            VALUE_NUMBER=$(($VALUE_NUMBER - 1))
+        done
+
+        display_message_default_simple "$RESULT"
+    fi
+}
+
+math_floor(){
+    local VALUE_NUMBER=$1
+    local VALUE_NUMBER_INTEGER=$(string_split_number_digits_integer $VALUE_NUMBER)
+
+    display_message_default_simple "$VALUE_NUMBER_INTEGER"
+}
+
+#math_fmod(){}
+#math_frexp(){}
+#math_fsum(){}
+#math_gcd(){}
+#math_isclose(){}
+#math_isfinite(){}
+#math_isinf(){}
+#math_isnan(){}
+#math_isqrt(){}
+#math_lcm(){}
+#math_lcm(){}
+#math_ldexp(){}
+
+math_min(){
+    local VALUE_NUMBER_ALL=$@
+    local VALUE_NUMBER_MIN=$(sort_list $VALUE_NUMBER_ALL | head -1)
+
+    display_message_default_simple "$VALUE_NUMBER_MIN"
+}
+
+math_max(){
+    local VALUE_NUMBER_ALL=$@
+    local VALUE_NUMBER_MAX=$(sort_list $VALUE_NUMBER_ALL | tail -1)
+
+    display_message_default_simple "$VALUE_NUMBER_MAX"
+}
+
+#math_modf(){}
+#math_nextafter(){}
+#math_perm(){}
+#math_prod(){}
+#math_remainder(){}
+
+math_round(){
+    local VALUE_NUMBER=$1
+    local VALUE_NUMBER_INTEGER=$(string_split_number_digits_integer $VALUE_NUMBER)
+    local VALUE_NUMBER_DECIMAL=$(string_split_number_digits_decimal $VALUE_NUMBER)
+
+    local VALUE_DECIMAL_FIRST_NUMBER=${VALUE_NUMBER_DECIMAL:0:1}
+
+    if [[ $VALUE_DECIMAL_FIRST_NUMBER -lt 5 ]]; then
+        local VALUE_RESULT=$VALUE_NUMBER_INTEGER
+    else
+        local VALUE_RESULT=$(($VALUE_NUMBER_INTEGER+1))
+    fi
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+#math_trunc(){}
+#math_ulp(){}
+
+#############################
+#Math - Power and logarithmic functions
+#############################
+
+math_exp(){
+    local VALUE_NUMBER=$1
+    local VALUE_EULER=$(math_e)
+	local VALUE_RESULT=$(math_pow $VALUE_EULER $VALUE_NUMBER)
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_expm1(){
+    local VALUE_NUMBER=$1
+    local VALUE_EULER=$(math_e)
+    local VALUE_RESULT=$(math_calc "($VALUE_EULER^$VALUE_NUMBER) - 1")
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_log(){
+    local VALUE_NUMBER=$1
+    local VALUE_BASE=$2
+
+    if [[ $1 -lt 0 ]]; then
+        local VALUE_RESULT=$(math_nan)
+    elif [[ $1 -eq 0 ]]; then
+        local VALUE_RESULT=$(math_inf_negative)
+    #elif [[ !($1 -lt "POSITIVE_INFINITY") ]]; then
+        #local VALUE_RESULT="$1"
+    else
+        #local VALUE_RESULT=$(math_calc "$VALUE_NUMBER^$VALUE_BASE")
+        local VALUE_RESULT=$(math_calc "log($VALUE_NUMBER)/log($VALUE_BASE)")
+    fi
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_log1p(){ #Logaritmos Neperianos
+    local VALUE_NUMBER=$((1 + $1))
+    local VALUE_EULER=$(math_e)
+    local VALUE_RESULT=$(math_log $VALUE_NUMBER $VALUE_EULER)
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_log2(){
+    local VALUE_NUMBER=$1
+    local VALUE_RESULT=$(math_log $VALUE_NUMBER 2)
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_log10(){
+    local VALUE_NUMBER=$1
+    local VALUE_RESULT=$(math_log $VALUE_NUMBER 10)
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_pow(){
+    local VALUE_NUMBER=$1
+    local VALUE_EVALUATE=$2
+    local VALUE_RESULT=$(math_calc "$VALUE_NUMBER^$VALUE_EVALUATE")
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+math_sqrt(){
+    local VALUE_NUMBER=$1
+
+    if [[ $2 == "" ]]; then
+        local VALUE_ROOT=2
+    else
+        local VALUE_ROOT=$2
+
+    fi
+
+    local VALUE_RESULT=$(math_calc "$VALUE_NUMBER^(1/$VALUE_ROOT)")
+
+	display_message_default_simple "$VALUE_RESULT"
+}
+
+#############################
+#Math - Trigonometric functions
+#############################
+
+#math_acos(){}
+#math_asin(){}
+#math_atan(){}
+#math_atan2(){}
+#math_dist(){}
+#math_hypot(){}
+
+#label_must_be_tested
+#label_must_be_fixed
+math_sin(){
+    local VALUE_NUMBER=$1
+
+    #awk 'BEGIN{print "sin(-30 degree)="sin(-30*atan2(0,-1)/180)}'
+    math_calc "sin($VALUE_NUMBER degree)"
+}
+
+#math_tan(){}
+
+#############################
+#String
+#############################
+
+string_check_if_string_pattern_matches(){
+    local CONTENT_STRING=$1
+    local FILE_PATH=$2
+
+	#Check if strings matches only if the file exists
+	if [[ -f "$FILE_PATH" ]]; then
+		if grep -q "$CONTENT_STRING" "$FILE_PATH"; then
+			display_message_default_simple "true"
+		else
+			display_message_default_simple "false"
+		fi
+	else
+		display_message_error_simple "fail"
+	fi
+}
+
+string_convert_path_directory_from_unix_to_windows(){
+    #string_convert_path_directory_from_unix_to_windows "/home/henrikbeck95/.asdf/"
+
+    local PATH=$1
+    local PATTERN_OLD="/"
+    local PATTERN_NEW="\\"
+
+    local RESULT=$(changeStringComplex "$PATH" "$PATTERN_OLD" "$PATTERN_NEW")
+    
+    display_message_default_simple "C:\\${RESULT}"
+}
+
+string_convert_path_directory_from_windows_to_unix(){
+    # string_convert_path_directory_from_windows_to_unix "D://home\henrikbeck95\.asdf\\"
+    local PATH=$1
+    local PATTERN_OLD="\\"
+    local PATTERN_NEW="/"
+
+    local SYSTEM_DISK="${PATH:0:1}"
+    local SYSTEM_DISK_LOWERCASE="${SYSTEM_DISK,,}"
+    local SYSTEM_DISK_UPPERCASE="${SYSTEM_DISK^^}"
+
+    local RESULT_AUX=$(changeStringSlashesFromBackwardToForward "$PATH" "$PATTERN_OLD" "$PATTERN_NEW")
+    local RESULT_FINAL=$(changeStringComplex "$RESULT_AUX" "$SYSTEM_DISK_UPPERCASE://" "/mnt/${SYSTEM_DISK_LOWERCASE}/")
+
+    display_message_default_simple "${RESULT_FINAL}"
+}
+
+string_convert_from_lower_to_upper(){
+	display_message_default_simple "${@^^}"
+}
+
+string_convert_from_upper_to_lower(){
+	display_message_default_simple "${@,,}"
+}
+
+string_count_character(){
+	display_message_default_simple "${#1}"
+}
+
+string_get_content_between_interval(){
+    #string_get_content_between_interval "Shell Script Library" "6" "6"
+    
+    local CONTENT_STRING=$1
+    local VALUE_INTERVAL_BEGIN=$2
+    local VALUE_INTERVAL_END=$3
+    local RESULT=${CONTENT_STRING:$VALUE_INTERVAL_BEGIN:$VALUE_INTERVAL_END}
+
+    display_message_default_simple "$RESULT"
+}
+
+string_get_content_character_first(){
+    #string_get_content_character_first "Henrik Beck"
+    
+    local VALUE_VARIABLE=$1
+    local VALUE_SIZE=$2
+    local RESULT="${VALUE_VARIABLE::1}"
+
+    display_message_default_simple "$RESULT"
+}
+
+string_get_content_character_from_begin(){
+    #string_get_content_character_from_begin "Henrik Beck" "3"
+
+    local VALUE_VARIABLE=$1
+    local VALUE_SIZE=$2
+    local RESULT="${VALUE_VARIABLE::VALUE_SIZE}"
+
+    display_message_default_simple "$RESULT"
+}
+
+string_get_content_character_from_end(){
+    #string_get_content_character_from_end "Henrik Beck" "3"
+
+    local VALUE_VARIABLE=$1
+    local VALUE_SIZE=$(($2 * -1))
+    local RESULT="${VALUE_VARIABLE: $VALUE_SIZE}"
+
+    display_message_default_simple "$RESULT"
+}
+
+string_get_content_character_last(){
+    #string_get_content_character_last "Henrik Beck"
+
+    local VALUE_VARIABLE=$1
+    local VALUE_SIZE=$2
+    local RESULT="${VALUE_VARIABLE: -1}"
+
+    display_message_default_simple "$RESULT"
+}
+
+#label_must_be_improved
+string_get_content_signal_before(){
+    local VALUE_SIGNAL=$1
+    local VALUE_VARIABLE=$(string_remove_empty_space_all $2)
+    local VALUE_RESULT="${VALUE_VARIABLE%$VALUE_SIGNAL*}" #
+    #local VALUE_RESULT="${VALUE_VARIABLE%%$VALUE_SIGNAL*}" #
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+string_get_content_signal_after_number(){
+    local VALUE_SIGNAL=$1
+    local VALUE_VARIABLE=$(string_remove_empty_space_all $2)
+    #local VALUE_RESULT="${VALUE_VARIABLE#*$VALUE_SIGNAL}" #Since first value after match
+    local VALUE_RESULT="${VALUE_VARIABLE##*$VALUE_SIGNAL}" #Only last value after match
+
+    display_message_number_simple "$VALUE_RESULT"
+}
+
+string_get_content_signal_after_string(){
+    local VALUE_SIGNAL=$1
+    local VALUE_VARIABLE=$(string_remove_empty_space_all $2)
+    #local VALUE_RESULT="${VALUE_VARIABLE#*$VALUE_SIGNAL}" #Since first value after match
+    local VALUE_RESULT="${VALUE_VARIABLE##*$VALUE_SIGNAL}" #Only last value after match
+
+    display_message_default_simple "$VALUE_RESULT"
+}
+
+string_remove_empty_space_all(){
+    #local VALUE_VARIABLE="Hello      world."
+    local VALUE_VARIABLE="$@"
+
+    display_message_default_simple "${VALUE_VARIABLE//[[:space:]]/}"
+}
+
+string_repeat_character(){
+    local VALUE_SIZE=$1
+    local VALUE_CHARACTER=$2
+
+	for ((i=0; i < $VALUE_SIZE; i++)); do
+		display_message_default_simple "$VALUE_CHARACTER"
+	done
+}
+
+#label_must_be_improved
+#label_must_be_deprecated
+#string_replace_slash_from_backward_to_forward
+string_replace_backslash_to_forward_slash(){
+	display_message_default_simple "$1" | sed 's/\\/\//g'
+}
+
+#label_must_be_improved
+#label_must_be_deprecated
+#string_replace_slash_from_forward_to_backward
+string_replace_forward_slash_to_backslash_cancelled(){
+	local TEXT_OLD="\/"
+	local TEXT_NEW="\\\/"
+
+	#Replace all the match values from a console
+	display_message_default_simple "$1" | sed 's/\//\\\//g'
+}
+
+string_replace_pattern_from_old_to_new_simple(){
+    local STRING="$1"
+    local PATTERN_OLD="$2"
+    local PATTERN_NEW="$3"
+
+    display_message_default_simple "${STRING/$PATTERN_OLD/$PATTERN_NEW}"
+}
+
+string_replace_pattern_from_old_to_new_complex(){
+    local STRING="$1"
+    local PATTERN_OLD="$2"
+    local PATTERN_NEW="$3"
+
+    display_message_default_simple "${STRING//$PATTERN_OLD/$PATTERN_NEW}"
+}
+
+string_replace_number(){
+	local PATH_FILE="$1"
+	local TEXT_OLD_LINE_NUMBER="$2"
+	local TEXT_NEW="$3"
+
+	#Replace all the text from the line number
+    sed -i "$TEXT_OLD_LINE_NUMBER c\\$TEXT_NEW" $PATH_FILE
+}
+
+string_replace_output(){
+	local TEXT_OLD="$1"
+	local TEXT_NEW="$2"
+
+	#Replace all the match values from a sonsole
+	sed -s "s/$TEXT_OLD/$TEXT_NEW/g"
+}
+
+string_replace_slash_from_backward_to_forward(){
+    local STRING="$1"
+    local PATTERN_OLD="$2"
+    local PATTERN_NEW="$3"
+    
+    display_message_default_simple "${STRING//\\//}"
+}
+
+#string_replace_slash_from_forward_to_backward(){}
+
+string_replace_text(){
+	local PATH_FILE="$1"
+	local TEXT_OLD="$2"
+	local TEXT_NEW="$3"
+
+	#Replace all the match values in a text file
+	sed -i "s/$TEXT_OLD/$TEXT_NEW/g" $PATH_FILE
+}
+
+#label_must_be_tested
+#label_must_be_improved
+string_split_number_digits_integer(){
+	local VALUE_NUMBER=$1
+    
+	#printf "$1" | cut -d. -f1
+	#echo "$1" | cut -d. -f1
+	display_message_default_simple "$1" | cut -d. -f1
+}
+
+#label_must_be_tested
+#label_must_be_improved
+string_split_number_digits_decimal(){
+	local VALUE_NUMBER=$1
+
+	if [[ $VALUE_NUMBER == *"."* ]]; then
+		#There is decimal digits and number is positive
+		display_message_default_simple "$VALUE_NUMBER" | cut -d. -f2
+	elif [[ $VALUE_NUMBER == *"."* ]] && [[ $VALUE_NUMBER == *"-"* ]]; then
+		#There is decimal digits and number is negative
+		display_message_default_simple "$VALUE_NUMBER" | cut -d. -f3
+	else
+		#There is not decimal digits
+		display_message_default_simple ""
+	fi
+}
+
+#label_must_be_tested
+string_write_exclusive_line_on_a_file(){
+	case $(string_check_if_string_pattern_matches "$1" "$2") in
+		"false")
+			display_message_default_simple "$1" >> "$2"
+			display_message_success_complex "String has been appended on the last line of the file"
+			break
+			;;
+		"true" | "fail")
+			display_message_error_complex "String already exists on file"
+			break
+			;;
+	esac
+}
+
+##############################
+#Syntactic analyzer
+##############################
+
+syntactic_analyzer_set_variable_name(){
+    local VALUE=$1
+    local VARIABLE_NAME=$(string_get_content_signal_before '=' $VALUE)
+
+    display_message_default_simple "${VARIABLE_NAME}"
+}
+
+syntactic_analyzer_set_variable_value_boolean(){
+    local VALUE=$1
+    local VARIABLE_VALUE=$(string_get_content_signal_after_number '=' $VALUE)
+
+    case $(utils_check_if_variable_is_boolean $VARIABLE_VALUE) in
+        "false") syntactic_analyzer_status_error "boolean" ;;
+        "true") display_message_default_simple "$VARIABLE_VALUE" ;;
+    esac
+}
+
+syntactic_analyzer_set_variable_value_char(){
+    local VALUE=$1
+    local VARIABLE_VALUE=$(string_get_content_signal_after_number '=' $VALUE)
+
+    case $(utils_check_if_variable_is_char $VARIABLE_VALUE) in
+        "false") syntactic_analyzer_status_error "char" ;;
+        "true") display_message_default_simple "$VARIABLE_VALUE" ;;
+    esac
+}
+
+syntactic_analyzer_set_variable_value_float(){
+    local VALUE=$1
+    local VARIABLE_VALUE=$(string_get_content_signal_after_number '=' $VALUE)
+
+    case $(utils_check_if_variable_is_number $VARIABLE_VALUE) in
+        "false") syntactic_analyzer_status_error "float" ;;
+        "true") display_message_number_simple "$VARIABLE_VALUE" ;;
+    esac
+}
+
+syntactic_analyzer_set_variable_value_int(){
+    local VALUE=$1
+    local VARIABLE_VALUE=$(string_get_content_signal_after_number '=' $VALUE)
+
+    case $(utils_check_if_variable_is_integer $VARIABLE_VALUE) in
+       "false") syntactic_analyzer_status_error "int" ;;
+       "true") display_message_number_simple "$VARIABLE_VALUE" ;;
+    esac
+}
+
+syntactic_analyzer_set_variable_value_object(){
+    local VALUE=$1
+    local VARIABLE_VALUE=$(string_get_content_signal_after_number '=' $VALUE)
+
+    case $(utils_check_if_variable_exists $VARIABLE_VALUE) in
+        "false") syntactic_analyzer_status_error "object" ;;
+        "true") display_message_default_simple "$VARIABLE_VALUE" ;;
+    esac
+}
+
+syntactic_analyzer_set_variable_value_string(){
+    local VALUE=$1
+    local VARIABLE_VALUE=$(string_get_content_signal_after_number '=' $VALUE)
+
+    case $(utils_check_if_variable_is_string $VARIABLE_VALUE) in
+        "false") syntactic_analyzer_status_error "string" ;;
+        "true") display_message_default_simple "$VARIABLE_VALUE" ;;
+    esac
+}
+
+syntactic_analyzer_status_error(){
+    local VALUE=$1
+
+    set -e
+    echo "'${VALUE}' contains invalid values for this primitive type."
+    # false
+    set +e
+}
+
+#############################
+#System appearance
+#label_must_checked
+#############################
+
+#label_must_be_improved
+system_appearance_desktop_environment_gnome(){
+	#List all the Gnome settings commands
+	#clear && gsettings list-recursively | grep "$1" | less
+	#gsettings list-recursively | egrep "Alt|Shift|Super|Space|Win|Meta|Primary|Control|Ctrl|Tab" | grep org.gnome | awk '{print $1}' | sort -u
+	#clear && gsettings list-recursively | grep col
+	
+	gsettings get org.gnome.shell favorite-apps
+
+	gsettings reset org.gnome.desktop.app-folders folder-children #Removed all the folders
+	gsettings reset org.gnome.desktop.sound allow-volume-above-100-percent
+    
+	gsettings set org.gnome.desktop.a11y always-show-universal-access-status true
+	gsettings set org.gnome.desktop.background show-desktop-icons true
+	gsettings set org.gnome.desktop.background show-desktop-icons true
+	gsettings set org.gnome.desktop.interface clock-show-date true
+	gsettings set org.gnome.desktop.interface show-battery-percentage true
+	gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
+	gsettings set org.gnome.desktop.wm.preferences button-layout ':close'	
+	gsettings set org.gnome.gedit.preferences.editor auto-indent true
+	gsettings set org.gnome.gedit.preferences.editor bracket-matching true
+	gsettings set org.gnome.gedit.preferences.editor display-line-numbers true
+	gsettings set org.gnome.gedit.preferences.editor highlight-current-line true
+	gsettings set org.gnome.gedit.preferences.editor tabs-size 4
+	gsettings set org.gnome.mutter center-new-windows true
+	gsettings set org.gnome.mutter focus-change-on-pointer-rest true
+	gsettings set org.gnome.nautilus.preferences show-hidden-files true
+	#gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 32
+	#gsettings set org.gnome.shell.extensions.dash-to-dock dock-position RIGHT
+	#gsettings set org.gnome.shell.extensions.dash-to-dock show-favorites true
+	#gsettings set org.gnome.shell.extensions.dash-to-dock show-windows-preview true
+	gsettings set org.gnome.shell.extensions.desktop-icons show-home false
+	gsettings set org.gnome.shell.extensions.desktop-icons show-trash false
+}
+
+#label_must_be_improved
+system_appearance_theme_gedit_dracula(){
+	utils_download_file "https://raw.githubusercontent.com/dracula/gedit/master/dracula.xml"
+
+	display_message_warning_complex "Must open Gedit application and set load this file manually"
+}
+
+#label_must_be_improved
+system_appearance_theme_gtk_adwaita(){
+    utils_path_directory_create "$HOME/.themes/"
+    cd $HOME/.themes/
+    
+    #???
+    git clone https://github.com/Gnostiphage/adwaita-color-gen.git
+    utils_symbolic_link_create $HOME/.themes/adwaita-color-gen/generated/* "$HOME/.themes/"
+    
+    #???
+    git clone https://github.com/vinceliuice/Orchis-theme.git
+    utils_symbolic_link_create $HOME/.themes/Orchis-theme/release/*.tar.xz "$HOME/.themes/"
+
+	#
+	gsettings set org.gnome.desktop.interface gtk-theme Adwaita
+	#gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
+}
+
+#label_must_be_improved
+system_appearance_theme_gtk_dracula(){
+	gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
+	gsettings set org.gnome.desktop.wm.preferences theme "Dracula"
+}
+
+#label_must_be_improved
+system_appearance_theme_libreoffice_dracula(){
+	git clone "https://github.com/dracula/libreoffice.git" "$HOME/Documents/libroffice"
+	system_permission_set_executable "$HOME/Documents/dracula/libroffice/add_dracula_application_colors.sh"
+	utils_edit_file "$HOME/Documents/dracula/libroffice/add_dracula_application_colors.sh"
+	#$HOME/Documents/dracula/libroffice/add_dracula_application_colors.sh
+}
+
+#label_must_be_chosen
+#label_must_be_improved
+system_appearance_theme_shell_starship(){
+	sh -c "$(curl -L https://starship.rs/install.sh)"
+	echo 'eval "$(starship init bash)"' >> ~/.bashrc
+	echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+}
+
+#############################
+#System backup
+#############################
+
+#label_must_be_created
+system_backup_snaptshot_create(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Creating $BACKUP_TOOL $1 backup"
+
+	case $BACKUP_TOOL in
+		"btrfk") display_message_empty_simple ;;
+		"snapper") snapper -c root create -c timeline --description "$1" ;; #Remove read only
+		"timeshift")
+			#Change Timeshift engine
+			timeshift --btrfs || timeshift --rsync
+			
+			#Create the backup with comments
+			timeshift --create --comments "$1" --tags D
+			;;
+		*) display_message_empty_simple ;;
+	esac
+
+	display_message_success_complex "$BACKUP_TOOL backup $1 has been created"
+}
+
+#label_must_be_created
+system_backup_snaptshot_delete(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Creating $BACKUP_TOOL $1 backup"
+
+	case $BACKUP_TOOL in
+		"btrfk") display_message_empty_simple ;;
+		"snapper") display_message_empty_simple ;;
+		"timeshift")
+			#Change Timeshift engine
+			timeshift --btrfs || timeshift --rsync
+			
+			#Create the backup with comments
+			timeshift --create --comments "$1" --tags D
+			;;
+		*) display_message_empty_simple ;;
+	esac
+
+	display_message_success_complex "$BACKUP_TOOL backup $1 has been created"
+}
+
+#label_must_be_created
+system_backup_message_help(){
+	utils_check_if_user_has_root_previledges
+	
+	case $BACKUP_TOOL in
+		"btrfk") display_message_empty_simple ;;
+		"snapper") display_message_empty_simple ;;
+		"timeshift") timeshift --help ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+#label_must_be_created
+system_backup_snapshot_list(){
+	utils_check_if_user_has_root_previledges
+	
+	case $BACKUP_TOOL in
+		"btrfk") display_message_empty_simple ;;
+		#"snapper") snapper list ;;
+		"snapper") snapper -c root list ;; #root == $USER ;;
+		"timeshift") timeshift --list ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+#label_must_be_created
+system_backup_snapshot_restore(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Restoring $BACKUP_TOOL $1 backup"
+	
+	case $BACKUP_TOOL in
+		"btrfk") display_message_empty_simple ;;
+		"snapper") snnapper rollback $1 ;; #19
+		"timeshift") timeshift --restore --snapshot "$1" ;; #timeshift --restore --snapshot '2021-07-09_00-37-36'
+		*) display_message_empty_simple ;;
+	esac
+
+	display_message_success_complex "$BACKUP_TOOL backup $1 has been restored"
+}
+
+#############################
+#System battery
+#############################
+
+system_battery_check_if_charger_is_connected(){
+    local VALUE_BATTERY_STATUS=$(system_battery_level_status)
+
+    if [[ "$VALUE_BATTERY_STATUS" == "Charging" ]] ; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+system_battery_check_if_level_is_full(){
+    local VALUE_BATTERY_STATUS=$(system_battery_level_status)
+    local VALUE_BATTERY_LEVEL=$(system_battery_level_current)
+
+    if [[ "$VALUE_BATTERY_STATUS" == "true" && $VALUE_BATTERY_LEVEL -eq 100 ]] ; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+system_battery_check_if_level_is_low(){
+    local VALUE_BATTERY_STATUS=$(system_battery_level_status)
+    local VALUE_BATTERY_LEVEL=$(system_battery_level_current)
+    local VALUE_BATTERY_LOW=15
+
+    if [[ "$VALUE_BATTERY_STATUS" == "false" && $VALUE_BATTERY_LEVEL -lt $VALUE_BATTERY_LOW ]] ; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+system_battery_level_current(){
+    display_message_default_simple $(cat /sys/class/power_supply/BAT1/capacity)
+}
+
+system_battery_level_percentage(){
+    display_message_default_simple $(acpi -b | grep -E -o '[0-9][0-9]?%')
+}
+
+system_battery_level_status(){
+    display_message_default_simple $(cat /sys/class/power_supply/BAT1/status)
+}
+
+system_battery_time_remaining(){
+    display_message_default_simple $(acpi -b | grep -E -o '[0-9][0-9]:[0-9][0-9]:[0-9][0-9]?')
+}
+
+system_battery_warning(){
+	local VALUE_BATTERY_REMAINING=$(system_battery_time_remaining)
+	local VALUE_BATTERY_LEVEL=$(system_battery_level_current)
+
+    if [[ $(system_battery_check_if_level_is_full) == "true" ]]; then
+        display_message_warning_simple "Full charged ${VALUE_BATTERY_LEVEL}%. Remove the charger now!"
+    elif [[ $(system_battery_check_if_level_is_low) == "true" ]]; then
+        display_message_warning_simple "Low battery ${VALUE_BATTERY_LEVEL}%. Remaining: $VALUE_BATTERY_REMAINING. Connect the charger now"
+    fi
+}
+
+#############################
+#System daemon
+#############################
+
+#label_must_be_created
+#Insert OpenRC
+system_daemon_check_init_system(){
+	case `cat /proc/1/comm` in
+		"init") display_message_default_simple "init" ;;
+		"systemd") display_message_default_simple "systemd" ;;
+		*) display_message_error_simple "unknown: '`cat /proc/1/comm`'" ;;
+	esac
+}
+
+system_daemon_disable_later(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Disabling $@ process on start up (after rebooting)"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-update del $@ default ;;
+		"systemd") systemctl disable $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_disable_now(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Disabling $@ process on start up (right now)"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-service $@ stop && rc-update del $@ ;;
+		"systemd")systemctl disable --now $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_enable_later(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Enabling $@ process on start up (after rebooting)"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-update add $@ default ;;
+		"systemd")systemctl enable $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_enable_now(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Enabling $@ process on start up (right now)"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-service $@ start && rc-update add $@ ;;
+		"systemd") systemctl enable --now $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_restart(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Restarting $@ process"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-service $@ restart ;;
+		"systemd") systemctl restart $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_start(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Starting $@ process now"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-service $@ start ;;
+		"systemd") systemctl start $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_status(){
+	#utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Getting $@ process status"
+
+    case $(system_daemon_check_init_system) in
+		#"openrc") rc-status ;;
+		#"openrc") rc-status --list ;;
+		"openrc") rc-service $@ status ;;
+		"systemd") systemctl status $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+system_daemon_stop(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Stopping $@ process now"
+
+    case $(system_daemon_check_init_system) in
+		"openrc") rc-service $@ stop ;;
+		"systemd")systemctl stop $@ ;;
+		*) display_message_empty_simple ;;
+	esac
+}
+
+#############################
+#System disk
+#############################
+
+system_disk_partition_format_fat32(){
+	utils_check_if_user_has_root_previledges
+
+	mkfs.fat -F32 $1
+	#mkfs.fat -F32 -n ESP $1
+	#mkfs.fat -F32 -n BOOT $1
+}
+
+system_disk_partition_format_btrfs(){
+	utils_check_if_user_has_root_previledges
+
+	mkfs.btrfs -f $1
+	#mkfs.btrfs -f -L ROOT $PARTITION_ROOT
+	#mkfs.btrfs -L data /dev/sdb1
+	#mkfs.btrfs -L mylabel /dev/partition
+	#mkfs.btrfs -L mylabel -n 32k /dev/partition
+}
+
+system_disk_partition_format_ext4(){
+	utils_check_if_user_has_root_previledges
+
+	mkfs.ext4 -f $1
+	#mkfs.ext4 -f -L FILES $1
+}
+
+system_disk_partition_list_all(){
+	lsblk
+}
+
+#system_disk_partition_mount(){}
+
+#label_must_be_fixed
+system_disk_partition_mount_btrfs(){
+	utils_check_if_user_has_root_previledges
+
+	local PARTITION_DISK_BOOT=$1
+	local PARTITION_DISK_ROOT=$2
+
+	display_message_warning_complex "Mount the partitions"
+
+	#Mounting the root partition
+	mount $PARTITION_DISK_ROOT /mnt/
+
+	#Creating subvolumes for BTRFS
+	btrfs su cr /mnt/@/
+
+	btrfs su cr /mnt/@home/ #Testing
+	btrfs su cr /mnt/@var/ #Testing
+	btrfs su cr /mnt/@snapshots/ #Testing
+
+	#Mounting root subvolume
+	umount /mnt/
+	#mount -o compress=lzo,subvol=@ $PARTITION_DISK_ROOT /mnt/
+	mount -o noatime,compress=lzo,space_cache,subvol=@ $PARTITION_DISK_ROOT /mnt/
+	
+	system_disk_partition_list_all
+
+	#Mounting boot
+	case $IS_BIOS_UEFI in
+		"legacy") 
+			#label_must_be_fixed
+			#mkdir -p /mnt/boot/
+			#mount $PARTITION_DISK_BOOT /mnt/boot/
+
+			display_message_success_complex "
+			Sorry but I do not how to install GRUB on BIOS legacy machine
+			If you know how, please inform the developer the procedure for implementing it.
+			For now, the commands must be implemented manually
+			Do not worry, this is the last step to be done."
+
+			exit 127
+			;;
+		"uefi") 
+			#mkdir -p /mnt/boot/efi/
+			mkdir -p /mnt/{boot,home,var,.snapshots}/
+			
+			#Tesitng
+			mount -o noatime,compress=lzo,space_cache,subvol=@home $PARTITION_DISK_ROOT /mnt/home/
+			mount -o noatime,compress=lzo,space_cache,subvol=@var $PARTITION_DISK_ROOT /mnt/var/
+			mount -o noatime,compress=lzo,space_cache,subvol=@snapshots $PARTITION_DISK_ROOT /mnt/.snapshots/
+			
+			#mount $PARTITION_DISK_BOOT /mnt/boot/efi/
+			mount $PARTITION_DISK_BOOT /mnt/boot/
+			;;
+		*)
+			display_message_success_complex "The BIOS could not be identified!"
+			exit 127
+			;;
+	esac
+
+	system_disk_partition_list_all
+}
+
+system_disk_partition_management(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Make the partitions"
+
+	#Creating the partitions
+	while true; do
+		local QUESTION_PARTITION
+
+		cfdisk $1
+
+		read -p "Do you want to procedure? [Y/n] " QUESTION_PARTITION
+		
+		case $QUESTION_PARTITION in
+			[Yy]*) break ;;
+			[Nn]*) : ;;
+			*) display_message_default_complex "Please answer Y for yes or N for no." ;;
+		esac
+	done
+}
+
+system_disk_swap_ask(){
+	utils_check_if_user_has_root_previledges
+
+	local QUESTION_SWAP
+
+	display_message_default_complex "Create the SWAP"
+
+	while true; do
+		read -p "Inform what you want: [file/partition/skip] " QUESTION_SWAP
+
+		case $QUESTION_SWAP in
+			"file") system_disk_swap_file ;;
+			"partition") system_disk_swap_partition ;;
+			"skip") break ;;
+			*) display_message_default_complex "Please answer file or partition." ;;
+		esac
+	done
+}
+
+#label_must_be_fixed
+#Create a Swap file implementation to BTRFS
+system_disk_swap_file(){
+	utils_check_if_user_has_root_previledges
+
+	local PATH_SWAP_FILE="/swap/swapfile"
+
+	display_message_default_complex "Creating the SWAP file"
+
+	truncate -s 0 $PATH_SWAP_FILE
+	chattr +C $PATH_SWAP_FILE
+	btrfs property set $PATH_SWAP_FILE compression none
+
+	#Set 4 GB size to Swap file
+	dd if=/dev/zero of=$PATH_SWAP_FILE bs=4G count=2 status=progress
+	
+	#Give the right permissions to the swap file
+	chmod 600 $PATH_SWAP_FILE
+	mkswap $PATH_SWAP_FILE
+	swapon $PATH_SWAP_FILE
+
+	#Enable the Swap file on boot
+	display_message_default_complex "#Swapfile\n$PATH_SWAP_FILE none swap defaults 0 0" >> /etc/fstab
+	
+	#Check /etc/fstab file
+	utils_edit_file "/etc/fstab" #text
+
+	display_message_success_complex "SWAP file has been created"
+}
+
+system_disk_swap_partition(){
+	utils_check_if_user_has_root_previledges
+
+	display_message_default_complex "Creating the SWAP partition"
+
+	mkswap -f $PARTITION_SWAP
+	swapon $PARTITION_SWAP
+
+	display_message_success_complex "SWAP partition has been created"
+}
+
+#############################
+#System permission
+#############################
+
+system_permission_set_executable(){
+	display_message_warning_complex "Giving executable permission to $@ file(s)"
+	
+	chmod +x $@
+
+	display_message_success_complex "File(s) $@ has/have been given executable permission"
+}
+
+#############################
+#System package manager
+#############################
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_repository_add(){
+    utils_check_if_user_has_root_previledges
+
+    display_message_warning_complex "Adding package manager $@ repository"
+
+    case $(utils_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "apt") display_message_empty_complex ;;
+        "aur") display_message_empty_complex ;;
+        "dnf") display_message_empty_complex ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ repository has been added"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_repository_remove(){
+    utils_check_if_user_has_root_previledges
+
+    display_message_warning_complex "Removing package manager $@ repository"
+
+    case $(utils_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "apt") display_message_empty_complex ;;
+        "aur") display_message_empty_complex ;;
+        "dnf") display_message_empty_complex ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ repository has been added"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_repository_syncronize(){
+    utils_check_if_user_has_root_previledges
+
+	display_message_warning_complex "Syncronizing package manager $@ repository"
+
+    case $(utils_check_package_manager) in
+        "apk")
+            case $DEBUG in
+                "false") apk update ;;
+                "true") apk update -y ;;
+            esac
+            ;;
+        "aur")
+            case $DEBUG in
+                #"false") yay -Syyuu ;;
+                #"true") yay -Syyuu --noconfirm ;;
+                "false") paru -Syyuu ;;
+                "true") paru -Syyuu --noconfirm ;;
+            esac
+            ;;
+        "apt")
+            case $DEBUG in
+                "false") apt update ;;
+                "true") apt update -y ;;
+            esac
+            ;;
+        "dnf")
+            case $DEBUG in
+                "false") dnf update ;;
+                "true") dnf update -y ;;
+            esac
+            ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman")
+            case $DEBUG in
+                "false") pacman -Syyuu ;;
+                "true") pacman -Syyuu --noconfirm ;;
+            esac
+            ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ repository has been syncronized"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_cache_clean(){
+    utils_check_if_user_has_root_previledges
+
+    display_message_warning_complex "Cleaning package manager $@ cache"
+
+    case $(utils_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "apt") apt autoremove ;;
+        "aur") display_message_empty_complex ;;
+        "dnf") display_message_empty_complex ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ cache has been cleaned"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_cache_make(){
+    utils_check_if_user_has_root_previledges
+
+	display_message_warning_complex "Making package manager $@ cache"
+
+    case $(utils_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "apt") display_message_empty_complex ;;
+        "aur") display_message_empty_complex ;;
+        "dnf") dnf makecache ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+    system_pkg_default_repository_syncronize
+	
+    display_message_success_complex "Package manager $@ cache has been made"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_group(){
+    utils_check_if_user_has_root_previledges
+
+    display_message_warning_complex "Installing package manager (group) $@ software(s)"
+
+    case $(utils_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "apt") display_message_empty_complex ;;
+        "aur") display_message_empty_complex ;;
+        "dnf")
+            case $DEBUG in
+                "false") dnf group install --with-optional $@ ;;
+                "true") dnf group install -y --with-optional $@ ;;
+            esac
+            ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager (group) $@ software(s) has/have been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_single(){
+    utils_check_if_user_has_root_previledges
+    
+	display_message_warning_complex "Installing package manager $@ software"
+
+    case $(utils_check_package_manager) in
+        "apk")
+            case $DEBUG in
+                "false") apk add $@ ;;
+                "true") apk add -y $@ ;;
+            esac
+            ;;
+        "aur")
+            case $DEBUG in
+                "false") paru -S $@ ;;
+                #"false") paru -S $@ --needed ;;
+                "true") paru -S $@ --noconfirm ;;
+                #"true") paru -S $@ --noconfirm --needed ;;
+            esac
+            ;;
+        "apt")
+            #apt install --fix-broken
+	        #apt install --fix-missing
+            case $DEBUG in
+                "false") apt-get install $@ ;;
+                "true") apt-get install -y $@ ;;
+            esac
+            ;;
+        "dnf")
+            case $DEBUG in
+                "false") dnf install $@ ;;
+                "true") dnf install -y $@ ;;
+            esac
+            ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman")
+            case $DEBUG in
+                "false") pacman -S $@ ;;
+                "true") pacman -S --noconfirm $@ ;;
+                #"true") pacman -S --noconfirm --needed $@ ;;
+            esac
+            ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ software(s) has/have been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_list(){
+	display_message_warning_complex "Listing package manager softwares"
+
+    case $(utils_check_package_manager) in
+        "apk") apl list ;;
+        "apt") apt list ;; #apt list --upgradable
+        "aur") pacman -Qm ;;
+        "dnf") rpm -q || rpm -q $@ ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") pacman -Qn ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_uninstall_group(){
+    utils_check_if_user_has_root_previledges
+
+	display_message_warning_complex "Uninstalling package manager $@ software"
+
+    case $(utils_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "aur") display_message_empty_complex ;;
+        "apt") display_message_empty_complex ;;
+        "dnf") display_message_empty_complex ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ software(s) has/have been uninstalled"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_uninstall_single(){
+    utils_check_if_user_has_root_previledges
+
+	display_message_warning_complex "Uninstalling package manager $@ software"
+
+    case $(utils_check_package_manager) in
+        "apk")
+            case $DEBUG in
+                "false") apk remove $@ ;;
+                "true") apk remove -y $@ ;;
+            esac
+            ;;
+        "aur")
+            case $DEBUG in
+                #"false") yay -Rns $@ ;;
+                #"true") yay -Rns $@ --noconfirm ;;
+                "false") paru -Rns $@ ;;
+                "true") paru -Rns $@ --noconfirm ;;
+            esac
+            ;;
+        "apt")
+            case $DEBUG in
+                "false") apt remove $@ ;;
+                "true") apt remove -y $@ ;;
+            esac
+            ;;
+        "dnf")
+            case $DEBUG in
+                "false") dnf remove $@ ;;
+                "true") dnf remove -y $@ ;;
+            esac
+            ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman")
+            case $DEBUG in
+                "false") pacman -Rns $@ ;;
+                "true") pacman -Rns --noconfirm $@ ;;
+                #"true") pacman -Rns --noconfirm --needed $@ ;;
+            esac
+            ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager $@ software(s) has/have been uninstalled"
+}
+
+#############################
+#System package manager - ASDF
+#############################
+
+system_pkg_any_asdf_repository_add(){
+	display_message_warning_complex "Adding ASDF $@ repository"
+	
+	asdf plugin add $@ || asdf plugin-add $@
+	system_pkg_any_asdf_repository_syncronize $@
+
+	display_message_success_complex "ASDF $@ repository has been added"
+}
+
+system_pkg_any_asdf_repository_remove(){
+	display_message_warning_complex "Removing ASDF $@ repository"
+	
+	asdf plugin remove $@
+
+	display_message_success_complex "ASDF $@ repository has been removed"
+}
+
+system_pkg_any_asdf_repository_syncronize(){
+	display_message_warning_complex "Syncronizing ASDF $@ repository"
+	
+	asdf plugin update $@
+
+	display_message_success_complex "ASDF $@ repository has been syncronized"
+}
+
+system_pkg_any_asdf_software_install(){
+	display_message_warning_complex "Installing ASDF $@ software"
+	
+	asdf #install python 3.7.4
+	asdf install $@
+
+	display_message_success_complex "ASDF $@ software has been installed"
+}
+
+system_pkg_any_asdf_software_list(){
+	display_message_warning_complex "Listing ASDF $@ softwares"
+	
+	asdf list
+}
+
+system_pkg_any_asdf_software_uninstall(){
+	display_message_warning_complex "Uninstalling ASDF $@ software"
+
+	asdf uninstall $@ #Try: python 3.7.4
+	
+	display_message_success_complex "ASDF $@ software has been unistalled"
+}
+
+#############################
+#System package manager - Flatpak
+#############################
+
+system_pkg_any_flatpak_repository_add(){
+	display_message_success_complex "Adding Flatpak $@ repository"
+
+	local FLATPAK_AREA_WIDE=$1 #For system wide try: --system || For per-user try: --user
+	local FLATPAK_REPOSITORY_NAME=$2
+	local FLATPAK_REPOSITORY_LINK=$3
+	
+	#flatpak remote-add --if-not-exists $@
+	#flatpak remote-add --user --if-not-exists $@
+	#flatpak remote-add --system --if-not-exists $@
+	flatpak remote-add "$FLATPAK_AREA_WIDE" --if-not-exists "$FLATPAK_REPOSITORY_NAME" "$FLATPAK_REPOSITORY_LINK"
+	
+	display_message_success_complex "Flatpak $@ repository has been added"
+}
+
+system_pkg_any_flatpak_repository_list(){
+	display_message_success_complex "Listing Flatpak $@ repositories"
+
+	flatpak remote-list
+}
+
+system_pkg_any_flatpak_repository_remove(){
+	display_message_success_complex "Removing Flatpak $@ repository"
+	
+	#flatpak remote-delete $@
+	#flatpak remote-delete --user $@
+	flatpak remote-delete --system $@
+
+	display_message_success_complex "Flatpak $@ repository has been added"
+}
+
+system_pkg_any_flatpak_repository_syncronize(){
+	display_message_success_complex "Syncronizing Flatpak $@ repository"
+    
+	flatpak update
+	
+	display_message_success_complex "Flatpak $@ repository has been syncronized"
+}
+
+system_pkg_any_flatpak_software_install(){
+	display_message_success_complex "Installing Flatpak $@ software"
+	
+	case $DEBUG in
+		"false") flatpak install $@ ;;
+		"true") flatpak install -y $@ ;;
+	esac
+	
+	display_message_success_complex "Flatpak $@ software(s) has/have been installed"
+}
+
+system_pkg_any_flatpak_software_list(){
+	display_message_success_complex "Listing Flatpak $@ softwares"
+	
+	flatpak list
+}
+
+system_pkg_any_flatpak_software_uninstall(){
+	display_message_success_complex "Uninstalling Flatpak $@ software"
+    
+	case $DEBUG in
+		"false") flatpak uninstall $@ ;;
+		"true") flatpak uninstall -y $@ ;;
+	esac
+	
+	display_message_success_complex "Flatpak $@ software(s) has/have been uninstalled"
+}
+
+#############################
+#System package manager - Node
+#############################
+
+#label_must_be_created
+system_pkg_any_node_npm_repository_add(){
+	display_message_warning_complex "Adding Node - NPM $@ repository"
+
+	display_message_empty_complex
+
+	display_message_success_complex "Node - NPM $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_node_npm_repository_remove(){
+	display_message_warning_complex "Removing Node - NPM $@ repository"
+	
+	display_message_empty_complex
+	
+	display_message_success_complex "Node - NPM $@ repository has been added"
+}
+
+system_pkg_any_node_npm_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Node - NPM $@ repository"
+	
+	npm install npm@latest -g
+	
+	display_message_success_complex "Node - NPM $@ repository has been syncronized"
+}
+
+system_pkg_any_node_npm_software_install_global(){
+	display_message_warning_complex "Installing Node - NPM (globally) $@ software"
+	
+	npm install -g $@
+	
+	display_message_success_complex "Node - NPM (globally) $@ software(s) has/have been installed"
+}
+
+system_pkg_any_node_npm_software_install_local(){
+	display_message_warning_complex "Installing Node - NPM (locally) $@ software"
+	
+	npm install $@
+	
+	display_message_success_complex "Node - NPM (locally) $@ software(s) has/have been installed"
+}
+
+system_pkg_any_node_npm_software_list(){
+	display_message_warning_complex "Listing Node - NPM softwares"
+
+	display_message_warning_complex "Listing all local installed Node libraries"
+	npm list
+
+	display_message_warning_complex "Listing all globally installed Node libraries"
+	npm list -g
+}
+
+system_pkg_any_node_npm_software_uninstall_global(){
+	display_message_warning_complex "Uninstalling Node - NPM (gloablly) $@ software"
+	
+	npm uninstall -g $@
+	
+	display_message_success_complex "Node - NPM (gloablly) $@ software(s) has/have been uninstalled"
+}
+
+system_pkg_any_node_npm_software_uninstall_local(){
+	display_message_warning_complex "Uninstalling Node - NPM (locally) $@ software"
+	
+	npm uninstall $@
+	
+	display_message_success_complex "Node - NPM (locally) $@ software(s) has/have been uninstalled"
+}
+
+#label_must_be_created
+system_pkg_any_node_yarn_repository_add(){
+	display_message_warning_complex "Adding Node - YARN $@ repository"
+		
+	display_message_empty_complex
+
+	display_message_success_complex "Node - YARN $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_node_yarn_repository_remove(){
+	display_message_warning_complex "Removing Node - YARN $@ repository"
+	
+	display_message_empty_complex
+	
+	display_message_success_complex "Node - YARN $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_node_yarn_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Node - YARN $@ repository"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Node - YARN $@ repository has been syncronized"
+}
+
+#label_must_be_created
+system_pkg_any_node_yarn_software_install(){
+	display_message_warning_complex "Installing Node - YARN $@ software"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Node - YARN $@ software(s) has/have been installed"
+}
+
+#label_must_be_created
+system_pkg_any_node_yarn_software_list(){
+	display_message_warning_complex "Listing Node - YARN softwares"
+
+	display_message_empty_complex
+}
+
+#label_must_be_created
+system_pkg_any_node_yarn_software_uninstall(){
+	display_message_warning_complex "Uninstalling Node - YARN $@ software"
+		
+	display_message_empty_complex
+	
+	display_message_success_complex "Node - YARN $@ software(s) has/have been uninstalled"
+}
+
+#############################
+#System package manager - Paru
+#############################
+
+#label_must_be_created
+system_pkg_any_paru_repository_add(){
+	display_message_warning_complex "Adding Paru $@ repository"
+	
+	display_message_empty_complex
+
+	display_message_success_complex "Paru $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_paru_repository_remove(){
+	display_message_warning_complex "Removing Paru $@ repository"
+	
+	display_message_empty_complex
+
+	display_message_success_complex "Paru $@ repository has been removed"
+}
+
+#label_must_be_created
+system_pkg_any_paru_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Paru $@ repository"
+	
+	display_message_empty_complex
+
+	display_message_success_complex "Paru $@ repository has been syncronized"
+}
+
+#label_must_be_created
+system_pkg_any_paru_software_install(){
+	display_message_warning_complex "Installing Paru $@ software"
+	
+	display_message_empty_complex
+
+	display_message_success_complex "Paru $@ software has been installed"
+}
+
+#label_must_be_created
+system_pkg_any_paru_software_list(){
+	display_message_warning_complex "Listing Paru $@ softwares"
+	
+	display_message_empty_complex
+}
+
+#label_must_be_created
+system_pkg_any_paru_software_uninstall(){
+	display_message_warning_complex "Uninstalling Paru $@ software"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Paru $@ software has been unistalled"
+}
+
+#############################
+#System package manager - Python
+#############################
+
+#label_must_be_created
+system_pkg_any_python_anaconda_repository_add(){
+	display_message_warning_complex "Adding Python - Anaconda $@ repository"
+
+	display_message_empty_complex
+
+	display_message_success_complex "Python - Anaconda $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_python_anaconda_repository_remove(){
+	display_message_warning_complex "Remove Python - Anaconda $@ repository"
+	
+	display_message_empty_complex
+	
+	display_message_success_complex "Python - Anaconda $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_python_anaconda_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Python - Anaconda $@ repository"
+	
+	display_message_empty_complex
+
+	display_message_success_complex "Python - Anaconda $@ repository has been syncronized"
+}
+
+#label_must_be_created
+system_pkg_any_python_anaconda_software_install(){
+	display_message_warning_complex "Installing Python - Anaconda $@ software"
+		
+	display_message_empty_complex
+	
+	display_message_success_complex "Python - Anaconda $@ software(s) has/have been installed"
+}
+
+#label_must_be_created
+system_pkg_any_python_anaconda_software_list(){
+	display_message_warning_complex "Listing Python - Anaconda softwares"
+
+	display_message_empty_complex
+}
+
+#label_must_be_created
+system_pkg_any_python_anaconda_software_uninstall(){
+	display_message_warning_complex "Uninstalling Python - Anaconda $@ software"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Python - Anaconda $@ software(s) has/have been uninstalled"
+}
+
+#label_must_be_created
+system_pkg_any_python_pip_repository_add(){
+	display_message_warning_complex "Adding Python - Pip3 $@ repository"
+
+	display_message_empty_complex
+		
+	display_message_success_complex "Python - Pip3 $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_python_pip_repository_remove(){
+	display_message_warning_complex "Removing Python - Pip3 $@ repository"
+	
+	display_message_empty_complex
+	
+	display_message_success_complex "Python - Pip3 $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_python_pip_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Python - Pip3 $@ repository"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Python - Pip3 $@ repository has been syncronized"
+}
+
+system_pkg_any_python_pip_software_install(){
+	display_message_warning_complex "Installing Python - Pip3 $@ software"
+	
+    case $DEBUG in
+		"false") pip3 install $@ ;;
+		"true") pip3 install -y $@ ;;
+	esac
+
+	display_message_success_complex "Python - Pip3 $@ software(s) has/have been installed"
+}
+
+system_pkg_any_python_pip_software_list(){
+	display_message_warning_complex "Listing Python - Pip3 softwares"
+
+	pip3 list
+}
+
+#label_must_be_created
+system_pkg_any_python_pip_software_uninstall(){
+	display_message_warning_complex "Uninstalling Python - Pip3 $@ software"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Python - Pip3 $@ software(s) has/have been uninstalled"
+}
+
+#############################
+#System package manager - Rust
+#############################
+
+#label_must_be_created
+system_pkg_any_rust_cargo_repository_add(){
+	display_message_warning_complex "Adding Rust - Cargo $@ repository"
+		
+	display_message_empty_complex
+
+	display_message_success_complex "Rust - Cargo $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_rust_cargo_repository_remove(){
+	display_message_warning_complex "Removing Rust - Cargo $@ repository"
+	
+	display_message_empty_complex
+
+	display_message_success_complex "Rust - Cargo $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_rust_cargo_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Rust - Cargo $@ repository"
+
+	display_message_empty_complex
+	
+	display_message_success_complex "Rust - Cargo $@ repository has been syncronized"
+}
+
+#label_must_be_created
+system_pkg_any_rust_cargo_software_list(){
+	display_message_warning_complex "List Rust - Cargo softwares"
+
+	display_message_empty_complex
+}
+
+#label_must_be_created
+system_pkg_any_rust_cargo_software_install(){
+	display_message_warning_complex "Installing Rust - Cargo $@ software"
+	
+	display_message_empty_complex
+	
+	display_message_success_complex "Rust - Cargo $@ software(s) has/have been installed"
+}
+
+#label_must_be_created
+system_pkg_any_rust_cargo_software_uninstall(){
+	display_message_warning_complex "Uninstalling Rust - Cargo $@ software"
+
+	display_message_empty_complex
+		
+	display_message_success_complex "Rust - Cargo $@ software(s) has/have been uninstalled"
+}
+
+#############################
+#System package manager - SNAP
+#############################
+
+#label_must_be_created
+system_pkg_any_snap_repository_add(){
+	display_message_warning_complex "Adding Snap $@ repository"
+
+	display_message_empty_complex
+
+	display_message_success_complex "Snap $@ repository has been added"
+}
+
+#label_must_be_created
+system_pkg_any_snap_repository_remove(){
+	display_message_warning_complex "Removing Snap $@ repository"
+	
+	display_message_empty_complex
+	
+	display_message_success_complex "Snap $@ repository has been added"
+}
+
+system_pkg_any_snap_repository_syncronize(){
+	display_message_warning_complex "Syncronizing Snap $@ repository"
+	
+	utils_check_if_user_has_root_previledges
+
+    case $DEBUG in
+		"false") snap update ;;
+		"true") snap update -y ;;
+	esac
+		
+	display_message_success_complex "Snap $@ repository has been syncronized"
+}
+
+system_pkg_any_snap_software_install(){
+	display_message_warning_complex "Installing Snap $@ software"
+	
+	utils_check_if_user_has_root_previledges
+
+    case $DEBUG in
+		"false") snap install $@ ;;
+		"true") snap install -y $@ ;;
+	esac
+		
+	display_message_success_complex "Snap $@ software(s) has/have been installed"
+}
+
+system_pkg_any_snap_software_list(){
+	display_message_warning_complex "Listing Snap softwares"
+
+	snap list
+}
+
+system_pkg_any_snap_software_uninstall(){
+	display_message_warning_complex "Uninstalling Snap $@ software"
+	
+	utils_check_if_user_has_root_previledges
+
+	case $DEBUG in
+		"false") snap remove $@ ;;
+		"true") snap remove -y $@ ;;
+	esac
+	
+	display_message_success_complex "Snap $@ software(s) has/have been uninstalled"
+}
+
+#############################
+#System package manager platform any
+#############################
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_any_software_install_platform_asdf(){
+    display_message_warning_complex "Installing ASDF platform"
+
+    local FILE_PATH="$1" #/etc/skel/.asdf or $HOME/.asdf
+
+	#Install ASDF
+	git clone https://github.com/asdf-vm/asdf.git $FILE_PATH --branch v0.9.0
+	
+	#BASH
+	#string_write_exclusive_line_on_a_file "source $FILE_PATH/asdf.sh" "$HOME/.bashrc"
+	#string_write_exclusive_line_on_a_file "source $FILE_PATH/completions/asdf.bash" "$HOME/.bashrc"
+	
+	#ZSH
+	#string_write_exclusive_line_on_a_file "source $FILE_PATH/asdf.sh" "$HOME/.zshrc"
+	#string_write_exclusive_line_on_a_file "source $FILE_PATH/completions/asdf.bash" "$HOME/.zshrc"
+
+	#Uninstall ASDF
+	#rm -rf $FILE_PATH/ $HOME/.tool-versions
+
+    display_message_success_complex "ASDF platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_any_software_install_platform_distrobox(){
+    display_message_warning_complex "Installing DistroBox setup"
+		
+	curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/install | sudo sh
+	
+	display_message_success_complex "DistroBox setup has been installed"
+}
+
+system_pkg_any_software_install_platform_dropbox(){
+    display_message_warning_complex "Installing Dropbox platform"
+    
+    case $(utils_check_architecture) in
+        "32-bits")
+            utils_download_file "https://www.dropbox.com/download?plat=lnx.x86" "$HOME/"
+			utils_extract_file_tar "$HOME/'download?plat=lnx.x86'"
+			utils_remove_file 'download?plat=lnx.x86'
+			;;
+        "64-bits")
+            utils_download_file "https://www.dropbox.com/download?plat=lnx.x86_64" "$HOME/"
+			utils_extract_file_tar "$HOME/'download?plat=lnx.x86_64'"
+			utils_remove_file 'download?plat=lnx.x86_64'
+			;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_warning_complex "Execute daemon	(this process is going to open a DropBox web site on user default browser to authenticate an existing account)"
+	$HOME/.dropbox-dist/dropboxd
+
+	display_message_warning_complex "Script for controlling DropBox from command line interface (CLI)."
+	
+	#Download the DropBox command line interface script
+	utils_download_file "https://www.dropbox.com/download?dl=packages/dropbox.py" "$HOME/.dropbox-dist/"
+
+	#display_message_warning_complex ""
+	
+	#if [[ ! -d $HOME/.dropbox-dist/ ]]; then
+		#python3 $HOME/dropbox.py start -i
+	#else
+		#python3 $HOME/dropbox.py start
+	#fi
+	
+	#Give executable permission to DropBox command line interface script
+	system_permission_set_executable $HOME/.dropbox-dist/dropbox.py
+	
+	#Create symbolic link for DropBox command line interface script
+	utils_path_directory_create "$HOME/bin/"
+
+	utils_symbolic_link_create \
+		"$HOME/.dropbox-dist/dropbox.py" \
+		"$HOME/bin/dropbox-cli"
+
+	#Useful commands
+	#dropbox-cli status
+	#dropbox-cli autostart y
+	#dropbox-cli running
+	#dropbox-cli start
+	#dropbox-cli start -i
+	#dropbox-cli status
+
+    display_message_success_complex "Dropbox platform has been installed"
+}
+
+system_pkg_any_software_install_platform_joplin(){
+    display_message_warning_complex "Installing Joplin platform"
+    
+    wget -O - https://raw.githubusercontent.com/laurent22/joplin/dev/Joplin_install_and_update.sh | bash
+
+    display_message_success_complex "Joplin platform has been installed"
+}
+
+system_pkg_any_software_install_platform_lf(){
+    display_message_warning_complex "Installing LF platform"
+
+    cd /tmp/
+    utils_download_file "https://github.com/gokcehan/lf/releases/download/r26/lf-linux-amd64.tar.gz" "/tmp/"
+	utils_extract_file_tar "/tmp/lf-linux-amd64.tar.gz"
+    cd -
+
+	utils_move_file "/tmp/lf" "/usr/local/bin/lf"
+	utils_remove_file "/tmp/lf-linux-amd64.tar.gz"
+    
+    display_message_success_complex "LF platform has been installed"
+}
+#label_must_be_tested
+system_pkg_any_software_install_platform_oh_my_posh(){
+    display_message_warning_complex "Installing Oh-My-Posh! platform"
+    
+    utils_download_file "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64" "/usr/local/bin/oh-my-posh"
+	system_permission_set_executable "/usr/local/bin/oh-my-posh"
+
+	utils_path_directory_create /etc/skel/.poshthemes
+	utils_download_file "https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/themes.zip" "/etc/skel/.poshthemes/"
+	utils_extract_file_zip "/etc/skel/.poshthemes/themes.zip" "/etc/skel/.poshthemes"
+    utils_remove_file "/etc/skel/.poshthemes/themes.zip"
+	chmod u+rw /etc/skel/.poshthemes/*.json
+
+    display_message_success_complex "Oh-My-Posh! platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+#CHECK ASDF IS INSTALLED
+system_pkg_any_software_install_platform_node(){
+    display_message_warning_complex "Installing Node platform"
+    
+    #Install NodeJS plugin
+	system_pkg_any_asdf_repository_add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+
+	#List all NodeJS plugins available
+	system_pkg_any_asdf_software_list all nodejs
+
+	#Install NodeJS versions
+	#system_pkg_any_asdf_software_install nodejs latest
+	system_pkg_any_asdf_software_install nodejs lts
+
+	#Set NodeJS environment
+	asdf global nodejs lts
+	#asdf local nodejs latest #Your current working directory
+
+	#Check if NodeJS version
+	nodejs --version
+    
+    display_message_success_complex "Node platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_any_software_install_platform_paru(){
+    utils_check_if_user_has_root_previledges
+
+    display_message_warning_complex "Installing package manager setup"
+
+    case $(system_pkg_check_package_manager) in
+        "apk") display_message_empty_complex ;;
+        "apt") display_message_empty_complex ;;
+        "aur")
+            #Installing Paru
+            utils_path_directory_create "$HOME/compilation/"
+            git clone https://aur.archlinux.org/paru.git $HOME/compilation/paru
+
+            cd $HOME/compilation/paru/
+            makepkg -si
+            cd -
+            ;;
+        "dnf") display_message_empty_complex ;;
+        "emerge") display_message_empty_complex ;;
+        "pacman") display_message_empty_complex ;;
+        "slackpkg") display_message_empty_complex ;;
+        "yum") display_message_empty_complex ;;
+        "zypper") display_message_empty_complex ;;
+        *) display_message_error_complex "Package manager has not been found." ;;
+    esac
+
+	display_message_success_complex "Package manager setup has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_any_software_install_platform_tpm(){
+    local FILE_PATH="$1"
+
+    display_message_warning_complex "Installing Tmux Plugin Manager (TPM) platform"
+	
+	git clone https://github.com/tmux-plugins/tpm $FILE_PATH/.tmux/plugins/tpm
+	
+    display_message_success_complex "Tmux Plugin Manager (TPM) platform has been installed"
+}
+
+#label_must_be_tested
+system_pkg_any_software_install_platform_vundle(){
+    local FILE_PATH="$1"
+
+    display_message_warning_complex "Installing Vundle Vim platform"
+
+    #Install Vundle-Vim
+    git clone https://github.com/VundleVim/Vundle.vim.git $FILE_PATH/.vim/bundle/Vundle.vim
+
+    #Download custom Vimrc
+    utils_download_file "https://raw.githubusercontent.com/henrikbeck95/dotfiles/development/compiled/.vimrc" "$FILE_PATH/"
+    
+    #Install Vim plugins
+    vim +PluginInstall +qall
+
+    display_message_success_complex "Vundle Vim platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_any_software_install_platform_yarn(){
+    display_message_warning_complex "Installing Node Yarn platform"
+    
+    display_message_empty_complex
+
+    display_message_success_complex "Node Yarn platform has been installed"
+}
+
+##################################################
+#Creating the following methods
+##################################################
+
+#label_must_be_created
+system_pkg_any_software_install_platform_timeshift(){
+    display_message_warning_complex "Installing Timeshift platform"
+    
+    display_message_success_complex "Timeshift platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_any_software_install_platform_python(){
+    display_message_warning_complex "Installing ??? platform"
+    
+    display_message_success_complex "??? platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_any_software_install_platform_java(){
+    display_message_warning_complex "Installing ??? platform"
+    
+    display_message_success_complex "??? platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_any_software_install_platform_rust(){
+    display_message_warning_complex "Installing ??? platform"
+    
+    display_message_success_complex "??? platform has been installed"
+}
+
+#############################
+#System package manager platform default
+#############################
+
+#label_must_be_created
+system_pkg_default_software_install_platform_alsa(){
+    display_message_warning_complex "Installing ALSA platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "ALSA platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_amd(){
+    display_message_warning_complex "Installing AMD graphical card platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") system_pkg_default_software_install_single xf86-video-amdgpu ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "AMD graphical card platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_aur(){
+    display_message_warning_complex "Installing Aur platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Aur platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_platform_bash(){
+    display_message_warning_complex "Installing Bash shell platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine")
+            system_pkg_default_software_install_single \
+				bash \
+				bash-doc \
+				bash-completion
+			;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Bash shell platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_combo_battery(){
+    display_message_warning_complex "Installing combo for battery performance improvement"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                acpi \
+                acpi_call \
+                acpid \
+                tlp
+            
+            system_daemon_enable_later systemctl acpid
+            system_daemon_enable_later systemctl tlp #Improve battery life for laptop.
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Combo for battery performance improvement has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_bluetooth(){
+    display_message_warning_complex "Installing Bluetooth platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                bluez \
+                bluez-utils
+
+            system_daemon_enable_now bluetooth
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Bluetooth platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_platform_cockpit(){
+    display_message_warning_complex "Installing Cockpit platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single
+				cockpit \
+				cockpit-machines \
+				cockpit-pcp \
+				cockpit-podman
+
+			system_pkg_archlinux_aur_software_install \
+				packagekit \
+				pcp \
+				virt-viewer
+
+			#Enabling Systemd process
+            system_daemon_enable_now cockpit.socket
+            system_daemon_enable_now cockpit.pmcd
+            system_daemon_enable_now pmlogger
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+            system_pkg_default_software_install_single \
+                cockpit \
+                cockpit-machines \
+                cockpit-podman \
+                virt-manager
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    cat /etc/systemd/system/cockpit.socker.d/listen.conf
+
+	#Access Cockpit localhost from browser
+	#xdg-open https://localhost:9090/
+    
+    display_message_success_complex "Cockpit platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_cups(){
+    display_message_warning_complex "Installing Cups platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                cups
+                #hplip
+
+            system_daemon_enable_now cups.service
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Cups platform has been installed"
+}
+
+#label_must_be_improved
+#label_must_be_edited
+system_pkg_default_software_install_platform_debtrap(){
+    display_message_warning_complex "Installing Debtrap platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_archlinux_aur_software_install \
+                debtap
+
+            debtap -u
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_success_complex "Debtrap platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_platform_dhcpcd(){
+    display_message_warning_complex "Installing Dhcpcd network interface platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single dhcpcd
+            system_daemon_enable_now dhcpcd
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Dhcpcd network interface platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_deepin(){
+    display_message_warning_complex "Installing Deepin platform"
+
+    system_pkg_default_software_install_platform_xorg
+    system_pkg_default_software_install_platform_lightdm
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                deepin \
+                deepin-extra
+
+            echo "greeter-session=lightdm-deepin-greeter" >> /etc/lightdm/lightdm.conf
+            #echo "display-setup-script=xrandr --output virtual-1 --mode 1920x1080" >> /etc/lightdm/lightdm.conf
+
+            system_daemon_enable_later lightdm.service
+
+            display_message_warning_complex "$MESSAGE_RESTART"
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Deepin platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_docker(){
+    display_message_warning_complex "Installing Docker platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            #Installation
+            system_pkg_default_software_install_single \
+                docker \
+                docker-compose
+
+            #Enabling
+            system_daemon_enable_now "docker"
+
+            #Checking version
+            docker --version
+
+            #Removing sudo requirement
+            #getent group docker && sudo gpasswd -a $(whoami) docker && echo -e "\n***Log out and then login to apply the changes or restart the operating system***\n"
+
+            display_message_warning_complex "$MESSAGE_RESTART"
+
+            #Verify that you can run docker commands without sudo
+            #docker run hello-world
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_success_complex "Docker platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_platform_flatpak(){
+    display_message_warning_complex "Installing Flatpak platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") system_pkg_default_software_install_single flatpak ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_success_complex "Installed by default" ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_success_complex "Flatpak platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_gnome(){
+    display_message_warning_complex "Installing Gnome platform"
+
+    system_pkg_default_software_install_platform_wayland
+    
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                gdm \
+                gnome \
+                gnome-center-control \
+                gnome-extra \
+                gnome-tweaks
+
+            system_daemon_enable_later gdm
+
+            display_message_warning_complex "$MESSAGE_RESTART"
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            system_pkg_default_software_install_single \
+		        gnome-tweak-tool \
+                gnome-tweaks
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Gnome platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_i3(){
+    display_message_warning_complex "Installing i3 platform"
+
+    system_pkg_default_software_install_platform_xorg
+    system_pkg_default_software_install_platform_i3lock
+    #system_pkg_default_software_install_platform_ly
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                i3 \
+                dmenu \
+                feh \
+                lxappearance \
+                nitrogen \
+                polybar \
+                rofi
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+            system_pkg_default_software_install_single \
+                i3 \
+                i3-gaps \
+                feh \
+                lxappearance \
+                polybar \
+                rofi \
+                cava \
+                gnome-center-control \
+                network-manager-gnome \
+                ubiquity
+
+            #Cava
+            sudo add-apt-repository ppa:hsheth2/ppa
+            system_pkg_default_software_install_single update
+            system_pkg_default_software_install_single install cava
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "i3 platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_i3lock(){
+    display_message_warning_complex "Installing i3-Lock platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") system_pkg_default_software_install_single i3-lock ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "i3-Lock platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_intel(){
+    display_message_warning_complex "Installing Intel graphical card platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") system_pkg_default_software_install_single xf86-video-intel ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Intel graphical card platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_lightdm(){
+    display_message_warning_complex "Installing LightDM platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine")
+            system_pkg_default_software_install_single lightdm-gtk-greeter
+            
+            #rc-service lightdm start && rc-update add lightdm
+            system_daemon_enable_now "lightdm"
+            ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                gnome-disk-utility \
+                lightdm \
+                lightdm-gtk-greeter \
+                lightdm-gtk-greeter-settings
+
+            #system_daemon_enable_later lightdm.service -f
+            system_daemon_enable_later lightdm.service
+            systemctl set-default graphical.target
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "LightDM platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_ly(){
+    display_message_warning_complex "Installing Ly platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            git clone https://aur.archlinux.org/ly
+                cd ./ly/
+                makepkg -si
+                
+            system_daemon_enable_later ly.service
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Ly platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_nvidia(){
+    display_message_warning_complex "Installing Nvidia graphical card platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                nvidia \
+                nvidia-utils \
+                nvidia-settings
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Nvidia graphical card platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_pipewire(){
+    display_message_warning_complex "Installing Pipewire platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                    pipewire \
+                    pipewire-alsa \
+                    pipewire-pulse \
+                    pipewire-jack
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Pipewire platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_plasma(){
+    display_message_warning_complex "Installing KDE Plasma platform"
+
+    system_pkg_default_software_install_platform_xorg
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                sddm \
+                plasma \
+                materia-kde
+                #kde-applications
+
+            #For Wayland
+            #system_pkg_default_software_install_single plasma-wayland-session
+
+            system_daemon_enable_later sddm
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_warning_complex "$MESSAGE_RESTART"
+    
+    display_message_success_complex "KDE Plasma platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_podman(){
+    display_message_warning_complex "Installing Podman platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine")
+            system_pkg_default_software_install_single \
+				podman \
+				fuse-overlayfs \
+				shadow \
+				slirp4netns
+
+            modprobe tun
+            
+            useradd -mG wheel $QUESTION_USERNAME
+            passwd $QUESTION_USERNAME
+
+            usermod --add-subuids 100000-165535 $QUESTION_USERNAME
+            usermod --add-subgids 100000-165535 $QUESTION_USERNAME
+            
+            podman system migrate
+            podman run --rm hello-world
+            
+            #buildah buildah-doc
+            ;;
+        "archlinux")
+            utils_edit_file "/etc/default/grub"
+            #Edit the line: GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet video=1920x1080 cgroup_no_v1 "all""
+
+            grub-mkconfig -o /boot/grub/grub.cfg
+            display_message_warning_complex "$MESSAGE_RESTART"
+
+            system_pkg_default_software_install_single \
+                buildah \
+				catatonit \
+                crun \
+                podman
+
+                #cgroups
+
+            system_daemon_enable_now podman.socket
+
+            ##Check the value of the Podman previledges
+            # case $(sysctl kernel.unprivileged_userns_clone) in
+            # 	0) 
+            # 	1) 
+            # 	*) display_message_error_complex "" ;;
+            # esac
+
+            #Rootless
+            touch /etc/{subuid,subgid}
+
+            usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $QUESTION_USERNAME
+            grep $QUESTION_USERNAME /etc/subgid /etc/subuid
+            
+            #Testing - start
+            echo -e "$QUESTION_USERNAME:100000:65536" > /etc/subuid
+            echo -e "$QUESTION_USERNAME:100000:65536" > /etc/subgid
+
+            echo -e "buildah:100000:65536" >> /etc/subuid
+            echo -e "buildah:100000:65536" >> /etc/subgid
+            #Testing - end
+            
+            #Check if everything is set up rightly
+            utils_edit_file "/etc/subgid" "/etc/subuid"
+
+            #Propagate changes to subuid and subgid
+            podman system migrate
+
+            #display_message_warning_complex "$MESSAGE_RESTART"
+
+            #sudo dnf install -y podman-docker
+
+            ##############################
+            #Podman Ngnix example
+            ##############################
+            #
+            #man podman
+            #podman search nginx
+            #podman pull docker.io/library/nginx
+            #podman images
+            #podman run -dt 
+            #sudo mkdir -p /web/
+            #podman run -d -v /web/:/usr/share/nginx/html -p 8080:80/tcp nginx
+            #podman ps
+            #
+            ##############################
+            #Create a webpage, access it passthrought the firewall
+            ##############################
+            #
+            #chown $QUESTION_USERNAME: /web/
+            #echo -e "Hello world from the container" > /web/index.html
+            #sudo firewall-cmd --add-port=8080/tcp
+            #xgd-open http://localhost:8080
+            #sudo firewall-cmd --add-port=8080/tcp --permanent
+            #
+            ##############################
+            #Create a systemd instance for persistenting the container after reboot
+            ##############################
+            #
+            #sudo loginctl enable-linger $QUESTION_USERNAME
+            #loginctl user-status $QUESTION_USERNAME
+            #mkdir -p $HOME/.config/systemd/user/
+            #cd $HOME/.config/systemd/user/
+            #podman generate systemd --name <container_name> --files
+            #systemctl --user daemon-reload
+            #systemctl --user enable <container_name>
+            #display_message_warning_complex "$MESSAGE_RESTART"
+            #
+            ##############################
+            #Disable a systemd instance
+            ##############################
+            #
+            #podman ps
+            #systemctl --user status <container_name>
+            #systemctl --user disable --now <container_name>
+            #podman ps
+            #podman ps -a
+            #
+            ##############################
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_success_complex "Podman platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_pulseaudio(){
+    display_message_warning_complex "Installing PulseAudio platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                alsa-utils \
+                pavucontrol \
+                pulseaudio
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "PulseAudio platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+#MUST BE IMPLEMENTED SED CUT FUNCTION
+system_pkg_default_software_install_platform_openssh(){
+    display_message_warning_complex "Installing OpenSSH connection support platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single openssh
+            system_daemon_enable_now sshd.service
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") system_pkg_default_software_install_single openssh-server ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") system_pkg_default_software_install_single openssh-client ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    utils_edit_file "/etc/ssh/sshd_config" #Uncomment the port 22
+
+    #display_message_default "Change Root password"
+	#passwd root
+	
+	#display_message_default "Get the ip address"
+	#ip addr
+	
+	display_message_default "Auxiliar machine\n	
+	For rightly configuring the another PC with Linux, follow the steps below:
+	
+	$ sudo apt install openssh-client
+	$ ssh -l <username> <ip_address>
+	or $ ssh root@<ip_address>
+	or $ ssh-keygen -f \"/home/your_user/.ssh/known_hosts\" -R \"192.168.1.221\""
+    
+    display_message_success_complex "OpenSSH connection support platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+#label_must_be_fixed
+system_pkg_default_software_install_platform_snap(){
+    display_message_warning_complex "Installing Snap platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single snapd
+
+            #Enabling the Snap core on systemd
+            system_daemon_enable_now snapd.socket
+
+            display_message_warning_complex "$MESSAGE_RESTART"
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            #Install Snap runtime
+            system_pkg_default_software_install_single snapd
+
+            #Create a symbolic link to root directory
+            sudo ln -s /var/lib/snapd/snap /snap
+            #sudo rm -f /snap
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_success_complex "Snap platform has been installed"
+}
+
+#label_must_be_improved
+#label_must_be_fixed
+system_pkg_default_software_install_platform_virtmanager(){
+    display_message_warning_complex "Installing Virt-Manager platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            #label_must_be_fixed
+            
+			utils_check_if_virtualization_is_enabled
+
+            #Virt-Manager
+            #The Ebtables is an internet brigde software
+
+            system_pkg_default_software_install_single \
+                bridge-utils \
+                dnsmasq \
+                ebtables \
+                libvirt \
+                openbsd-netcat \
+                qemu \
+                virt-manager
+
+                #iptables \
+                #vde2 \
+                #virt-viewer
+            
+            #system_pkg_archlinux_aur_software_install \
+                #libguestfs
+
+            #Setting specific permission
+            echo -e 'unix_sock_group = "libvirt"' > /etc/libvirt/libvirtd.conf
+            echo -e 'unix_sock_rw_perms = "0770"' > /etc/libvirt/libvirtd.conf
+            #utils_edit_file /etc/libvirt/libvirtd.conf
+
+            #Enabling Systemd process
+            system_daemon_enable_now libvirtd.service
+            system_daemon_enable_now dnsmasq.service
+
+            #Add user to the following groups
+            gpasswd -a $QUESTION_USERNAME libvirt
+            usermod -G libvirt -a $QUESTION_USERNAME
+            usermod -aG libvirt $QUESTION_USERNAME
+
+            #Create a virtual machine
+            #qemu-img convert -f vdi -O qcow2 Ubuntu\ 20.04.vdi /var/lib/libvirt/images/ubuntu-20-04.qcow2
+
+            #virsh net-dumpxml default > br1.xml
+            #utils_edit_file br1.xml
+
+            display_message_warning_complex "$MESSAGE_RESTART"
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            tools_display_message_warning_complex "Virtual machine"
+            
+            utils_check_if_virtualization_is_enabled
+
+            system_pkg_default_software_install_single @virtualization
+
+            #Alternatively, to install the mandatory, default, and optional packages, run:
+            system_pkg_default_software_install_group virtualization
+
+            #Enable Systemd service
+            system_daemon_enable_now libvirtd
+
+            #To verify that the KVM kernel modules are properly loaded:
+            lsmod | grep kvm
+            #If this command lists kvm_intel or kvm_amd, KVM is properly configured.
+            #kvm_amd               114688  0
+            #kvm                   831488  1 kvm_amd
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+            system_pkg_default_software_install_single \
+                qemu-kvm \
+                qemu \
+                libvirt-bin \
+                virt-manager \
+                virt-viewer
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Virt-Manager platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_virtualbox(){
+    display_message_warning_complex "Installing VirtualBox platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "VirtualBox platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_wayland(){
+    display_message_warning_complex "Installing Wayland platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Wayland platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_xdg(){
+    display_message_warning_complex "Installing XDG platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                xdg-user-dirs \
+                xdg-utils
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "XDG platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_platform_xfce(){
+    display_message_warning_complex "Installing XFCE platform"
+
+    system_pkg_default_software_install_platform_xorg
+    system_pkg_default_software_install_platform_lightdm
+
+    case $(utils_check_operating_system_name) in
+        "alpine")
+            system_pkg_default_software_install_single \
+                xfce4 \
+                xfce4-terminal \
+                xfce4-screensaver
+                #lightdm-gtk-greeter
+
+            #rc-service dbus start && rc-update add dbus
+            system_daemon_enable_now "dbus"
+
+            startx
+            ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                lightdm \
+                lightdm-gtk-greeter \
+                lightdm-gtk-greeter-settings \
+                xfce4 \
+                xfce4-goodies
+
+            system_daemon_enable_later lightdm
+
+            display_message_warning_complex "$MESSAGE_RESTART"
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "XFCE platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_xorg(){
+    display_message_warning_complex "Installing X.org platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") system_pkg_default_software_install_single xorg ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "X.org platform has been installed"
+}
+
+#label_must_be_tested
+#label_must_be_improved
+system_pkg_default_software_install_platform_zsh(){
+    display_message_warning_complex "Installing ZSH shell platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine")
+            system_pkg_default_software_install_single \
+				zsh \
+				zsh-doc
+
+			#Find username and change the default shell from /bin/ash to /bin/zsh
+			utils_edit_file /etc/passwd
+			echo $SHELL
+
+			#Check the responsible files whose managing the shells
+			utils_edit_file \
+				/etc/login.defs \
+				/etc/default/useradd
+			;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                zsh \
+                zsh-autosuggestions \
+                zsh-syntax-highlighting \
+                zsh-completions
+
+            #Set ZSH as default shell
+            echo -e $SHELL
+            cat /etc/shells
+            chsh -s /usr/bin/zsh
+            display_message_warning_complex "$MESSAGE_RESTART"
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "ZSH shell platform has been installed"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#label_must_be_created
+system_pkg_default_software_install_platform_codecs(){
+    display_message_warning_complex "Installing Codecs platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            utils_check_if_user_has_root_previledges
+
+            #Firefox
+            dnf config-manager --set-enabled fedora-cisco-openh264
+            
+            system_pkg_default_software_install_single \
+                gstreamer1-plugin-openh264 \
+                mozilla-openh264 \
+                openh264 \
+		        openh264-devel
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Codecs platform has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_platform_drivers(){
+    display_message_warning_complex "Installing Drivers platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora") display_message_empty_complex ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Drivers platform has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_combo_repository_free(){
+    display_message_warning_complex "Installing combo free repositories"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            #Add RedHat Package Manager Fusion free repository
+            system_pkg_default_software_install_single \
+                https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+            
+            #system_pkg_default_software_install_single \
+                #https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+            
+            #sudo dnf groupupdate core
+            #sudo dnf groupupdate Multimedia            
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    system_pkg_default_repository_syncronize
+    
+    display_message_success_complex "Combo free repositories has been installed"
+}
+
+#label_must_be_improved
+system_pkg_default_software_install_combo_repository_nonfree(){
+    display_message_warning_complex "Installing combo non-free repositories"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            #Add RedHat Package Manager Fusion non-free repository
+	        system_pkg_default_software_install_single --nogpgcheck \
+                http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+            #system_pkg_default_software_install_single \
+                #https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    system_pkg_default_repository_syncronize
+
+    display_message_success_complex "Combo non-free repositories has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_combo_essential(){
+    display_message_warning_complex "Installing combo for essential softwares"
+
+    case $(utils_check_operating_system_name) in
+        "alpine")
+            system_pkg_default_software_install_single \
+                alpine-sdk \
+                curl \
+                htop \
+                less \
+                less-doc \
+                libuser \
+                man-db \
+                man-pages \
+                neofetch
+                networkmanager \
+                pcutils \
+                util-linux \
+                xf86-video-intel \
+                xf86-input-mouse \
+                xf86-input-keyboard \
+                xf86-input-synaptics \
+                kdb \
+                setxkbmap \
+                udisks2 \
+                udisks2-dev \
+                udisks2-doc \
+                vim \
+                wget
+            ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                bash-completion \
+                ffmpeg \
+                git \
+                htop \
+                jq \
+                linux-lts \
+                lsb-release \
+                netcat \
+                ntfs-3g \
+                numlockx \
+                pv \
+                subversion \
+                tmux \
+                tree \
+                unrar \
+                unzip \
+                wget
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+	        system_pkg_default_software_install_single \
+		        ffmpeg \
+                git \
+                htop \
+                svn \
+                tree \
+                vim \
+                unrar
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+            system_pkg_default_software_install_single \
+                build-essential \
+                curl \
+                ffmpeg \
+                git \
+                gnupg2 \
+                htop \
+                jq \
+                pciutils \
+                subversion \
+                unrar \
+                util-linux \
+                vim \
+                wget
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Combo for essential softwares has been installed"
+}
+
+#label_must_be_created1
+system_pkg_default_software_install_combo_games(){
+    display_message_warning_complex "Installing combo for playing games"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux") display_message_empty_complex ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            #Add Steam repository
+            sudo dnf config-manager --set-enabled rpmfusion-nonfree-steam
+
+            #Install Steam application
+            system_pkg_default_software_install_single \
+                dolphin-emulator \
+                rpcs3 \
+                steam
+
+                #epic-games \
+                #kinect \
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+	        system_pkg_default_software_install_single \
+                lutris
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+
+    display_message_success_complex "Combo for playing games has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_combo_security(){
+    display_message_warning_complex "Installing combo for security softwares"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                firejail \
+                firewalld
+
+                #gufw #Firewall
+
+            system_daemon_enable_later firewalld            
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            system_pkg_default_software_install_single \
+                firejail
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu") display_message_empty_complex ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Combo for security softwares has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_combo_useful(){
+    display_message_warning_complex "Installing combo for useful softwares platform"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                alacritty \
+                ark \
+                gparted
+
+                #arandr \
+                #archlinux-wallpaper \
+                #cheese \
+                #deepin-screenshot \
+                #dolphin \
+                #gestures \
+                #go \
+                #google-earth \
+                #gthumb \
+                #nautilus \
+                #nmap \
+                #rsync \
+                #scrot \
+                #simplescreenrecorder \
+                #spectacle \
+                #xorg-xrandr \
+
+                #timeshift \
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            system_pkg_default_software_install_single \
+		        alien \
+                ark \
+		        gparted \
+                redshift
+                
+                #cheese \
+                #dconf-editor \
+                #ghostwriter \
+                #chrome-gnome-shell \
+                #libreoffice-langpack-pt-BR \
+                #multitail \
+                #pdfmod \
+                #simplescreenrecorder \
+                #scrot \
+                #shutter \
+
+                #sudo dnf install https://staruml.io/download/releases-v4/StarUML-4.1.6.x86_64.rpm
+	            #sudo dnf remove staruml
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+            system_pkg_default_software_install_single \
+                gparted \
+                redshift \
+                yad
+
+                #cpu-checker \
+                #spectacle \
+                #virt-manager \
+
+                #alsa-base \
+                #alsa-utils \
+                #libsbigudrv2 \
+                #libsbigudrv0 \
+                #linux-sound-base \
+                #linux-headers-`uname -r` \
+                #pavucontrol \
+                
+                #timeshift \
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "Combo for useful softwares has been installed"
+}
+
+#label_must_be_created
+system_pkg_default_software_install_combo_utility(){
+    display_message_warning_complex "Installing combo for utility softwares"
+
+    case $(utils_check_operating_system_name) in
+        "alpine") display_message_empty_complex ;;
+        "archlinux")
+            system_pkg_default_software_install_single \
+                avahi \
+                dnsutils \
+                gvfs \
+                gvfs-smb \
+                inetutils \
+                ipset \
+                nfs-utils \
+                nss-mdns \
+                scrot
+                
+                #sof-firmware
+
+                #net-tools \
+            
+            system_daemon_enable_later avahi-daemon
+            ;;
+        "debian") display_message_empty_complex ;;
+        "centos") display_message_empty_complex ;;
+        "fedora")
+            system_pkg_default_software_install_single \
+                ImageMagick \
+		        ImageMagick-perl
+
+            #Enable VirtualBox copy/cut and paste from the host to the KVM guest 
+            system_pkg_default_software_install_single spice-vdagent
+
+		        #native-fier \
+            ;;
+        "gentoo") display_message_empty_complex ;;
+        "opensuse") display_message_empty_complex ;;
+        "slackware") display_message_empty_complex ;;
+        "ubuntu")
+            system_pkg_default_software_install_single \
+                scrot
+
+            #Enable VirtualBox copy/cut and paste from the host to the KVM guest 
+            system_pkg_default_software_install_single spice-vdagent
+
+            ;;
+        *) display_message_error_complex "???" ;;
+    esac
+    
+    display_message_success_complex "combo for utility softwares has been installed"
+}
+
+#############################
+#System power
+#############################
+
+#label_must_be_improved
+system_power_hibernate(){
+    system_power_lock
+    systemctl hibernate
+}
+#label_must_be_improved
+system_power_lock(){
+    xdg-screensaver lock
+    #lock # i3lock
+    #i3lock -n --color '#0a81f5'
+}
+
+#label_must_be_improved
+system_power_logout(){
+    loginctl terminate-user $username || i3-msg exit
+
+    #loginctl terminate-session <id>
+    #gnome-session-quit
+}
+
+#label_must_be_improved
+system_power_reboot(){
+	reboot || systemctl reboot
+}
+
+#label_must_be_improved
+system_power_shutdown_cancel(){
+    display_message_warning_complex "Operating system shutdown has been canceled!"
+
+    shutdown -c
+}
+
+#label_must_be_improved
+system_power_shutdown_now(){
+    poweroff || shutdown || systemctl poweroff
+}
+
+system_power_shutdown_time(){
+	local QUESTION_TIME
+
+    while true; do
+        read -p "Informe how many minutes you want to wait for shutting down the operating system: " QUESTION_TIME #Try: 5
+
+        case $QUESTION_TIME in
+            "") display_message_default_complex "Please, answer the question for proceduring." ;;
+            *) break ;;
+        esac
+    done
+
+    display_message_warning_complex "Operating system is up $QUESTION_TIME to be shutted down!"
+
+    shutdown -h +$QUESTION_TIME
+}
+
+##label_must_be_improved
+system_power_suspend(){
+    system_power_lock
+    systemctl suspend
+    #loginctl suspend
+}
+
+#label_must_be_improved
+system_power_reload_desktop_environment(){
+    i3 restart
+}
+
+system_sessions_list(){
+    loginctl list-sessions
+}
+
+system_sessions_kill(){
+    local VALUE_SESSION_ID=$1
+    
+    loginctl terminate-session $VALUE_SESSION_ID
+}
+
+#############################
+#Time current
+#############################
+
+time_get_current_name_month_full(){
+    date '+%B' #março
+}
+
+time_get_current_name_month_short(){
+    date '+%b' #mar
+}
+
+time_get_current_name_day_of_week(){
+    date '+%A' #domingo
+}
+
+time_get_current_value_day_of_month(){
+    date '+%d' #20
+}
+
+time_get_current_value_day_of_week(){
+    date '+%u' #7
+}
+
+time_get_current_value_day_of_year(){
+    date '+%j' #079
+}
+
+time_get_current_value_minutes(){
+    date '+%M' #17
+}
+
+time_get_current_value_month(){
+    date '+%m' #03
+}
+
+time_get_current_value_nanoseconds(){
+    date '+%N' #818551900
+}
+
+time_get_current_value_year_full(){
+    date '+%Y' #2022
+}
+
+time_get_current_value_year_short(){
+    date '+%y' #22
+}
+
+time_get_current_value_hour_clock_12(){
+    date '+%I' #08
+}
+
+time_get_current_value_hour_clock_24(){
+    date '+%H' #08
+}
+
+time_get_current_value_now_full(){
+    date '+%Y_%m_%d-%H_%M_%S' #2022_03_20-08_06_38
+}
+
+time_get_current_value_now_short(){
+    date '+%H_%M_%S' #08_06_38
+}
+
+time_get_current_value_now_timestamp(){
+    time_get_current_value_seconds_utc
+}
+
+time_get_current_value_seconds_clock(){
+    date '+%S' #43
+}
+
+time_get_current_value_seconds_utc(){
+    date '+%s' #1647774171
+}
+
+time_get_current_value_week_of_year_first_day_as_monday(){
+    date '+%V' #11
+}
+
+time_get_current_value_week_of_year_first_day_as_sunday(){
+    date '+%U' #12
+}
+
+#############################
+#Time formatted
+#############################
+
+time_get_formatted_date_hour_short_with_slash(){
+    date '+%Y/%m/%d %H:%M:%S' #2022/03/20 08:06:38
+}
+
+time_get_formatted_date_hour_short_with_hiphen(){
+    date '+%Y-%m-%d %H:%M:%S' #2022-03-20 08:06:38
+}
+
+time_get_formatted_hour_date_full_with_slash(){
+    date '+%H:%M:%S %d/%m/%Y' #08:06:38 20/03/2022
+}
+
+time_get_formatted_hour_date_full_with_hiphen(){
+    date '+%H:%M:%S %d-%m-%Y' #08:06:38 20-03-2022
+}
+
+time_get_formatted_hour_time_with_dots(){
+    date '+%H:%M:%S' #08:06:38
+    #date '+%X' #08:10:51 #locale’s time
+    #date '+%r' #08:24:44 #Display locale’s 12-hour clock time
+    #date '+%T' #08:23:3 #Display time only
+}
+
+time_get_formatted_hour_time_with_undescore(){
+    date '+%H_%M_%S' #08_06_38
+}
+
+time_get_formatted_national_represention(){
+    date '+%c' #dom, 20 de mar de 2022 09:22:03
+}
+
+time_get_formatted_today_full(){
+    date #dom, 20 de mar de 2022 07:54:28
+}
+
+time_get_formatted_today_full_with_hiphen(){
+    date +"%m-%d-%Y" #03-20-2022
+}
+
+time_get_formatted_today_full_with_slash(){
+    date '+%x' #20/03/2022 #locale’s date full
+    #date '+%d/%m/%Y' #20/03/2022
+}
+
+time_get_formatted_today_short_with_hiphen(){
+    date '+%d-%m-%y' #20/03/22
+}
+
+time_get_formatted_today_short_with_slash(){
+    date '+%D' #03/20/22 #locale’s date short
+    #date '+%d/%m/%y' #20/03/22
+}
+
+#############################
+#Time operations
+#############################
+
+time_operation_convert_from_timestamp_to_date(){
+    local VALUE_TIME_TIMESTAMP=$1
+
+    date +"%Y-%m-%d %H:%M:%S" -d @${VALUE_TIME_TIMESTAMP} -u
+    #date -d @${VALUE_TIME_TIMESTAMP} -u
+    #date +"%Y-%m-%d %H:%M:%S" -d @1646942739
+    #date -d @1547092066 -u #qui, 10 de jan de 2019 03:47:46
+}
+
+time_operation_convert_from_utc_to_timestamp(){
+    local VALUE_TIME_TIMESTAMP=$1
+
+    date +"%s" -d ${VALUE_TIME_TIMESTAMP}
+    #date +"%s" -d "2022-03-10 21:05:39"
+}
+
+#time_operation_convert_timezone_from_locale_to_utc(){}
+
+#time_operation_convert_timezone_from_utc_to_locale(){
+    #check_if_tz_exists
+    #date -d '2014-06-26 23:00 UTC' #Thu 26 Jun 2014 07:00:00 PM EDT
+    #date -d '23:00 UTC' #Sun 10 Oct 2021 07:00:00 PM EDT
+#}
+
+#You can also convert from other time zones. For example, this command converts from CEST (Central European Summer Time) to local time.
+#$ date -d '2021-06-26 23:00 CEST'
+#Sat 26 Jun 2021 05:00:00 PM EDT
+
+#---
+
+# transform a local time to UTC
+#date -u -d @$(date -d '2019-09-17 19:29:45' +%s) #ter, 17 de set de 2019 22:29:45
+
+#---
+
+#- [ ] Diff date
+
+#'Feb 12 UTC'
+#'Feb 13 UTC'
+#'Feb 12 UTC' +%s
+#'Feb 13 UTC' +%s
+#'Feb 12 UTC' +"%F %T"
+#'Feb 13 UTC' +"%F %T"
+time_operation_compare_(){
+    local VALUE_TIME_DATE_FIRST=$1
+    local VALUE_TIME_DATE_SECOND=$2
+
+    if [[ $(date -d "$VALUE_TIME_DATE_FIRST") < $(date -d "$VALUE_TIME_DATE_SECOND") ]]; then
+        echo "Second Date is more recent than first Date"
+    elif [[ $(date -d "$VALUE_TIME_DATE_FIRST") == $(date -d "$VALUE_TIME_DATE_SECOND") ]]; then
+        echo "Both dates are the same"
+    elif [[ $(date -d "$VALUE_TIME_DATE_FIRST") > $(date -d "$VALUE_TIME_DATE_SECOND") ]]; then
+        echo "First Date is more recent than second Date"
+    else
+        echo "Invalid operation! Check possible syntax error."
+    fi
+}
+
+#time_operation_compare_(){
+#    local VALUE_TIME_DATE_FIRST=$1
+#    local VALUE_TIME_DATE_SECOND=$2
+#}
+
+#time_operation_compare_(){
+#    local VALUE_TIME_DATE_FIRST=$1
+#    local VALUE_TIME_DATE_SECOND=$2
+#}
+
+#"2020-09-01"
+time_operation_list_sequence_generate(){
+    local VALUE_TIME_DATE_BEGIN=$1
+
+    date_seq=($(for i in {1..7}; do echo `date +"%Y/%m/%d" -d "${VALUE_TIME_DATE_BEGIN} +${i} day"`; done))
+    
+    printf "%s\n" ${date_seq[@]}
+}
+
+#'Feb 12 2020 UTC' +%s
+#'Feb 13 2020 UTC' +%s
+time_operation_calculate_diff(){
+    local VALUE_TIME_DATE_FIRST=$1
+    local VALUE_TIME_DATE_SECOND=$2
+
+    #Diff in hours
+    $((($VALUE_TIME_DATE_SECOND - $VALUE_TIME_DATE_FIRST) / 3600))
+}
+
+#[me@linux ~]$ date -d "2020-01-01 $secondDate sec - $firstDate sec" +"%j days %H hours %M minutes and %S seconds"
+#002 days 00 hours 00 minutes and 00 seconds
+#time_operation_calculate_diff(){}
+
+
+#time_operation_search_(){}
+
+#time_operation_search_(){}
+
+#Operations
+#date -d 'last year' #sáb, 20 de mar de 2021 08:03:45
+#date -d '90 days ago' #seg, 20 de dez de 2021 08:07:32
+#date -d 'Feb 12 + 3 day' #ter, 15 de fev de 2022 00:00:00
+#date -d 'Feb 12 + 13 minutes' #sáb, 12 de fev de 2022 00:13:00
+#date -d 'date +%c' #dom, 20 de mar de 2022 08:09:19 #locale’s date time
+
+#Not working
+#date '+%p' #AM #locale’s equivalent of AM or PM
+#date '+%P' #am #same as %p but in lower case
+#date '+%Z' #PDT #Alphabetic time zone abbreviation
+
+#############################
+#Try/catch
+#############################
+
+try(){
+    if [ -z $exception_has_been_thrown ]; then
+        "$@" || exception_has_been_thrown=1
+    fi
+}
+
+catch(){
+    if [ ! -z $exception_has_been_thrown ]; then
+        "$@"
+        false   # If "sh -ex" then exit at this point
+        unset exception_has_been_thrown
+    fi
+}
+
+#alias 'try'='' #Open a subshell
+#alias 'catch'=''
+#alias 'throw'='echo'
+
+#try echo "Trying 1..."
+#catch echo "Catching 1..."
+
+#try echa "Trying 2..."
+#catch echo "Catching 2..."
+
+#try echo "Trying 3..."
+#catch echo "Catching 3..."
+
+#try echa "Trying 4..."
+#catch echo "Catching 4..."
+
+#############################
+#Utilities
+#############################
+
+utils_browser_open_url(){
+	display_message_warning_complex "Opening $@ from $BROWSER browser software"
+
+	xdg-open $@ &
+}
+
+#label_must_be_improved
+utils_check_architecture(){
+    #case $($ARCHITECTURE) in
+    case $(getconf LONG_BIT) in
+		"32") echo "32-bits" ;;
+		"64") echo "64-bits" ;;
+		*) display_message_error_complex "" ;;
+	esac
+}
+
+#label_must_be_created
+#utils_check_if_device_is_desktop(){}
+
+#label_must_be_created
+#utils_check_if_device_is_mobile(){}
+
+#label_must_be_created
+#utils_check_if_device_is_laptop(){}
+
+utils_check_if_file_exists(){
+    local VALUE_PATH_FILE="$1"
+
+    if [[ -f $VALUE_PATH_FILE ]]; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+utils_check_if_folder_exists(){
+    local VALUE_PATH_FOLDER="$1"
+
+    if [[ -d $VALUE_PATH_FOLDER ]]; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+utils_check_if_firmware_supports_uefi(){
+	#if [ -z "$(ls -A /sys/firmware/efi/efivars)" ]; then
+	if [ -z "$(ls -A /sys/firmware/efi/efivars 2>&1 /dev/null)" ]; then
+		display_message_default_simple "false"
+	else
+		display_message_default_simple "true"
+	fi
+}
+
+utils_check_if_function_exists(){
+    local FUNCTION_NAME=$1
+    
+    #declare -F "$1" > /dev/null;
+	
+	#declare -f -F "$1" > /dev/null
+    #return $?
+
+    if [[ $(declare -F "$FUNCTION_NAME") ]]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+utils_check_if_internet_connection_exists(){
+    display_message_warning_complex "GET http://google.com HTTP/1.0\n\n" | nc google.com 80 > /dev/null 2>&1
+
+    if [ $? -eq 0 ]; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+utils_check_if_path_is_inside_git_project_anywhere(){
+    local PATH_FOLDER=$1
+
+    cd $PATH_FOLDER
+
+    local RESULT="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+    
+    if [ "$RESULT" == "true" ]; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+
+    cd -
+}
+
+utils_check_if_path_is_inside_git_project_root(){
+    #utils_check_if_path_is_inside_git_project_root "/etc/"
+    #utils_check_if_path_is_inside_git_project_root "$HOME/"
+    #utils_check_if_path_is_inside_git_project_root "$HOME/.asdf/"
+    #utils_check_if_path_is_inside_git_project_root "$HOME/.asdf/downloads/java/"
+
+    local PATH_FOLDER=$1
+
+    cd $PATH_FOLDER
+
+    #Remove last / character if user has set it
+    if [[ $(string_get_content_character_last "$PATH_FOLDER") == "/" ]]; then
+        PATH_FOLDER=$(string_get_content_character_from_begin "$PATH_FOLDER" "-1")
+    fi
+
+    local PATH_ROOT=$(utils_get_path_git_project_root "$PATH_FOLDER")
+
+    #Display the result value
+    if [[ "$PATH_FOLDER" == "$PATH_ROOT" ]]; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+
+    cd -
+}
+
+utils_check_if_software_is_installed(){
+	if command -v $1 >/dev/null; then
+        display_message_default_simple "true"
+    else
+        display_message_default_simple "false"
+    fi
+}
+
+utils_check_if_user_exists(){
+    local SEARCH_USERNAME=$1
+
+	if [[ $(grep ^$SEARCH_USERNAME: /etc/passwd) != "" ]]; then
+        display_message_default_simple "true"
+	else
+        display_message_default_simple "false"
+	fi
+}
+
+utils_check_if_user_has_root_previledges(){
+	if [[ $UID != 0 ]]; then
+		display_message_error_simple "You must be root for preduring this step."
+		exit 127;
+	fi
+}
+
+utils_check_if_variable_exists(){
+	local VALUE_VARIABLE=$1
+
+	if [[ -n "$VALUE_VARIABLE" ]]; then
+		display_message_default_simple "true"
+	else
+		display_message_default_simple "false"
+	fi
+}
+
+utils_check_if_variable_is_null(){
+    local VALUE_VARIABLE=$1
+
+    if [[ "$VALUE_VARIABLE" == "" ]]; then
+		display_message_default_simple "true"
+	else
+		display_message_default_simple "false"
+    fi
+}
+
+utils_check_if_variable_is_boolean(){
+	local VALUE_VARIABLE=$1
+
+    case $VALUE_VARIABLE in
+        0 | 1 | "false" | "true") display_message_default_simple "true" ;;
+        *) display_message_default_simple "false" ;;
+    esac
+}
+
+utils_check_if_variable_is_char(){
+	local VALUE_VARIABLE=$1
+    
+    case ${#VALUE_VARIABLE} in
+        1) display_message_default_simple "true" ;;
+        *) display_message_default_simple "false" ;;
+    esac
+}
+
+utils_check_if_variable_is_float(){
+    local VALUE_VARIABLE=$1
+
+    #if [[ "$VALUE_VARIABLE" -eq "$VALUE_VARIABLE" ]] 2> /dev/null; then
+	if [[ $(echo "$VALUE_VARIABLE" | grep "^[0-9]*[.][0-9]*$" && val=`echo $?`) ]] || [[ $(echo "$VALUE_VARIABLE" | grep "^-[0-9]*[.][0-9]*$" && val=`echo $?`) ]]; then
+	#if [[ $(($VALUE_VARIABLE+0.5)) -eq $(($VALUE_VARIABLE+0.5)) ]]; then
+	#if [[ $(awk "BEGIN{ print $VALUE_VARIABLE + 0.5 }") -eq $(awk "BEGIN{ print $VALUE_VARIABLE + 0.5 }") ]]; then
+		display_message_default_simple "true"
+	else
+		display_message_default_simple "false"
+	fi
+}
+
+utils_check_if_variable_is_integer(){
+    local VALUE_VARIABLE=$1
+
+    #if [[ "$VALUE_VARIABLE" =~ ^[0-9]+$ ]]; then
+    #if [[ "$VALUE_VARIABLE" -eq "$VALUE_VARIABLE" ]] 2> /dev/null; then
+    #if [[ $VALUE_VARIABLE =~ ^[[:digit:]]+$ ]]; then
+    if [[ $VALUE_VARIABLE =~ ^[[:digit:]]+$ ]] || [[ $VALUE_VARIABLE =~ ^-[[:digit:]]+$ ]]; then
+		display_message_default_simple "true"
+	else
+		display_message_default_simple "false"
+    fi
+}
+
+utils_check_if_variable_is_number(){
+    local VALUE_VARIABLE=$1
+
+    case $(utils_check_if_variable_is_integer $VALUE_VARIABLE) in
+        "false")
+            case $(utils_check_if_variable_is_float $VALUE_VARIABLE) in
+                "false") display_message_default_simple "false" ;;
+                "true") display_message_default_simple "true" ;;
+            esac
+            ;;
+        "true") display_message_default_simple "true" ;;
+    esac
+}
+
+utils_check_if_variable_is_string(){
+	local VALUE_VARIABLE=$1
+
+	case $(utils_check_if_variable_is_null $VALUE_VARIABLE) in
+        "false")
+			case $(utils_check_if_variable_is_number $VALUE_VARIABLE) in
+				"false") display_message_default_simple "true" ;;
+				"true") display_message_default_simple "false" ;;
+			esac
+			;;
+        "true") display_message_default_simple "false" ;;
+    esac
+}
+
+utils_check_if_variable_number_is_even(){
+    local VALUE_NUMBER=$1
+
+	case $(utils_check_if_variable_is_integer $VALUE_NUMBER) in
+		"false") display_message_default_simple "false" ;;
+		"true")
+			if [[ $(($VALUE_NUMBER % 2)) -eq 0 ]]; then
+				display_message_default_simple "true"
+			else
+				display_message_default_simple "false"
+			fi
+			;;
+	esac
+}
+
+utils_check_if_variable_number_is_odd(){
+	local VALUE_NUMBER=$1
+
+	case $(utils_check_if_variable_is_integer $VALUE_NUMBER) in
+		"false") display_message_default_simple "false" ;;
+		"true")
+    		if [[ ! $(($VALUE_NUMBER % 2)) -eq 0 ]]; then
+				display_message_default_simple "true"
+			else
+				display_message_default_simple "false"
+			fi
+			;;
+	esac
+}
+
+utils_check_if_virtualization_is_enabled(){
+	#if [[ $(egrep '^flags.*(vmx|svm)' /proc/cpuinfo) ]]; then
+
+	if [[ $(hostnamectl | grep "Virtualization" | awk '{print $2}') ]]; then
+	#if [[ $(LC_ALL=C lscpu | grep Virtualization) ]]; then
+		display_message_default_simple "true"
+	else
+		display_message_default_simple "false"
+	fi
+}
+
+utils_check_operating_system_birthday(){
+	#Display the info about when the operating was installed on the machine
+	stat -c %w /
+}
+
+utils_check_operating_system_kernel(){
+    case $(uname -s) in
+        "Darwin") display_message_default_simple "darwin" ;;
+        "Linux") display_message_default_simple "linux" ;;
+        CYGWIN* | MINGW32* | MYMS* |MINGGW* ) display_message_default_simple "nt" ;;
+        *) display_message_error_simple "Other operating system" ;;
+    esac
+}
+
+#label_must_be_improved
+utils_check_operating_system_linux_distro(){
+	declare -A ARRAY_OPERATING_SYSTEM_FILE
+
+    #Verify if system file exists according to the operating system
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/alpine-release]=alpine
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/arch-release]=archlinux
+    #ARRAY_OPERATING_SYSTEM_FILE[/etc/pacman.conf]=archlinux
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/debian_version]=debian
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/gentoo-release]=gentoo
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/redhat-release]=redhat
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/slackpkg/slackpkg.conf]=slackware
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/SuSE-release]=opensuse
+
+    #Return all the installed package managers
+    for i in ${!ARRAY_OPERATING_SYSTEM_FILE[@]}; do
+       if [[ -f $i ]]; then
+            display_message_default_complex "${ARRAY_OPERATING_SYSTEM_FILE[$i]}"
+            #display_message_default_simple "${ARRAY_OPERATING_SYSTEM_FILE[$i]}"
+            break
+        fi
+    done
+}
+
+#label_must_be_improved
+utils_check_operating_system_name(){
+	if [[ $(utils_check_operating_system_kernel) == "darwin" ]]; then
+		display_message_default_simple "MacOS X"
+	elif [[ $(utils_check_operating_system_kernel) == "linux" ]]; then
+		display_message_default_simple $(utils_check_operating_system_linux_distro)
+	elif [[ $(utils_check_operating_system_kernel) == "nt" ]]; then
+		display_message_default_simple "Windows"
+	else
+		display_message_default_simple "null"
+	fi
+}
+
+#label_must_be_improved
+utils_check_operating_system_platform(){
+    if [[ "$(uname)" == "Darwin" ]]; then
+        display_message_default_simple "apple_macos_x"
+    elif [[ $(expr substr $(uname -s) 1 5) == "Linux" ]]; then
+        display_message_default_simple "linux"
+    elif [[ $(expr substr $(uname -s) 1 10) == "MINGW32_NT" ]]; then
+        display_message_default_simple "microsoft_windows_nt_32_bits"
+    elif [[ $(expr substr $(uname -s) 1 10) == "MINGW64_NT" ]]; then
+        display_message_default_simple "microsoft_windows_nt_64_bits"
+    else
+        display_message_error_simple ""
+    fi
+}
+
+utils_check_operating_system_memory_real_time(){
+    #utils_check_operating_system_memory_real_time "2"
+    
+    local TIME_DELAY_SECONDS=$1
+
+    #Monitor memory without top or htop
+    watch -n $TIME_DELAY_SECONDS -d '/bin/free -m'
+}
+
+#label_must_be_tested
+#label_must_be_improved
+utils_check_package_manager(){
+    declare -A ARRAY_OPERATING_SYSTEM_FILE
+
+    #Verify if system file exists according to the operating system
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/debian_version]=apt
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/alpine-release]=apk
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/gentoo-release]=emerge
+    #ARRAY_OPERATING_SYSTEM_FILE[/etc/paru.conf]=paru
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/arch-release]=pacman
+    #ARRAY_OPERATING_SYSTEM_FILE[/etc/pacman.conf]=pacman
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/slackpkg/slackpkg.conf]=slackpkg
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/redhat-release]=yum
+    ARRAY_OPERATING_SYSTEM_FILE[/etc/SuSE-release]=zypper
+
+    #Return all the installed package managers
+    for i in ${!ARRAY_OPERATING_SYSTEM_FILE[@]}; do
+       if [[ -f $i ]]; then
+            display_message_default_complex "${ARRAY_OPERATING_SYSTEM_FILE[$i]}"
+            #display_message_default_simple "${ARRAY_OPERATING_SYSTEM_FILE[$i]}"
+            break
+        fi
+    done
+}
+
+utils_check_processor_family(){
+	PROCESSOR=$(cat /proc/cpuinfo | grep vendor_id | head -1 | awk '{print $3}')
+	#PROCESSOR=$(cat /sys/devices/virtual/dmi/id/board_{vendor,name,version})
+
+	display_message_default_simple "$PROCESSOR"
+}
+
+#label_must_be_tested
+utils_clear_file(){
+	local PATH_FILE=$1
+
+	display_message_warning_complex "Clearing terminal history"
+
+	case $(utils_check_if_file_exists "$PATH_FILE") in
+		"false") 
+			display_message_error_complex "File $PATH_FILE does not exists"
+			break
+			;;
+		"true")
+			cat /dev/null > $PATH_FILE
+			break
+			;;
+	esac
+}
+
+#label_must_be_tested
+utils_clear_history(){
+	local QUESTION_TERMINAL_HISTORY
+
+	display_message_warning_complex "Clearing terminal history"
+
+	while true; do
+		read -p "Inform what you want: [ash | bash | zsh | skip] " QUESTION_TERMINAL_HISTORY
+
+		case $QUESTION_TERMINAL_HISTORY in
+			"ash")
+				utils_clear_file "$HOME/.ash_history"
+				break
+				;;
+			"bash")
+				utils_clear_file "$HOME/.bash_history"
+				break
+				;;
+			"zsh")
+				utils_clear_file "$HOME/.zsh_history"
+				break
+				;;
+			"skip") break ;;
+			*) display_message_error_simple "Please answer file or partition." ;;
+		esac
+	done
+}
+
+#label_must_be_tested
+utils_convert_pdf_color(){
+	local FILE_INPUT="$1"		#./input.pdf
+	local FILE_OUTPUT="$2"		#./output.pdf
+	local COLOR_ORIGIN="$3"		#black
+	local COLOR_DESTINY="$4"	#blue
+
+	magick convert -density 300 $FILE_INPUT -fill $COLOR_DESTINY -opaque $COLOR_ORIGIN $FILE_OUTPUT
+}
+
+utils_chronometer_countdown(){
+	#utils_chronometer_countdown "00:00:02" #2 seconds
+	#utils_chronometer_countdown "00:01:10" #1 minute and 10 seconds
+    
+	local timeHours=${1:0:2}
+    local timeMinutes=${1:3:2}
+    local timeSeconds=${1:6:2}
+
+    local timeDisplay=$(($timeHours * 3600 + $timeMinutes * 60 + $timeSeconds))
+
+    while [[ $timeDisplay -gt 0 ]]; do
+        sleep 1 &
+        printf "\r%02d:%02d:%02d" $((timeDisplay / 3600)) $(((timeDisplay / 60) % 60))  $((timeDisplay % 60))
+        timeDisplay=$(($timeDisplay - 1))
+        wait
+    done
+
+    display_message_default_complex ""
+}
+
+utils_download_file(){
+	local PATH_URL=$1
+	local PATH_DESTINY=$2
+
+	case $# in
+		1)
+			display_message_warning_complex "Downloading $PATH_URL file"
+			curl -L -O $PATH_URL
+			#wget -c $PATH_URL
+			display_message_success_complex "$PATH_URL file has been downloaded"
+			break
+			;;
+		2) 
+			display_message_warning_complex "Downloading $PATH_URL file to $PATH_DESTINY"
+
+			mkdir -p $PATH_DESTINY/
+
+			cd $PATH_DESTINY/
+			pwd
+			curl -L -O $PATH_URL
+			#wget -c $PATH_URL -O $PATH_DESTINY
+			cd -
+
+			display_message_success_complex "$PATH_URL file has been downloaded to $PATH_DESTINY"
+			break
+			;;
+		*)
+			display_message_error_complex "Invalid parameters have been set"
+			break
+		;;
+	esac
+}
+
+utils_download_file_latest_version(){
+	#utils_download_file_latest_version "henrikbeck95" "shell_script_library" "shell-script-library"
+	
+	local REPOSITORY_OWNER=$1
+	local REPOSITORY_NAME=$2
+	local REPOSITORY_FILE=$3
+    local RESULT=$(utils_generate_link_file_version_latest_github "$REPOSITORY_OWNER" "$REPOSITORY_NAME" "$REPOSITORY_FILE")
+
+    #display_message_default_complex "Downloading $RESULT file..."
+    utils_download_file "$RESULT"
+}
+
+utils_download_website(){
+    local URL_LINK=$1
+
+    wget -r -erobots=off $URL_LINK
+    #wget -r -p -U Mozilla --wait=10 --limit-rate=35K $URL_LINK
+}
+
+utils_edit_file(){
+	#gedit $@
+	#nano $@
+	#vi -O $@
+	vim -O $@
+}
+
+utils_effects_spinner(){
+    local CHARACTERS_AVALIABLE='/-\|'
+
+    printf ' '
+
+    while true; do
+        printf '\b%.1s' "$CHARACTERS_AVALIABLE"
+        CHARACTERS_AVALIABLE=${CHARACTERS_AVALIABLE#?}${CHARACTERS_AVALIABLE%???}
+    done
+}
+
+utils_export_desktop_environment(){
+	display_message_default_simple "$XDG_CURRENT_DESKTOP"
+}
+
+utils_export_variables_bios(){
+	display_message_warning_complex "Exporting/loading BIOS variables"
+
+	case $(utils_check_if_firmware_supports_uefi) in
+		"false")
+			display_message_warning_complex "Consider enabling the UEFI before keep running this setup installtion. There may be some errors"
+			export IS_BIOS_UEFI="legacy"
+			break
+			;;
+		"true")
+			export IS_BIOS_UEFI="uefi"
+			break
+			;;
+	esac
+
+	display_message_warning_complex "Your device BIOS is $IS_BIOS_UEFI"
+}
+
+utils_export_variables_virtualization(){
+	local IS_VIRTUALIATION=$(utils_check_if_virtualization_is_enabled)
+
+	if [[ $IS_VIRTUALIATION == "true" ]]; then
+		display_message_warning_complex "I know you are using a virtual machine!"
+
+		export PARTITION_PATH="/dev/vda"
+		export PARTITION_BOOT="/dev/vda1"
+		export PARTITION_ROOT="/dev/vda2"
+		export PARTITION_FILE="/dev/vda3"
+		export PARTITION_SWAP="/dev/vda4"
+
+	else
+		display_message_warning_complex "Great! You are installing on your host machine!"
+
+		export PARTITION_PATH="/dev/sda"
+		export PARTITION_BOOT="/dev/sda1"
+		export PARTITION_ROOT="/dev/sda2"
+		export PARTITION_FILE="/dev/sda3"
+		export PARTITION_SWAP="/dev/sda4"
+	fi
+}
+
+utils_extract_file_detect_any() {
+	#alias x=utils_extract_file_detect_any
+    
+	setopt localoptions noautopushd
+
+    if (( $# == 0 )); then
+		echo -e "Usage: extract [-option] [file ...]\nOptions:\n-r, --remove    Remove archive after unpacking."
+    fi
+
+    local remove_archive=1
+
+    if [[ "$1" == "-r" ]] || [[ "$1" == "--remove" ]]; then
+        remove_archive=0
+        shift
+    fi
+
+    local pwd="$PWD"
+
+    while (( $# > 0 )); do
+        if [[ ! -f "$1" ]]; then
+            echo "extract: '$1' is not a valid file" >&2
+            shift
+            continue
+        fi
+
+        local success=0
+        local extract_dir="${1:t:r}"
+        local file="$1" full_path="${1:A}"
+
+        case "${file:l}" in
+			(*.7z) utils_extract_file_method_7zip "$file" ;;
+			(*.bz2) utils_extract_file_method_bz2 "$file" ;;
+			(*.cab) utils_extract_file_method_zip "$extract_dir" "$file" ;;
+			(*.cpio) utils_extract_file_method_cpio "$file" ;;
+			(*.lz4) utils_extract_file_method_lz4 "$file" ;;
+			(*.lzma) utils_extract_file_method_lzma "$file" ;;
+			(*.rar) utils_extract_file_method_rar "$file" ;;
+			(*.tar) utils_extract_file_method_tar "$file" ;;
+			(*.tar.bz2|*.tbz|*.tbz2) utils_extract_file_method_tar_bz2 "$file" ;;
+			(*.tar.lz4) utils_extract_file_method_tar_lz4 "$file" ;;
+			(*.tar.xz|*.txz) utils_extract_file_method_tar_xz "$file" ;;
+			(*.tar.zma|*.tlz) utils_extract_file_method_tar_zma "$file" ;;
+			(*.tar.zst|*.tzst) utils_extract_file_method_tar_zst  "$file" ;;
+			(*.xz) utils_extract_file_method_xz "$file" ;;
+			(*.z) utils_extract_file_method_z "$file" ;;
+			(*.zip|*.war|*.jar|*.ear|*.sublime-package|*.ipa|*.ipsw|*.xpi|*.apk|*.aar|*.whl) utils_extract_file_method_zip "$file" "$extract_dir" ;;
+			(*.zst) utils_extract_file_method_zst "$file" ;;
+            
+			(*.gz) (( $+commands[pigz] )) && pigz -dk "$file" || gunzip -k "$file" ;;
+			(*.lrz) (( $+commands[lrunzip] )) && lrunzip "$file" ;;
+            #(*.tar.gz|*.tgz) (( $+commands[pigz] )) && { pigz -dc "$file" | tar xv } || tar zxvf "$file" ;;
+            (*.tar.gz|*.tgz) (( $+commands[pigz] )) && pigz -dc "$file" | tar xv || tar zxvf "$file" ;;
+            (*.tar.lz) (( $+commands[lzip] )) && tar xvf "$file" ;;
+            (*.tar.lrz) (( $+commands[lrzuntar] )) && lrzuntar "$file" ;;
+
+            (*.rpm)
+                command mkdir -p "$extract_dir" && builtin cd -q "$extract_dir" \
+                && rpm2cpio "$full_path" | cpio --quiet -id ;;
+
+            (*.deb)
+                command mkdir -p "$extract_dir/control" "$extract_dir/data"
+                    builtin cd -q "$extract_dir"; ar vx "$full_path" > /dev/null
+                    builtin cd -q control; extract ../control.tar.*
+                    builtin cd -q ../data; extract ../data.tar.*
+                    builtin cd -q ..; command rm *.tar.* debian-binary ;;
+
+            (*)
+                echo "extract: '$file' cannot be extracted" >&2
+                success=1 ;;
+        esac
+
+        (( success = success > 0 ? success : $? ))
+        (( success == 0 && remove_archive == 0 )) && rm "$full_path"
+        shift
+
+        #Go back to original working directory in case we ran cd previously
+        builtin cd -q "$pwd"
+    done
+}
+
+utils_extract_file_method_7zip(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	7za x $FILE_ORIGIN
+
+    #Individually 7zip all files in current directory
+    #for i in *.*; do
+    #    7z a "$i".7z "$i"
+    #done
+}
+
+utils_extract_file_method_bz2(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	bunzip2 $FILE_ORIGIN
+}
+
+utils_extract_file_method_cab(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	mkdir -p $FILE_DESTINY/
+	cabextract -d $FILE_ORIGIN $FILE_DESTINY
+}
+
+utils_extract_file_method_cpio(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	cpio -idmvF $FILE_ORIGIN
+}
+
+utils_extract_file_method_lz4(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	lz4 -d $FILE_ORIGIN
+}
+
+utils_extract_file_method_lzma(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	unlzma $FILE_ORIGIN
+}
+
+utils_extract_file_method_rar(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	unrar x -ad "$FILE_ORIGIN"
+
+	#unrar -e ./Aula\ 03\ -\ Program$'\342'$'\225'$'\236'o\ de\ Computadores.rar
+	#unrar -e ./Aula\ 03\ -\ Program$'\342'$'\225'$'\236'o\ de\ Computadores.rar .
+}
+
+utils_extract_file_method_tar(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	#tar -zxvf $FILE_ORIGIN || tar -xzf $FILE_ORIGIN || tar -xf $FILE_ORIGIN
+	tar xvf $FILE_ORIGIN
+}
+
+utils_extract_file_method_tar_bz2(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	tar xvjf $FILE_ORIGIN
+}
+
+utils_extract_file_method_tar_lz4(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	lz4 -c -d "$FILE_ORIGIN" | tar xvf -
+}
+
+utils_extract_file_method_tar_zst(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	tar --zstd --help &> /dev/null \
+        && tar --zstd -xvf "$FILE_ORIGIN" \
+        || zstdcat "$FILE_ORIGIN" | tar xvf -
+}
+
+utils_extract_file_method_tar_zma(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	tar --lzma --help &> /dev/null \
+		&& tar --lzma -xvf "$FILE_ORIGIN" \
+		|| lzcat "$FILE_ORIGIN" | tar xvf -
+}
+
+utils_extract_file_method_tar_xz(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	tar --xz --help &> /dev/null \
+        && tar --xz -xvf "$FILE_ORIGIN" \
+        || xzcat "$FILE_ORIGIN" | tar xvf -
+}
+
+utils_extract_file_method_xz(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	unxz $FILE_ORIGIN
+}
+
+utils_extract_file_method_z(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	uncompress "$FILE_ORIGIN"
+}
+
+utils_extract_file_method_zip(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	mkdir -p $FILE_DESTINY/
+	unzip $FILE_ORIGIN -d $FILE_DESTINY
+}
+
+utils_extract_file_method_zst(){
+	local FILE_ORIGIN="$1"
+	local FILE_DESTINY="$2"
+
+	unzstd $FILE_ORIGIN
+}
+
+utils_generate_link_file_version_latest_github(){
+    #Try: curl -fsSL github.com/henrikbeck95/shell_script_library/releases/latest/download/shell-script-library -O
+	#Try: curl -fsSL github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}/releases/latest/download/${REPOSITORY_FILE} -O
+	#Try: curl -fsSL $(utils_generate_link_file_version_latest_github "henrikbeck95" "shell_script_library" "shell-script-library") -O
+	local REPOSITORY_OWNER=$1
+	local REPOSITORY_NAME=$2
+	local REPOSITORY_FILE=$3
+
+
+	display_message_default_simple "https://github.com/${REPOSITORY_OWNER}/${REPOSITORY_NAME}/releases/latest/download/${REPOSITORY_FILE}"
+}
+
+utils_generate_number_random_from_interval_set(){
+    local RANDOM_INTERVAL_BEGIN
+    local RANDOM_INTERVAL_FINISH
+    local RESULT
+
+    #Check if the arguments values are valid
+    if [[ $# -ne 2 ]]; then
+        display_message_error_simple "To generate random number must have two arguments (begin, start) values"
+        exit 127
+    elif [[ $1 -lt $2 ]]; then
+        RANDOM_INTERVAL_BEGIN=$1
+        RANDOM_INTERVAL_FINISH=$(($2 + 1))
+    else
+        RANDOM_INTERVAL_BEGIN=$(($2 + 1))
+        RANDOM_INTERVAL_FINISH=$1
+    fi
+
+    #Generate the random number
+    if [[ $1 -eq $2 ]]; then
+        RESULT="$1"
+    else
+        RESULT="$(( ($RANDOM % ($RANDOM_INTERVAL_FINISH - $RANDOM_INTERVAL_BEGIN)) + $RANDOM_INTERVAL_BEGIN ))"
+    fi
+
+    display_message_number_simple "$RESULT"
+}
+
+utils_get_path_git_project_root(){
+    local PATH_FOLDER=$1
+
+	cd $PATH_FOLDER
+
+    case $(utils_check_if_path_is_inside_git_project_anywhere "$PATH_FOLDER") in
+        "false")
+            display_message_error_simple "The current path is not part of a Git project"
+            ;;
+        "true")
+            local RESULT="$(git rev-parse --show-toplevel 2>/dev/null)"
+            display_message_default_simple "$RESULT"
+            ;;
+    esac
+
+	cd -
+}
+
+utils_git_repository_clone(){
+	local PATH_REPOSITORY_URL=$1
+
+	display_message_warning_complex "Cloning $PATH_REPOSITORY_URL Git repository"
+
+	utils_path_directory_create "$HOME/eclipse-workspace"
+	
+	cd $HOME/eclipse-workspace/
+	git clone $PATH_REPOSITORY_URL
+	cd -
+	
+	display_message_success_complex "$PATH_REPOSITORY_URL Git repository has been cloned"
+}
+
+#label_must_be_improved
+utils_git_setup_credentials(){
+	local USER_EMAIL=$1
+	local USER_NAME=$2
+
+	display_message_warning_complex "Setting up Git credentials to $USER_EMAIL - $USER_NAME"
+
+	#Set Git e-mail credential
+	git config --global user.email "$USER_EMAIL" #Try: "henrikbeck95@gmail.com"
+	
+	#Set Git username credential
+	git config --global user.name "$USER_NAME" #Try: "Henrik Beck"
+
+	#Store Git credentials to cache file
+	#git config --global credential.helper store
+
+	#git pull
+	#cat $HOME/.git-credentials | less
+
+	display_message_success_complex "Git setup credentials has been set to $USER_EMAIL - $USER_NAME"
+}
+
+utils_load_operating_system_properties(){
+	source /etc/os-*
+}
+
+utils_move_file(){
+	local PATH_ORIGIN=$1
+	local PATH_DESTINY=$2
+
+	mv $PATH_ORIGIN $PATH_DESTINY #|| mv -avr $PATH_ORIGIN $PATH_DESTINY
+}
+
+utils_path_directory_create(){
+	local PATH_FOLDER=$1
+
+	display_message_warning_complex "Creating $PATH_FOLDER folder directory"
+	
+	if [[ ! -d $PATH_FOLDER/ ]]; then
+		mkdir -p $PATH_FOLDER/
+	fi
+
+	display_message_success_complex "$PATH_FOLDER folder directory has been created"
+}
+
+utils_remove_file(){
+	local PATH_FILE=$1
+
+	rm $PATH_FILE || rm -f $PATH_FILE || rm -fr $PATH_FILE
+}
+
+utils_screen_size_count_limit_half_characters_horizontal(){
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_MAXIMUM=$1
+	local DISPLAY_TEXT_LENGTH=$2
+    local RESULT=$((($SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_MAXIMUM-$DISPLAY_TEXT_LENGTH)/2))
+
+    display_message_default_simple "$RESULT"
+}
+
+utils_screen_size_count_limit_maximum_characters_horizontal(){
+    local CHARACTERS_UNITS=$(tput cols)
+
+    display_message_default_simple "$CHARACTERS_UNITS"
+}
+
+#label_must_be_created
+#utils_screen_size_count_limit_maximum_characters_vertical(){}
+
+#CREATE CASE VARIABLE COLOR DOES NOT EXIST, SET DEFAULT VALUE
+utils_screen_size_fill_limit_half_characters_horizontal(){
+	local CHARACTER_REPETITION=$1
+    local SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF=$2
+    local COLOR_VALUE=$3
+    local i=0
+
+    while [ $i -lt $SCREEN_SIZE_CHARACTERS_UNITS_LIMIT_HALF ]; do
+        #display_message_default_simple "${CHARACTER_REPETITION}"
+        #i=$(($i+1))
+
+	    display_message_default_simple "${COLOR_VALUE}${CHARACTER_REPETITION}${COLOR_END}"
+        i=$(($i+1))
+    done
+}
+
+utils_simulate_typing(){
+    #utils_simulate_typing "Welcome to Shell Script Library!"
+    
+    local DISPLAY_TEXT=$1
+
+    display_message_default_complex "$DISPLAY_TEXT" | pv -qL 10
+}
+
+utils_symbolic_link_create(){
+	local PATH_ORIGIN=$1
+	local PATH_DESTINY=$2
+
+	display_message_warning_complex "Creating symbolic link to $PATH_ORIGIN to $PATH_DESTINY"
+	
+	ln -sf $PATH_ORIGIN $PATH_DESTINY
+
+	display_message_success_complex "Symbolic link from $PATH_ORIGIN to $PATH_DESTINY has been created"
+}
+
+utils_update_fonts_cache(){
+	display_message_warning_complex "Update cache from $HOME/.fonts/, /usr/share/fonts/ and /usr/local/share/fonts/ fonts pathes"
+	
+	fc-cache update || fc-cache -f -v
+
+	display_message_success_complex "Font cache pathes from $HOME/.fonts/, /usr/share/fonts/ and /usr/local/share/fonts/ have been updated"
+}
+
+#############################
+#Shell Script Library management
+#############################
+
+#label_must_be_created
+#display_library_version(){}
+
+#label_must_be_created
+#display_info_library_version(){}
+
+#label_must_be_created
+#update_current_library_version(){}
