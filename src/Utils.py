@@ -1,14 +1,12 @@
 #Import system libraries
 import os
 import subprocess
-import time
 
 #Import external libraries
 import speech_recognition
 import yaml
 
 #Loading the libraries functions as variables
-t = time.localtime()
 audio = speech_recognition.Recognizer()
 
 class Utils:
@@ -32,6 +30,19 @@ class Utils:
         
         else:
             return data
+
+    def generatePathDirectory(pathDirectoryRelative):
+        #pathDirectoryCurrent = os.getcwd()
+        #pathDirectoryCurrent = __file__
+        pathDirectoryCurrent = os.path.dirname(os.path.abspath(__file__))
+
+        #Check if first character from string must be removed
+        if pathDirectoryRelative[0] == '.':
+            pathDirectoryRelativeAux = pathDirectoryRelative[1:]
+        else:
+            pathDirectoryRelativeAux = pathDirectoryRelative
+
+        return pathDirectoryCurrent + pathDirectoryRelativeAux
 
     def shellScriptCommandRun(command):
         aux = 'bash -c "%s"' %(command)

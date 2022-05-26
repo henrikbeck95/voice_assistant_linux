@@ -12,12 +12,14 @@ from Utils import Utils
 class __main__:
     def main():
         #Make sure that shell script file has executable permission
-        Utils.shellScriptCommandRun("chmod +x ./src/speaking.sh")
+        pathFileSpeaking = Utils.generatePathDirectory('./speaking.sh')
+        Utils.shellScriptCommandRun(f'chmod +x {pathFileSpeaking}')
         #Utils.shellScriptCommandSpeak("Hi, my name is Val!")
 
         #Import VAL settings file
-        fileContent = Utils.fileSettingsRead('./src/settings.yml')
-        #print(fileContent)
+        pathFileSettings = Utils.generatePathDirectory('./settings.yml')
+        fileContent = Utils.fileSettingsRead(pathFileSettings)
+        print(fileContent)
 
         __main__.controller(fileContent)
 
@@ -35,8 +37,6 @@ class __main__:
             Utils.shellScriptCommandSpeak(codeError)
             exit()
 
-        #print(userCommand)
-
         #Format the voice command transcription
         #userCommand = userCommand[1:] #Get all elements from list except first - the 'VAL' calling
         #userCommand = "val " + userCommand #Get all elements from list except first - the 'VAL' calling
@@ -44,7 +44,6 @@ class __main__:
         userCommandArray = userCommand.split() #Split all text word into an array
 
         #Transcribe on terminal the user's voice command
-        #print(userCommandArray)
         print("User command: {}".format(userCommandArray))
         
         #Check if command exists
