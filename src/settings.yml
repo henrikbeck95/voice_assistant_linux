@@ -54,7 +54,7 @@ system:
       next: "i3 move container to workspace next"
       prev: "i3 move container to workspace prev"
 user:
-  file_recording: "voice_user.wav"
+  file_recording: "/tmp/val_voice_user.wav"
 val:
   message_error_command_not_listed: "Command could not be detected"
   message_error_microphone: "An error has occurred. Your microphone device might not be correctly configured. Please, check it out before try again."
