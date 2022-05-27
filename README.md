@@ -26,38 +26,75 @@ A virtual assistant for Linux for controlling the operating system graphical use
 1. [ ] Python >= 3.10 (only because the match case and 'f' strings).
 1. [ ] PIP3.
 
-<!--
-- Python libraries
-    > $ `pip3 install SpeechRecognition`
-
-    > $ `pip3 install yaml-1.3`
--->
-
 - ArchLinux
 	> $ `sudo pacman -S festival festival-english festival-us python-pyaudio`
 
-## Installation
-
-1. Clone this repository.
-    > $ `git clone https://github.com/henrikbeck95/voice_assistant_linux.git $HOME/Documents/`
-
 <!--
-1. PyPi repository
-    > $ `pip3 install voice-assistant-linux`
+- Debian
+	> $ `sudo apt-get install festival`
+
+- Fedora
+	> $ `sudo dnf install festival`
+
+- Ubuntu
+	> $ `sudo apt-get install festival`
 -->
 
-1. Run VAL (use Anaconda Python virtual environment)
-    > $ `$(which python3) $HOME/Documents/voice_assistant_linux/src/main.py`.
+## Installation
+
+### Development mode
+
+1. Install Python libraries
+    > $ `pip3 install SpeechRecognition`
+
+    > $ `pip3 install yaml-1.3`
+
+    > $ `pip3 install setuptools`
+
+    > $ `pip3 install wheel`
+
+    > $ `pip3 install twine`
+
+    > $ `pip3 install voice-assistant-linux`
+
+1. Clone this repository.
+    > $ `git clone https://github.com/henrikbeck95/voice_assistant_linux.git`
+
+1. Build the package for PyPi
+    > $ `python3 setup.py sdist bdist_wheel`
+
+1. Upload the package to PyPi repository
+    > $ `twine upload dist/*`
+
+### Normal usage mode
+
+1. Install from PyPi repository
+    > $ `pip3 install voice-assistant-linux`
 
 ## Usage
 
-- Go into Val project folder
-	> $ `cd $HOME/Documents/voice_assistant_linux/`
+### Development mode
 
-- Run Python3
-	> $ `python3 ./src/`
+1. Run it.
+    > $ `python3 ./src/__init__.py`
+
+<!--
+### Normal usage mode
+
+1. Run it.
+    > $ `voice-assistant-linux`
+-->
 
 ## Uninstallation
 
+### Development mode
+
 - Remove the Val project folder
-	> $ `rm -fr $HOME/Documents/voice_assistant_linux/`
+	> $ `rm -fr ./voice_assistant_linux/`
+
+<!--
+### Normal usage mode
+
+1. Uninstall it.
+    > $ `pip3 unistall voice-assistant-linux`
+-->

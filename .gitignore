@@ -1,3 +1,11 @@
+#
 .organizing/
+
+#
 src/__pycache__
 voice_user.wav
+
+#
+build/
+dist/
+voice_assistant_linux.egg-info/
