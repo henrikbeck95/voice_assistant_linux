@@ -9,7 +9,7 @@ import speech_recognition
 #Import internal classes
 from Utils import Utils
 
-class __main__:
+class Main:
     def main():
         #Make sure that shell script file has executable permission
         pathFileSpeaking = Utils.generatePathDirectory('./speaking.sh')
@@ -19,14 +19,14 @@ class __main__:
         #Import VAL settings file
         pathFileSettings = Utils.generatePathDirectory('./settings.yml')
         fileContent = Utils.fileSettingsRead(pathFileSettings)
-        print(fileContent)
+        #print(fileContent)
 
-        __main__.controller(fileContent)
+        Main.controller(fileContent)
 
     def controller(fileContent):
         #Capture user voice command
         if fileContent.get('settings').get('debug') == 'off':
-            userCommand = __main__.detectUserVoice(fileContent)
+            userCommand = Main.detectUserVoice(fileContent)
         elif fileContent.get('settings').get('debug') == 'on':
             userCommand = Utils.valCommandDebugOn(fileContent)
         else:
@@ -74,6 +74,8 @@ class __main__:
             Utils.shellScriptCommandSpeak(codeError)
             #exit()
     
-if __name__ == '__main__':
+'''
+if __name__ == 'Main':
     #while True:
-    __main__.main()
+    Main.main()
+'''

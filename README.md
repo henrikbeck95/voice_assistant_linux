@@ -26,9 +26,12 @@ A virtual assistant for Linux for controlling the operating system graphical use
 1. [ ] Python >= 3.10 (only because the match case and 'f' strings).
 1. [ ] PIP3.
 
+<!--
 - Python libraries
     > $ `pip3 install SpeechRecognition`
+
     > $ `pip3 install yaml-1.3`
+-->
 
 - ArchLinux
 	> $ `sudo pacman -S festival festival-english festival-us python-pyaudio`
@@ -37,6 +40,11 @@ A virtual assistant for Linux for controlling the operating system graphical use
 
 1. Clone this repository.
     > $ `git clone https://github.com/henrikbeck95/voice_assistant_linux.git $HOME/Documents/`
+
+<!--
+1. PyPi repository
+    > $ `pip3 install voice-assistant-linux`
+-->
 
 1. Run VAL (use Anaconda Python virtual environment)
     > $ `$(which python3) $HOME/Documents/voice_assistant_linux/src/main.py`.

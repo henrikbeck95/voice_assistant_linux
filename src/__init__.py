@@ -1,3 +1,3 @@
-from __main__ import __main__
+from Main import Main
 
-__main__.main()
+Main.main()

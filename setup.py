@@ -4,6 +4,7 @@ from setuptools import setup, find_packages
 #Create package for PyPi and upload it
 ######################################
 #pip3 install setuptools
+#pip3 install wheel
 #python3 setup.py sdist bdist_wheel
 #Upload the ./dist folder to PyPi
 #pip3 install twine #For uploading
