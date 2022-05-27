@@ -197,6 +197,7 @@ class Utils:
         print(fileContent.get('val').get('message_running'))
         
         #Save the user's voice recording as an external file
+        #MUST BE FIXED the file to be saved on /tmp/ path or inside the project path
         with open(fileContent.get('user').get('file_recording'), 'wb') as file_external:
             userVoiceTranscription = audio.listen(source)
             file_external.write(userVoiceTranscription.get_wav_data())
