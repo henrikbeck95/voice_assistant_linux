@@ -57,7 +57,8 @@ user:
   file_recording: "/tmp/val_voice_user.wav"
 val:
   message_error_command_not_listed: "Command could not be detected"
-  message_error_microphone: "An error has occurred. Your microphone device might not be correctly configured. Please, check it out before try again."
+  #message_error_microphone: "An error has occurred. Your microphone device might not be correctly configured. Please, check it out before try again."
+  message_error_microphone: "An error has occurred. Your microphone device might not be correctly configured or there is no internet connection. Please, check it out before try again."
   message_introduction: "How can I help you!?"
   message_success_command_listed: "Command has been validated!"
   message_running: "VAL is listening..."

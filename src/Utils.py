@@ -197,12 +197,23 @@ class Utils:
         print(fileContent.get('val').get('message_running'))
         
         #Save the user's voice recording as an external file
-        with open(fileContent.get('user').get('file_recording'), 'wb') as file_external:
+        pathFileValUserVoice = fileContent.get('user').get('file_recording')
+
+        with open(pathFileValUserVoice, 'wb') as file_external:
             userVoiceTranscription = audio.listen(source)
             file_external.write(userVoiceTranscription.get_wav_data())
 
         #Load the user's voice recording
-        return audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+        result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+
+        #Remove the user's voice recording file if exists
+        if Utils.checkIfFileExists(pathFileValUserVoice) == True:
+            command = "rm " + pathFileValUserVoice
+            Utils.shellScriptCommandRun(command)
+        else:
+            print(pathFileValUserVoice + " file has not been found")
+
+        return result
 
     def valCommandDebugOn(fileContent):
         #Debugging commands for softwares
