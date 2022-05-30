@@ -2,6 +2,12 @@
 
 Say hi to VAL (Voice Assistant for Linux)!
 
+[![GitHub release](https://img.shields.io/github/release/henrikbeck95/voice_assistant_linux/all.svg)](https://github.com/henrikbeck95/voice_assistant_linux/releases)
+[![GitHub license](https://img.shields.io/github/license/henrikbeck95/voice_assistant_linux.svg)](https://github.com/henrikbeck95/voice_assistant_linux/blob/master/LICENSE)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/voice-assistant-linux.svg)](https://pypi.org/project/voice-assistant-linux/)
+[![Downloads](https://static.pepy.tech/badge/voice-assistant-linux)](https://pepy.tech/project/voice-assistant-linux)
+[![Downloads](https://static.pepy.tech/badge/voice-assistant-linux/month)](https://pepy.tech/project/voice-assistant-linux)
+
 ## Description
 
 A virtual assistant for Linux for controlling the operating system graphical user interface by using voice commands.
