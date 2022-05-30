@@ -12,8 +12,9 @@ from Utils import Utils
 class Main:
     def main():
         #Make sure that shell script file has executable permission
-        pathFileSpeaking = Utils.generatePathDirectory('./speaking.sh')
-        Utils.shellScriptCommandRun(f'chmod +x {pathFileSpeaking}')
+        #pathFileSpeaking = Utils.generatePathDirectory('./speaking.sh')
+        #Utils.shellScriptCommandRun(f'chmod +x {pathFileSpeaking}')
+        
         #Utils.shellScriptCommandSpeak("Hi, my name is Val!")
 
         #Import VAL settings file

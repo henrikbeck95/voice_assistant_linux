@@ -50,7 +50,6 @@ class Utils:
         print(stdout)
     
     def shellScriptCommandSpeak(voiceSpeech):
-        #fileShellScriptLibrary = './src/speaking.sh'
         fileShellScriptLibrary = '/usr/local/bin/shell-script-library'
 
         if Utils.checkIfFileExists(fileShellScriptLibrary) == True:

@@ -29,6 +29,10 @@ A virtual assistant for Linux for controlling the operating system graphical use
 - ArchLinux
 	> $ `sudo pacman -S festival festival-english festival-us python-pyaudio`
 
+    <!--
+    > $ `paru -S python-pyttsx3`
+    -->
+
 <!--
 - Debian
 	> $ `sudo apt-get install festival`
