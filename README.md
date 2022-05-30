@@ -66,6 +66,14 @@ A virtual assistant for Linux for controlling the operating system graphical use
 1. Upload the package to PyPi repository
     > $ `twine upload dist/*`
 
+<!--
+cp ./src/speaking.sh ./build/lib/src/speaking.sh
+
+cp ./src/settings.yml ./build/lib/src/settings.yml
+
+cp ./src/libs/shell-script-library ./build/lib/src/libs/shell-script-library
+-->
+
 ### Normal usage mode
 
 1. Install from PyPi repository

@@ -6,7 +6,7 @@ pathDirectoryCurrent = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(pathDirectoryCurrent, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
-VERSION = '0.0.3'
+VERSION = '0.0.5'
 DESCRIPTION = 'Virtual assistant from voice commands to control operating system graphical user interface.'
 
 setup(

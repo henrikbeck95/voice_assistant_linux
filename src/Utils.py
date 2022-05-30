@@ -50,10 +50,11 @@ class Utils:
         print(stdout)
     
     def shellScriptCommandSpeak(voiceSpeech):
-        fileSpeaking = './src/speaking.sh'
+        #fileShellScriptLibrary = './src/speaking.sh'
+        fileShellScriptLibrary = '/usr/local/bin/shell-script-library'
 
-        if Utils.checkIfFileExists(fileSpeaking) == True:
-            command = "source " + fileSpeaking + " && voice_assistant_speech_text_val " + "'" + voiceSpeech + "'"
+        if Utils.checkIfFileExists(fileShellScriptLibrary) == True:
+            command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_complex " + "'" + voiceSpeech + "'"
             Utils.shellScriptCommandRun(command)
         else:
             print("Shell script has not been found")
@@ -221,10 +222,10 @@ class Utils:
         #userCommand = "software menu"
         #userCommand = "software nautilus"
         #userCommand = "software spotify" #Not working
-        #userCommand = "software terminal"
+        userCommand = "software terminal"
 
         #Debugging commands for system
-        userCommand = "system brightness up"
+        #userCommand = "system brightness up"
         #userCommand = "system brightness down"
         #userCommand = "system volume up"
         #userCommand = "system volume down"

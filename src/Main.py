@@ -19,7 +19,7 @@ class Main:
         #Import VAL settings file
         pathFileSettings = Utils.generatePathDirectory('./settings.yml')
         fileContent = Utils.fileSettingsRead(pathFileSettings)
-        #print(fileContent)
+        print(fileContent)
 
         Main.controller(fileContent)
 
