@@ -25,6 +25,16 @@ A virtual assistant for Linux for controlling the operating system graphical use
 1. [ ] Linux kernel.
 1. [ ] Python >= 3.10 (only because the match case and 'f' strings).
 1. [ ] PIP3.
+1. [ ] [Shell Script Library](https://github.com/henrikbeck95/shell_script_library).
+
+### For all Linux distributions
+
+- Install Shell Script Library
+    > $`curl -fsSL github.com/henrikbeck95/shell_script_library/releases/latest/download/shell-script-library -O`
+
+    > $ `mv ./shell-script-library /usr/local/bin/shell-script-library`
+
+### For a specific Linux distribution
 
 - ArchLinux
 	> $ `sudo pacman -S festival festival-english festival-us python-pyaudio`
@@ -104,9 +114,7 @@ cp ./src/libs/shell-script-library ./build/lib/src/libs/shell-script-library
 - Remove the Val project folder
 	> $ `rm -fr ./voice_assistant_linux/`
 
-<!--
 ### Normal usage mode
 
 1. Uninstall it.
-    > $ `pip3 unistall voice-assistant-linux`
--->
+    > $ `pip3 uninstall voice-assistant-linux`
