@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 #Import system libraries
+import os
 import time
 
 #Import external libraries
@@ -14,12 +15,30 @@ class Main:
         #Make sure that shell script file has executable permission
         #pathFileSpeaking = Utils.generatePathDirectory('./speaking.sh')
         #Utils.shellScriptCommandRun(f'chmod +x {pathFileSpeaking}')
-        
         #Utils.shellScriptCommandSpeak("Hi, my name is Val!")
 
+        #Get user home directory path
+        pathHomeUser = os.path.expanduser('~')
+
+        #Declaring variables to VAL settings file
+        fileSettingsBothName = 'settings.yml'
+        pathSettingsLocalFile = Utils.generatePathDirectory(f'./{fileSettingsBothName}')
+        pathSettingsSystemDirectory = f'{pathHomeUser}/.config/voice_assistant_linux'
+        pathSettingsSystemFile = f'{pathSettingsSystemDirectory}/{fileSettingsBothName}'
+
+        #Only for becoming easier the debugging process
+        if Utils.checkIfFileExists(pathSettingsSystemFile) == True:
+            Utils.shellScriptCommandRun(f'rm {pathSettingsSystemFile}')
+
+        #Generate VAL settings file if not exists
+        if Utils.checkIfFileExists(pathSettingsSystemFile) == False:
+            Utils.shellScriptCommandRun(f'mkdir -p {pathSettingsSystemDirectory}')
+            Utils.shellScriptCommandRun(f'cp {pathSettingsLocalFile} {pathSettingsSystemFile}')
+            #Utils.shellScriptCommandRun(f'ln -sf {pathSettingsLocalFile} {pathSettingsSystemFile}')
+            #Utils.shellScriptCommandRun(f'ls -lah {pathSettingsSystemFile} && echo -e "\n"')
+        
         #Import VAL settings file
-        pathFileSettings = Utils.generatePathDirectory('./settings.yml')
-        fileContent = Utils.fileSettingsRead(pathFileSettings)
+        fileContent = Utils.fileSettingsRead(pathSettingsSystemFile)
         print(fileContent)
 
         Main.controller(fileContent)

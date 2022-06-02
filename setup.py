@@ -6,7 +6,7 @@ pathDirectoryCurrent = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(pathDirectoryCurrent, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 DESCRIPTION = 'Virtual assistant from voice commands to control operating system graphical user interface.'
 
 setup(
@@ -20,7 +20,17 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/henrikbeck95/voice_assistant_linux/',
     packages=find_packages(),
-    keywords=['val', 'voice assistant', 'i3wm', 'Unix Shell'],
+    keywords=[
+        'assistant-computer-control'
+        'assistant-personnel',
+        'i3-gaps',
+        'i3wm',
+        'val',
+        'voice-assistant',
+        'voice-commands',
+        'voice-control',
+        'voice-recognition',
+    ],
     include_package_data=True,
     python_requires='>=3.10',
     classifiers=[

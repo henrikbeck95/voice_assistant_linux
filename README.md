@@ -40,6 +40,8 @@ A virtual assistant for Linux for controlling the operating system graphical use
 
     > $ `mv ./shell-script-library /usr/local/bin/shell-script-library`
 
+    > $ `chmod +x /usr/local/bin/shell-script-library`
+
 ### For a specific Linux distribution
 
 - ArchLinux

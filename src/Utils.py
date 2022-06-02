@@ -45,7 +45,8 @@ class Utils:
         return pathDirectoryCurrent + pathDirectoryRelativeAux
 
     def shellScriptCommandRun(command):
-        aux = 'bash -c "%s"' %(command)
+        #aux = 'bash -c "%s"' %(command)
+        aux = 'sh -c "%s"' %(command)
         stdout = subprocess.getoutput(aux)
         print(stdout)
     
