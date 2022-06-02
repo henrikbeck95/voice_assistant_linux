@@ -52,7 +52,19 @@ class Utils:
         print(stdout)
     
     def shellScriptCommandSpeak(voiceSpeech):
-        fileShellScriptLibrary = '/usr/local/bin/shell-script-library'
+        #Get user home directory path
+        pathHomeUser = os.path.expanduser('~')
+
+        #Shell Script Library file location
+        fileShellScriptLibrary = ''
+
+        if Utils.checkIfFileExists('/usr/local/bin/shell-script-library') == True:
+            fileShellScriptLibrary = '/usr/local/bin/shell-script-library'
+        elif Utils.checkIfFileExists(f'{pathHomeUser}/.local/bin/shell-script-library') == True:
+            fileShellScriptLibrary = f'{pathHomeUser}/.local/bin/shell-script-library'
+        else:
+            print("Shell Script Library is not installed on operating system.")
+            exit(0)
 
         if Utils.checkIfFileExists(fileShellScriptLibrary) == True:
             command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_complex " + "'" + voiceSpeech + "'"
