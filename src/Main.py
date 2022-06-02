@@ -2,10 +2,9 @@
 
 #Import system libraries
 import os
-import time
 
 #Import external libraries
-import speech_recognition
+#import speech_recognition
 
 #Import internal classes
 from Utils import Utils
@@ -46,7 +45,7 @@ class Main:
     def controller(fileContent):
         #Capture user voice command
         if fileContent.get('settings').get('debug') == 'off':
-            userCommand = Main.detectUserVoice(fileContent)
+            userCommand = Utils.valCommandDetectUserVoice(fileContent)
         elif fileContent.get('settings').get('debug') == 'on':
             userCommand = Utils.valCommandDebugOn(fileContent)
         else:
@@ -74,26 +73,6 @@ class Main:
             codeError = codeError = fileContent.get('val').get('message_error_command_not_listed')
             Utils.valCommandExecutionMenu(fileContent, userCommandArray, codeError)
 
-    def detectUserVoice(fileContent):
-        print("Listening...")
-        Utils.shellScriptCommandSpeak("Listening...")
-
-        #List all available microphones
-        #print(speech_recognition.Microphone.list_microphone_names())
-
-        try:
-            with speech_recognition.Microphone() as source:
-                time.sleep(1)
-                return Utils.valCommandRecording(fileContent, source)
-
-        except:
-            codeError = fileContent.get('val').get('message_error_microphone')
-
-            print("Something unexpected has been happened!")
-            print(codeError)
-            Utils.shellScriptCommandSpeak(codeError)
-            #exit()
-    
 '''
 if __name__ == 'Main':
     #while True:

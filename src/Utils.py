@@ -1,6 +1,7 @@
 #Import system libraries
 import os
 import subprocess
+import time
 
 #Import external libraries
 import speech_recognition
@@ -58,7 +59,51 @@ class Utils:
             Utils.shellScriptCommandRun(command)
         else:
             print("Shell script has not been found")
-    
+
+    def valCommandDetectUserVoice(fileContent):
+        print("Listening...")
+        Utils.shellScriptCommandSpeak("Listening...")
+
+        #List all available microphones
+        #print(speech_recognition.Microphone.list_microphone_names())
+
+        try:
+            with speech_recognition.Microphone() as source:
+                time.sleep(1)
+                return Utils.valCommandRecording(fileContent, source)
+
+        except:
+            codeError = fileContent.get('val').get('message_error_microphone')
+
+            print("Something unexpected has been happened!")
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+            #exit()
+
+    def valCommandRecording(fileContent, source):
+        #Inspect audio file for removing some ambient noise
+        audio.adjust_for_ambient_noise(source)
+        print(fileContent.get('val').get('message_running'))
+        
+        #Save the user's voice recording as an external file
+        pathFileValUserVoice = fileContent.get('user').get('file_recording')
+
+        with open(pathFileValUserVoice, 'wb') as file_external:
+            userVoiceTranscription = audio.listen(source)
+            file_external.write(userVoiceTranscription.get_wav_data())
+
+        #Load the user's voice recording
+        result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+
+        #Remove the user's voice recording file if exists
+        if Utils.checkIfFileExists(pathFileValUserVoice) == True:
+            command = "rm " + pathFileValUserVoice
+            Utils.shellScriptCommandRun(command)
+        else:
+            print(pathFileValUserVoice + " file has not been found")
+
+        return result
+
     def valCommandExecutionMenu(fileContent, userCommandArray, codeError):
         match userCommandArray[0]:
             case "abrir" | "open" | "software":
@@ -191,30 +236,6 @@ class Utils:
         else:
             print(fileContent.get('val').get('message_error_command_not_listed'))
             return False
-
-    def valCommandRecording(fileContent, source):
-        #Inspect audio file for removing some ambient noise
-        audio.adjust_for_ambient_noise(source)
-        print(fileContent.get('val').get('message_running'))
-        
-        #Save the user's voice recording as an external file
-        pathFileValUserVoice = fileContent.get('user').get('file_recording')
-
-        with open(pathFileValUserVoice, 'wb') as file_external:
-            userVoiceTranscription = audio.listen(source)
-            file_external.write(userVoiceTranscription.get_wav_data())
-
-        #Load the user's voice recording
-        result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
-
-        #Remove the user's voice recording file if exists
-        if Utils.checkIfFileExists(pathFileValUserVoice) == True:
-            command = "rm " + pathFileValUserVoice
-            Utils.shellScriptCommandRun(command)
-        else:
-            print(pathFileValUserVoice + " file has not been found")
-
-        return result
 
     def valCommandDebugOn(fileContent):
         #Debugging commands for softwares
