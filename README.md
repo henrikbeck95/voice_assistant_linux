@@ -1,6 +1,6 @@
 # Voice Assistant for Linux
 
-Say hi to VAL (Voice Assistant for Linux)!
+Say hi to VAL! This is the Voice Assistant for Linux.
 
 [![GitHub release](https://img.shields.io/github/release/henrikbeck95/voice_assistant_linux/all.svg)](https://github.com/henrikbeck95/voice_assistant_linux/releases)
 [![GitHub license](https://img.shields.io/github/license/henrikbeck95/voice_assistant_linux.svg)](https://github.com/henrikbeck95/voice_assistant_linux/blob/master/LICENSE)
@@ -10,119 +10,59 @@ Say hi to VAL (Voice Assistant for Linux)!
 
 ## Description
 
-A virtual assistant for Linux for controlling the operating system graphical user interface by using voice commands.
+This is a virtual assistant for Linux developed to control the operating system graphical user interface by using voice commands.
 
-- Project task list status
-    1. [x] Human voice recognition.
-    1. [x] Human voice transcription.
-    1. [x] Detects voice commands from a defined list and executes it.
-    1. [x] Debug mode.
-    1. [x] Works on i3 tiling window manager.
-    1. [ ] Works on Gnome desktop environment.
-    1. [ ] Works on KDE Plasma desktop environment.
-    1. [ ] Works on XFCE desktop environment.
-    1. [ ] Infinite while loop should be implement.
+Check the dedicated documentations to know more about the project.
 
-- Warning
-    1. The software run only at once. This should be fixed by implementing the infinity while loop. The problem here is to define a strategy to invoke only the voice command after the user say 'Val'. Furthermore the source code must be returned to wait the 'Val' to be called again.
-
-## Requirements
-
-1. [ ] Linux kernel.
-1. [ ] Python >= 3.10 (only because the match case and 'f' strings).
-1. [ ] PIP3.
-1. [ ] [Shell Script Library](https://github.com/henrikbeck95/shell_script_library).
-
-### For all Linux distributions
-
-- Install Shell Script Library
-    > $`curl -fsSL github.com/henrikbeck95/shell_script_library/releases/latest/download/shell-script-library -O`
-
-    > $ `mv ./shell-script-library /usr/local/bin/shell-script-library`
-
-    > $ `chmod +x /usr/local/bin/shell-script-library`
-
-### For a specific Linux distribution
-
-- ArchLinux
-	> $ `sudo pacman -S festival festival-english festival-us python-pyaudio`
-
+- Description documents
+    1. [About the project](./docs/description/description_about_this.md).
+    1. [Contribute to the project](./docs/description/description_contribute.md).
     <!--
-    > $ `paru -S python-pyttsx3`
+    1. [Reasons to use **VAL**](./docs/description/description_reasons_to_use.md).
+    1. [The problems this project tries to solve](./docs/description/description_the_solution.md).
     -->
+    1. [The project progress](./docs/description/description_task_list.md).
+
+- Software engineer documents
+    1. [Diagram UML](./docs/software_engineer/uml_diagram.mfj).
 
 <!--
-- Debian
-	> $ `sudo apt-get install festival`
-
-- Fedora
-	> $ `sudo dnf install festival`
-
-- Ubuntu
-	> $ `sudo apt-get install festival`
+- Articles about this project (in Portuguese language)
+    1. [](./docs/articles/entregas.md) (in Portuguese language).
+    1. [](./docs/articles/historia_usuario.md) (in Portuguese language).
+    1. [](./docs/articles/relatorio_01_parte_01.docx) (in Portuguese language).
+    1. [](./docs/articles/relatorio_01_parte_02.docx) (in Portuguese language).
+    1. [](./docs/articles/relatorio_02_parte_02.md) (in Portuguese language).
 -->
-
-## Installation
-
-### Development mode
-
-1. Install Python libraries
-    > $ `pip3 install SpeechRecognition`
-
-    > $ `pip3 install yaml-1.3`
-
-    > $ `pip3 install setuptools`
-
-    > $ `pip3 install wheel`
-
-    > $ `pip3 install twine`
-
-    > $ `pip3 install voice-assistant-linux`
-
-1. Clone this repository.
-    > $ `git clone https://github.com/henrikbeck95/voice_assistant_linux.git`
-
-1. Build the package for PyPi
-    > $ `python3 setup.py sdist bdist_wheel`
-
-1. Upload the package to PyPi repository
-    > $ `twine upload dist/*`
 
 <!--
-cp ./src/speaking.sh ./build/lib/src/speaking.sh
-
-cp ./src/settings.yml ./build/lib/src/settings.yml
-
-cp ./src/libs/shell-script-library ./build/lib/src/libs/shell-script-library
+    1. [TGI 1](./docs/articles/) (in Portuguese lanaguage).
+    1. [TGI 2](./docs/articles/) (in Portuguese lanaguage).
 -->
 
-### Normal usage mode
-
-1. Install from PyPi repository
-    > $ `pip3 install voice-assistant-linux`
-
-## Usage
-
-### Development mode
-
-1. Run it.
-    > $ `python3 ./src/__init__.py`
+## Usage examples
 
 <!--
-### Normal usage mode
-
-1. Run it.
-    > $ `voice-assistant-linux`
+- Some screenshots compacted to a gif picture file.
+    1. []().
 -->
 
-## Uninstallation
+<!--
+- Some YouTube videos executing **VAL**.
+    1. []().
+-->
 
-### Development mode
+## Installation setup
 
-- Remove the Val project folder
-	> $ `rm -fr ./voice_assistant_linux/`
+- Setup **VAL**
+    1. [Requirements](./docs/setup/setup_requirements.md).
+    1. [For contributing to this project](./docs/setup/setup_developer.md).
+    1. [For yourself](./docs/setup/setup_user.md).
 
-### Normal usage mode
+## Final words 
 
-1. Uninstall it.
-    > $ `pip3 uninstall voice-assistant-linux`
+- The step by step to the happiness:
+    1. Install the **VAL**.
+    1. Import the **VAL**.
+    1. Code less by using the **VAL**.
+    1. Smile!

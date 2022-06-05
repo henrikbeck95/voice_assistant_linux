@@ -3,9 +3,6 @@
 #Import system libraries
 import os
 
-#Import external libraries
-#import speech_recognition
-
 #Import internal classes
 from Utils import Utils
 
@@ -25,6 +22,13 @@ class Main:
         pathSettingsSystemDirectory = f'{pathHomeUser}/.config/voice_assistant_linux'
         pathSettingsSystemFile = f'{pathSettingsSystemDirectory}/{fileSettingsBothName}'
 
+
+
+
+        '''
+        #MUST CHECK THESE BLOCKS OUT
+        #Generate the configuration without having a copy of the settings.yml file
+
         #Only for becoming easier the debugging process
         if Utils.checkIfFileExists(pathSettingsSystemFile) == True:
             Utils.shellScriptCommandRun(f'rm {pathSettingsSystemFile}')
@@ -35,7 +39,11 @@ class Main:
             Utils.shellScriptCommandRun(f'cp {pathSettingsLocalFile} {pathSettingsSystemFile}')
             #Utils.shellScriptCommandRun(f'ln -sf {pathSettingsLocalFile} {pathSettingsSystemFile}')
             #Utils.shellScriptCommandRun(f'ls -lah {pathSettingsSystemFile} && echo -e "\n"')
-        
+        '''
+
+
+
+
         #Import VAL settings file
         fileContent = Utils.fileSettingsRead(pathSettingsSystemFile)
         print(fileContent)
