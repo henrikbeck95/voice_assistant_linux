@@ -15,9 +15,9 @@ class Utils:
     AUX_WORD_BRIGHTNESS = ["brightness"]
     AUX_WORD_CLOSE = ["close"]
     AUX_WORD_DOWN = ["down"]
-    AUX_WORD_FLOAT = ["float"]
+    AUX_WORD_FLOAT = ["float", "floor"]
     AUX_WORD_FOCUS = ["focus"]
-    AUX_WORD_FULL = ["full", "full-screen", "full", "you", "boom", "who", "bookoo"]
+    AUX_WORD_FULL = ["full", "full-screen", "full", "you", "boom", "who", "bookoo", "foo", "poo", "pool"]
     AUX_WORD_GO = ["go"]
     AUX_WORD_LAST = ["last"]
     AUX_WORD_LEFT = ["left"]
@@ -31,7 +31,7 @@ class Utils:
     AUX_WORD_UP = ["up"]
     AUX_WORD_VOLUME = ["volume"]
     AUX_WORD_WINDOW = ["window", "windows"]
-    AUX_WORD_WORKSPACE = ["workspace"]
+    AUX_WORD_WORKSPACE = ["workspace", "wordspace"]
     #ZZZZZZZZZZZ_NUMBER #Replace it content for a number value
 
     def checkIfFileExists(pathFile):
