@@ -25,7 +25,6 @@ class Main:
 
 
 
-        '''
         #MUST CHECK THESE BLOCKS OUT
         #Generate the configuration without having a copy of the settings.yml file
 
@@ -40,13 +39,17 @@ class Main:
             #Utils.shellScriptCommandRun(f'ln -sf {pathSettingsLocalFile} {pathSettingsSystemFile}')
             #Utils.shellScriptCommandRun(f'ls -lah {pathSettingsSystemFile} && echo -e "\n"')
         '''
+        '''
 
 
 
 
         #Import VAL settings file
         fileContent = Utils.fileSettingsRead(pathSettingsSystemFile)
-        print(fileContent)
+
+        #Display the settings.yml file content only if debug mode is turned on
+        if fileContent.get('settings').get('debug') == 'on':
+            print(fileContent)
 
         Main.controller(fileContent)
 

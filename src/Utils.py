@@ -11,6 +11,16 @@ import yaml
 audio = speech_recognition.Recognizer()
 
 class Utils:
+    #Auxiliar lists for improving voice detection
+
+    '''
+    AUX_SYSTEM = ["system", "c-span", "eastern", "casement", "easton", "easter", "houston", "sister", "piston", "assistant"]
+    AUX_ = ["", "", "", "", "", "", "", ""]
+    AUX_ = ["", "", "", "", "", "", "", ""]
+    AUX_ = ["", "", "", "", "", "", "", ""]
+    AUX_ = ["", "", "", "", "", "", "", ""]
+    '''
+
     def checkIfFileExists(pathFile):
         if os.path.isfile(pathFile):
             return True
@@ -67,7 +77,8 @@ class Utils:
             exit(0)
 
         if Utils.checkIfFileExists(fileShellScriptLibrary) == True:
-            command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_complex " + "'" + voiceSpeech + "'"
+            #command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_complex " + "'" + voiceSpeech + "'"
+            command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_simple " + "'" + voiceSpeech + "'"
             Utils.shellScriptCommandRun(command)
         else:
             print("Shell script has not been found")
@@ -116,12 +127,19 @@ class Utils:
 
         return result
 
+    #system window full screen
+    #"full-screen"
+    #Check this out
     def valCommandExecutionMenu(fileContent, userCommandArray, codeError):
+        print("COMECEI A VALIDAR ESTA BIROSCA")
         match userCommandArray[0]:
-            case "abrir" | "open" | "software":
+            #case "abrir" | "open" | "software":
+            case "software":
                 Utils.valCommandExecutionSoftware(fileContent, userCommandArray, codeError)
-            case "sistema" | "system":
+            case "sistema" | "system" | "c-span" | "eastern" | "casement" | "easton" | "easter" | "houston" | "sister" | "piston" | "assistant":
+            #case "system":
                 Utils.valCommandExecutionSystem(fileContent, userCommandArray, codeError)
+                print("PASSOU DA PRIMEIRA FASE")
             case _:
                 print(codeError)
                 Utils.shellScriptCommandSpeak(codeError)
@@ -171,6 +189,7 @@ class Utils:
                     case "floating":
                         os.system(fileContent.get('system').get('window').get('floating'))
                     case "full":
+                    #case "full screen":
                         os.system(fileContent.get('system').get('window').get('full_screen'))
                     case "stick":
                         os.system(fileContent.get('system').get('window').get('stick'))
@@ -242,6 +261,16 @@ class Utils:
                 Utils.shellScriptCommandSpeak(codeError)
 
     def valCommandValidation(fileContent, userCommandArray):
+        print("HERE WE GO: " + userCommandArray)
+        
+        match userCommandArray:
+            case "sistema" | "system" | "c-span" | "eastern" | "casement" | "easton" | "easter" | "houston" | "sister" | "piston" | "assistant":
+                userCommandArray = "system"
+        
+        print("HERE WE GO: " + userCommandArray)
+        
+        '''
+        '''
         if userCommandArray in fileContent:
             print(fileContent.get('val').get('message_success_command_listed'))
             return True
@@ -265,7 +294,7 @@ class Utils:
         #userCommand = "system window close"
         #userCommand = "system window floating"
         #userCommand = "system window stick"
-        #userCommand = "system window full screen"
+        userCommand = "system window full screen"
         #userCommand = "system window focus up"
         #userCommand = "system window focus left"
         #userCommand = "system window focus right"
