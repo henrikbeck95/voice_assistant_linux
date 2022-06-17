@@ -1,14 +1,14 @@
 #system window full screen
 settings:
-  #debug: "on"
-  debug: "off"
+  debug: "on"
+  #debug: "off"
 
   #dictionary: "/home/henrikbeck95/Desktop/tcc/voice_assistant_linux/src/dictionary.txt"
   dictionary: "/home/henrikbeck95/Desktop/tcc/voice_assistant_linux/src"
   
   training:
-    mode: "on"
-    #mode: "off"
+    #mode: "on"
+    mode: "off"
     word: "software"
     #word: "system"
     #word: ""

@@ -50,8 +50,8 @@ class Main:
         if fileContent.get('settings').get('debug') == 'on':
             print(fileContent)
 
-        while True:
-            Main.controller(fileContent)
+        #while True:
+        Main.controller(fileContent)
 
     def controller(fileContent):
         if fileContent.get('settings').get('training').get('mode') == 'off':

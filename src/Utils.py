@@ -27,8 +27,7 @@ class Utils:
     AUX_WORD_RIGHT = ["right"]
     AUX_WORD_SOFTWARE = ["software", "open"]
     AUX_WORD_STICK = ["stick"]
-    #AUX_WORD_SYSTEM = ["system", "systems", "c-span", "eastern", "casement", "easton", "easter", "cstep", "houston", "sister", "piston", "assistant"]
-    AUX_WORD_SYSTEM = listWordDictionary(pathDirectory, testWord)
+    AUX_WORD_SYSTEM = ["system", "systems", "c-span", "eastern", "casement", "easton", "easter", "cstep", "houston", "sister", "piston", "assistant"]
     AUX_WORD_UP = ["up"]
     AUX_WORD_VOLUME = ["volume"]
     AUX_WORD_WINDOW = ["window", "windows"]
@@ -403,24 +402,20 @@ class Utils:
             print(codeError)
             Utils.shellScriptCommandSpeak(codeError)
 
-    #MUST BE FIXED
     def valCommandValidation(fileContent, userCommandArray):
-        print("HERE WE GO: " + userCommandArray)
+        if fileContent.get('settings').get('debug') == 'on':
+            print("Validating: " + userCommandArray)
 
-        '''
-        if userCommandArray[1] in Utils.AUX_WORD_SYSTEM:
-            userCommandArray = "system"
-        '''
+        return True
         
         '''
-        match userCommandArray:
-            case "sistema" | "system" | "c-span" | "eastern" | "casement" | "easton" | "easter" | "houston" | "sister" | "piston" | "assistant":
-                userCommandArray = "system"
+        if userCommandArray[1] in Utils.AUX_WORD_SOFTWARE or userCommandArray[1] in Utils.AUX_WORD_SYSTEM:
+            return True
+        else:
+            print(fileContent.get('val').get('message_error_command_not_listed'))
+            return False
         '''
-        
-        print("HERE WE GO: " + userCommandArray)
-        
-        '''
+            
         '''
         if userCommandArray in fileContent:
             print(fileContent.get('val').get('message_success_command_listed'))
@@ -428,6 +423,7 @@ class Utils:
         else:
             print(fileContent.get('val').get('message_error_command_not_listed'))
             return False
+        '''
 
     def valCommandDebugOn(fileContent):
         #Debugging commands for softwares
@@ -465,6 +461,8 @@ class Utils:
 
         #TRAINING
         #userCommand = "software sowfjoj softwari dgdkkgl"
-        userCommand = "lalalala lejgwe ltet"
+        #userCommand = "software terminal"
+        userCommand = "open terminal"
+        #userCommand = "lalal terminal"
 
         return userCommand
