@@ -27,7 +27,8 @@ class Utils:
     AUX_WORD_RIGHT = ["right"]
     AUX_WORD_SOFTWARE = ["software", "open"]
     AUX_WORD_STICK = ["stick"]
-    AUX_WORD_SYSTEM = ["system", "systems", "c-span", "eastern", "casement", "easton", "easter", "cstep", "houston", "sister", "piston", "assistant"]
+    #AUX_WORD_SYSTEM = ["system", "systems", "c-span", "eastern", "casement", "easton", "easter", "cstep", "houston", "sister", "piston", "assistant"]
+    AUX_WORD_SYSTEM = listWordDictionary(pathDirectory, testWord)
     AUX_WORD_UP = ["up"]
     AUX_WORD_VOLUME = ["volume"]
     AUX_WORD_WINDOW = ["window", "windows"]
@@ -39,7 +40,121 @@ class Utils:
             return True
         else:
             return False
+
+    def fileDictionaryAppend(pathFile, userCommand):
+        try:
+            fileObject = open(pathFile, mode='a', encoding='utf-8')
+            #fileObject.write(userCommand)
+            EachStringNewLine = userCommand.replace(' ', '\n')
+            fileObject.write('\n' + EachStringNewLine)
+        finally:
+            fileObject.close()
+
+    def fileDictionaryClear(pathFile):
+        try:
+            fileObject = open(pathFile, mode='w', encoding='utf-8')
+            fileObject.write('')
+
+        finally:
+            fileObject.close()
+
+    def fileDictionaryLoadAsList(pathFile):
+        try:
+            fileObject = open(pathFile, mode='r', encoding='utf-8')
+            listContent = fileObject.readlines()
+
+            #print (f'VARIABLES: {listContent}')
+
+            #Remove '\n' from string
+            listContentAux = []
+
+            for i in listContent:
+                listContentAux.append(i.replace("\n", ""))
+
+            #print (f'VARIABLES2: {listContentAux}')
+            return listContentAux
+
+        finally:
+            fileObject.close()
     
+    def fileDictionaryPath(pathDirectory, testWord):
+        #print(f'PATH DIRECTORY: {pathDirectory}')
+        pathFile = pathDirectory + "/dictionary_" + testWord + ".txt"
+
+        return pathFile
+    
+    def listWordDictionary(pathDirectory, testWord):
+        filePathDictionary = Utils.fileDictionaryPath(pathDirectory, testWord)
+        listWordDictionary = Utils.fileDictionaryLoadAsList(filePathDictionary)
+        
+        return listWordDictionary
+    
+    def fileDictionaryRead(pathFile):
+        try:
+            fileObject = open(pathFile, mode='r', encoding='utf-8')
+            fileContent = fileObject.read()
+            print(f'The content from {pathFile}:\n{fileContent}')
+
+        finally:
+            fileObject.close()
+    
+    def fileDictionaryRemoveAllBlankLine(pathFile):
+        try:
+            fileObject = open(pathFile, mode='r+', encoding='utf-8')
+
+            lines = fileObject.readlines()
+            fileObject.seek(0)
+            fileObject.writelines(line for line in lines if line.strip())
+            fileObject.truncate()
+
+        finally:
+            fileObject.close()
+
+    def fileDictionaryWrite(pathFile, userCommand):
+        try:
+            fileObject = open(pathFile, mode='w', encoding='utf-8')
+            #fileObject.write(userCommand)
+            EachStringNewLine = userCommand.replace(' ', '\n')
+            fileObject.write(EachStringNewLine)
+
+        finally:
+            fileObject.close()
+    
+    #Filter the external file to store only unique values
+    def fileDictionarySort(pathFile):
+        #Get all values        
+        listContentValuesAll = Utils.fileDictionaryLoadAsList(pathFile)
+
+        #Get only unique values
+        setContentValuesUnique = set(listContentValuesAll)
+        #print(f'UNIQUE: {setContentValuesUnique}')
+
+        #Convert set to list
+        listContentValuesUnique = list(setContentValuesUnique)
+
+        #Sort the values
+        listContentValuesUnique.sort()
+        #print(f'SORTED: {listContentValuesUnique}')
+        
+        #Clear old file content
+        Utils.fileDictionaryClear(pathFile)
+
+        #Overwrite
+        try:
+            fileObject = open(pathFile, mode='w', encoding='utf-8')
+
+            for i in range(len(listContentValuesUnique)):
+                fileObject.write('\n')
+                fileObject.write(listContentValuesUnique[i])
+                fileObject.write('\n')
+
+        finally:
+            fileObject.close()
+        '''
+        '''
+
+        Utils.fileDictionaryRemoveAllBlankLine(pathFile)
+
     def fileSettingsRead(filepath):
         try:
             with open(filepath) as fileSettings:
@@ -96,14 +211,29 @@ class Utils:
         else:
             print("Shell script has not been found")
 
+    #MUST BE FIXED
+    def urlGenerateGoogle(query):
+        return "google.com/search?q=your+query"
+
+    #MUST BE FIXED
+    def urlGenerateMaps(query):
+        return "http://maps.google.com/?q=your+query"
+
+    #MUST BE FIXED
+    def urlGenerateYoutube(query):
+        return "https://www.youtube.com/results?search_query=your+query"
+
     def valCommandDetectUserVoice(fileContent):
-        print("Listening...")
-        Utils.shellScriptCommandSpeak("Listening...")
+        commandListening = fileContent.get('val').get('message_running')
+
+        print(commandListening)
+        Utils.shellScriptCommandSpeak(commandListening)
 
         #List all available microphones
         #print(speech_recognition.Microphone.list_microphone_names())
 
         try:
+            #with speech_recognition.Microphone(device_index=7) as source:
             with speech_recognition.Microphone() as source:
                 time.sleep(1)
                 return Utils.valCommandRecording(fileContent, source)
@@ -119,6 +249,13 @@ class Utils:
     def valCommandRecording(fileContent, source):
         #Inspect audio file for removing some ambient noise
         audio.adjust_for_ambient_noise(source)
+        
+        '''
+        audio.energy_threshold = 1932
+        audio.dynamic_energy_threshold = True
+        audio.pause_threshold=1.2
+        '''
+
         print(fileContent.get('val').get('message_running'))
         
         #Save the user's voice recording as an external file
@@ -128,8 +265,17 @@ class Utils:
             userVoiceTranscription = audio.listen(source)
             file_external.write(userVoiceTranscription.get_wav_data())
 
-        #Load the user's voice recording
-        result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+
+
+        try:
+            #Load the user's voice recording
+            result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+        except audio.UnknownValueError:
+            print("Could not understand audio")
+        except audio.RequestError as e:
+            print("Could not request results {0}".format(e))
+
+
 
         #Remove the user's voice recording file if exists
         if Utils.checkIfFileExists(pathFileValUserVoice) == True:
@@ -260,10 +406,17 @@ class Utils:
     #MUST BE FIXED
     def valCommandValidation(fileContent, userCommandArray):
         print("HERE WE GO: " + userCommandArray)
+
+        '''
+        if userCommandArray[1] in Utils.AUX_WORD_SYSTEM:
+            userCommandArray = "system"
+        '''
         
+        '''
         match userCommandArray:
             case "sistema" | "system" | "c-span" | "eastern" | "casement" | "easton" | "easter" | "houston" | "sister" | "piston" | "assistant":
                 userCommandArray = "system"
+        '''
         
         print("HERE WE GO: " + userCommandArray)
         
@@ -309,5 +462,9 @@ class Utils:
         #userCommand = "system workspace move number" #Not working
         #userCommand = "system workspace move next"
         #userCommand = "system workspace move previous"
+
+        #TRAINING
+        #userCommand = "software sowfjoj softwari dgdkkgl"
+        userCommand = "lalalala lejgwe ltet"
 
         return userCommand
