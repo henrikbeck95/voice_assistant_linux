@@ -52,6 +52,9 @@ Check the dedicated documentations to know more about the project.
     1. []().
 -->
 
+- Available command list
+    1. [Command list with their description](./docs/usage/usage_commands.md)
+
 ## Installation setup
 
 - Setup **VAL**

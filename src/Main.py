@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#Import system libraries
+#Import system library
 import os
 
 #Import internal classes
@@ -25,7 +25,6 @@ class Main:
 
 
 
-        '''
         #MUST CHECK THESE BLOCKS OUT
         #Generate the configuration without having a copy of the settings.yml file
 
@@ -36,9 +35,9 @@ class Main:
         #Generate VAL settings file if not exists
         if Utils.checkIfFileExists(pathSettingsSystemFile) == False:
             Utils.shellScriptCommandRun(f'mkdir -p {pathSettingsSystemDirectory}')
+            Utils.shellScriptCommandRun(f'ln -sf {pathSettingsLocalFile} {pathSettingsSystemFile}')
+        '''
             Utils.shellScriptCommandRun(f'cp {pathSettingsLocalFile} {pathSettingsSystemFile}')
-            #Utils.shellScriptCommandRun(f'ln -sf {pathSettingsLocalFile} {pathSettingsSystemFile}')
-            #Utils.shellScriptCommandRun(f'ls -lah {pathSettingsSystemFile} && echo -e "\n"')
         '''
 
 
@@ -46,23 +45,48 @@ class Main:
 
         #Import VAL settings file
         fileContent = Utils.fileSettingsRead(pathSettingsSystemFile)
-        print(fileContent)
 
+        #Display the settings.yml file content only if debug mode is turned on
+        if fileContent.get('settings').get('debug') == 'on':
+            print(fileContent)
+
+        #while True:
         Main.controller(fileContent)
 
     def controller(fileContent):
+        if fileContent.get('settings').get('training').get('mode') == 'off':
+            Main.runningModeNormal(fileContent)
+
+        #Training feature
+        elif fileContent.get('settings').get('training').get('mode') == 'on':
+            Main.runningModeTraining(fileContent)
+
+        else:
+            #codeError = fileContent.get('val').get('message_error_microphone')
+            codeError = "Debug mode must be defined"
+            
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+            exit()
+
+    def runningModeNormal(fileContent):
         #Capture user voice command
-        if fileContent.get('settings').get('debug') == 'off':
-            userCommand = Utils.valCommandDetectUserVoice(fileContent)
-        elif fileContent.get('settings').get('debug') == 'on':
+        if fileContent.get('settings').get('debug') == 'on':
             userCommand = Utils.valCommandDebugOn(fileContent)
+        elif fileContent.get('settings').get('debug') == 'off':
+            userCommand = Utils.valCommandDetectUserVoice(fileContent)
         else:
             #codeError = fileContent.get('val').get('message_error_microphone')
             codeError = "A debug value on settings file must be defined to procedure"
             
             print(codeError)
             Utils.shellScriptCommandSpeak(codeError)
-            exit()
+            #exit()
+
+        '''
+        if 'val' in userCommand:
+            print(userCommand)
+        '''
 
         #Format the voice command transcription
         #userCommand = userCommand[1:] #Get all elements from list except first - the 'VAL' calling
@@ -72,7 +96,7 @@ class Main:
 
         #Transcribe on terminal the user's voice command
         print("User command: {}".format(userCommandArray))
-        
+
         #Check if command exists
         voiceCommandKey = Utils.valCommandValidation(fileContent, userCommandArray[0])
 
@@ -81,8 +105,39 @@ class Main:
             codeError = codeError = fileContent.get('val').get('message_error_command_not_listed')
             Utils.valCommandExecutionMenu(fileContent, userCommandArray, codeError)
 
-'''
-if __name__ == 'Main':
-    #while True:
-    Main.main()
-'''
+    def runningModeTraining(fileContent):
+        #Declaring variables
+        pathDirectory = fileContent.get('settings').get('dictionary')
+        testWord = fileContent.get('settings').get('training').get('word')
+
+        pathFile = Utils.fileDictionaryPath(pathDirectory, testWord)
+        
+        print(f'Path from dictionary file: {pathFile}')
+        print(f'Training the {testWord} command...')
+
+        #Capture user voice command
+        if fileContent.get('settings').get('debug') == 'on':
+            userCommand = Utils.valCommandDebugOn(fileContent)
+        elif fileContent.get('settings').get('debug') == 'off':
+            userCommand = Utils.valCommandDetectUserVoice(fileContent)
+        else:
+            #codeError = fileContent.get('val').get('message_error_microphone')
+            codeError = "A debug value on settings file must be defined to procedure"
+            
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+            #exit()
+
+        #Format the voice command transcription
+        userCommand = userCommand.lower() #Convert all the characters to lower case
+        userCommandArray = userCommand.split() #Split all text word into an array
+
+        #Transcribe on terminal the user's voice command
+        print("User command: {}".format(userCommandArray))
+        
+        #Command test example
+        #["system", "system", "system"]
+
+        #Write on a external file as append
+        Utils.fileDictionaryAppend(pathFile, userCommand)
+        Utils.fileDictionarySort(pathFile)

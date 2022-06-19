@@ -11,12 +11,149 @@ import yaml
 audio = speech_recognition.Recognizer()
 
 class Utils:
+    #Auxiliary lists for improving voice detection with their possibilities
+    AUX_WORD_BRIGHTNESS = ["brightness"]
+    AUX_WORD_CLOSE = ["close"]
+    AUX_WORD_DOWN = ["down"]
+    AUX_WORD_FLOAT = ["float", "floor"]
+    AUX_WORD_FOCUS = ["focus"]
+    AUX_WORD_FULL = ["full", "full-screen", "full", "you", "boom", "who", "bookoo", "foo", "poo", "pool"]
+    AUX_WORD_GO = ["go"]
+    AUX_WORD_LAST = ["last"]
+    AUX_WORD_LEFT = ["left"]
+    AUX_WORD_MOVE = ["move"]
+    AUX_WORD_NEXT = ["next"]
+    AUX_WORD_PREVIOUS = ["previous"]
+    AUX_WORD_RIGHT = ["right"]
+    AUX_WORD_SOFTWARE = ["software", "open"]
+    AUX_WORD_STICK = ["stick"]
+    AUX_WORD_SYSTEM = ["system", "systems", "c-span", "eastern", "casement", "easton", "easter", "cstep", "houston", "sister", "piston", "assistant"]
+    AUX_WORD_UP = ["up"]
+    AUX_WORD_VOLUME = ["volume"]
+    AUX_WORD_WINDOW = ["window", "windows"]
+    AUX_WORD_WORKSPACE = ["workspace", "wordspace"]
+    #ZZZZZZZZZZZ_NUMBER #Replace it content for a number value
+
     def checkIfFileExists(pathFile):
         if os.path.isfile(pathFile):
             return True
         else:
             return False
+
+    def fileDictionaryAppend(pathFile, userCommand):
+        try:
+            fileObject = open(pathFile, mode='a', encoding='utf-8')
+            #fileObject.write(userCommand)
+            EachStringNewLine = userCommand.replace(' ', '\n')
+            fileObject.write('\n' + EachStringNewLine)
+        finally:
+            fileObject.close()
+
+    def fileDictionaryClear(pathFile):
+        try:
+            fileObject = open(pathFile, mode='w', encoding='utf-8')
+            fileObject.write('')
+
+        finally:
+            fileObject.close()
+
+    def fileDictionaryLoadAsList(pathFile):
+        try:
+            fileObject = open(pathFile, mode='r', encoding='utf-8')
+            listContent = fileObject.readlines()
+
+            #print (f'VARIABLES: {listContent}')
+
+            #Remove '\n' from string
+            listContentAux = []
+
+            for i in listContent:
+                listContentAux.append(i.replace("\n", ""))
+
+            #print (f'VARIABLES2: {listContentAux}')
+            return listContentAux
+
+        finally:
+            fileObject.close()
     
+    def fileDictionaryPath(pathDirectory, testWord):
+        #print(f'PATH DIRECTORY: {pathDirectory}')
+        pathFile = pathDirectory + "/dictionary_" + testWord + ".txt"
+
+        return pathFile
+    
+    def listWordDictionary(pathDirectory, testWord):
+        filePathDictionary = Utils.fileDictionaryPath(pathDirectory, testWord)
+        listWordDictionary = Utils.fileDictionaryLoadAsList(filePathDictionary)
+        
+        return listWordDictionary
+    
+    def fileDictionaryRead(pathFile):
+        try:
+            fileObject = open(pathFile, mode='r', encoding='utf-8')
+            fileContent = fileObject.read()
+            print(f'The content from {pathFile}:\n{fileContent}')
+
+        finally:
+            fileObject.close()
+    
+    def fileDictionaryRemoveAllBlankLine(pathFile):
+        try:
+            fileObject = open(pathFile, mode='r+', encoding='utf-8')
+
+            lines = fileObject.readlines()
+            fileObject.seek(0)
+            fileObject.writelines(line for line in lines if line.strip())
+            fileObject.truncate()
+
+        finally:
+            fileObject.close()
+
+    def fileDictionaryWrite(pathFile, userCommand):
+        try:
+            fileObject = open(pathFile, mode='w', encoding='utf-8')
+            #fileObject.write(userCommand)
+            EachStringNewLine = userCommand.replace(' ', '\n')
+            fileObject.write(EachStringNewLine)
+
+        finally:
+            fileObject.close()
+    
+    #Filter the external file to store only unique values
+    def fileDictionarySort(pathFile):
+        #Get all values        
+        listContentValuesAll = Utils.fileDictionaryLoadAsList(pathFile)
+
+        #Get only unique values
+        setContentValuesUnique = set(listContentValuesAll)
+        #print(f'UNIQUE: {setContentValuesUnique}')
+
+        #Convert set to list
+        listContentValuesUnique = list(setContentValuesUnique)
+
+        #Sort the values
+        listContentValuesUnique.sort()
+        #print(f'SORTED: {listContentValuesUnique}')
+        
+        #Clear old file content
+        Utils.fileDictionaryClear(pathFile)
+
+        #Overwrite
+        try:
+            fileObject = open(pathFile, mode='w', encoding='utf-8')
+
+            for i in range(len(listContentValuesUnique)):
+                fileObject.write('\n')
+                fileObject.write(listContentValuesUnique[i])
+                fileObject.write('\n')
+
+        finally:
+            fileObject.close()
+        '''
+        '''
+
+        Utils.fileDictionaryRemoveAllBlankLine(pathFile)
+
     def fileSettingsRead(filepath):
         try:
             with open(filepath) as fileSettings:
@@ -67,19 +204,35 @@ class Utils:
             exit(0)
 
         if Utils.checkIfFileExists(fileShellScriptLibrary) == True:
-            command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_complex " + "'" + voiceSpeech + "'"
+            #command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_complex " + "'" + voiceSpeech + "'"
+            command = "source " + fileShellScriptLibrary + " && system_sound_voice_speech_text_simple " + "'" + voiceSpeech + "'"
             Utils.shellScriptCommandRun(command)
         else:
             print("Shell script has not been found")
 
+    #MUST BE FIXED
+    def urlGenerateGoogle(query):
+        return "google.com/search?q=your+query"
+
+    #MUST BE FIXED
+    def urlGenerateMaps(query):
+        return "http://maps.google.com/?q=your+query"
+
+    #MUST BE FIXED
+    def urlGenerateYoutube(query):
+        return "https://www.youtube.com/results?search_query=your+query"
+
     def valCommandDetectUserVoice(fileContent):
-        print("Listening...")
-        Utils.shellScriptCommandSpeak("Listening...")
+        commandListening = fileContent.get('val').get('message_running')
+
+        print(commandListening)
+        Utils.shellScriptCommandSpeak(commandListening)
 
         #List all available microphones
         #print(speech_recognition.Microphone.list_microphone_names())
 
         try:
+            #with speech_recognition.Microphone(device_index=7) as source:
             with speech_recognition.Microphone() as source:
                 time.sleep(1)
                 return Utils.valCommandRecording(fileContent, source)
@@ -95,6 +248,13 @@ class Utils:
     def valCommandRecording(fileContent, source):
         #Inspect audio file for removing some ambient noise
         audio.adjust_for_ambient_noise(source)
+        
+        '''
+        audio.energy_threshold = 1932
+        audio.dynamic_energy_threshold = True
+        audio.pause_threshold=1.2
+        '''
+
         print(fileContent.get('val').get('message_running'))
         
         #Save the user's voice recording as an external file
@@ -104,8 +264,17 @@ class Utils:
             userVoiceTranscription = audio.listen(source)
             file_external.write(userVoiceTranscription.get_wav_data())
 
-        #Load the user's voice recording
-        result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+
+
+        try:
+            #Load the user's voice recording
+            result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
+        except audio.UnknownValueError:
+            print("Could not understand audio")
+        except audio.RequestError as e:
+            print("Could not request results {0}".format(e))
+
+
 
         #Remove the user's voice recording file if exists
         if Utils.checkIfFileExists(pathFileValUserVoice) == True:
@@ -115,17 +284,17 @@ class Utils:
             print(pathFileValUserVoice + " file has not been found")
 
         return result
-
+    
     def valCommandExecutionMenu(fileContent, userCommandArray, codeError):
-        match userCommandArray[0]:
-            case "abrir" | "open" | "software":
-                Utils.valCommandExecutionSoftware(fileContent, userCommandArray, codeError)
-            case "sistema" | "system":
-                Utils.valCommandExecutionSystem(fileContent, userCommandArray, codeError)
-            case _:
-                print(codeError)
-                Utils.shellScriptCommandSpeak(codeError)
-        
+        if userCommandArray[0] in Utils.AUX_WORD_SOFTWARE:
+            Utils.valCommandExecutionSoftware(fileContent, userCommandArray, codeError)
+        elif userCommandArray[0] in Utils.AUX_WORD_SYSTEM:
+            Utils.valCommandExecutionSystem(fileContent, userCommandArray, codeError)
+        else:
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+
+    #Check this out
     def valCommandExecutionSoftware(fileContent, userCommandArray, codeError):
         match userCommandArray[1]:
             case "firefox":
@@ -143,111 +312,118 @@ class Utils:
                 Utils.shellScriptCommandSpeak(codeError)
 
     def valCommandExecutionSystem(fileContent, userCommandArray, codeError):
-        match userCommandArray[1]:
-            case "brightness":
-                match userCommandArray[2]:
-                    case "up":
-                        os.system(fileContent.get('system').get('brightness').get('up'))
-                    case "down":
-                        os.system(fileContent.get('system').get('brightness').get('down'))
-                    case _:
-                        print(codeError)
-                        Utils.shellScriptCommandSpeak(codeError)
-
-            case "volume":
-                match userCommandArray[2]:
-                    case "up":
-                        os.system(fileContent.get('system').get('volume').get('up'))
-                    case "down":
-                        os.system(fileContent.get('system').get('volume').get('down'))
-                    case _:
-                        print(codeError)
-                        Utils.shellScriptCommandSpeak(codeError)
-
-            case "window":
-                match userCommandArray[2]:
-                    case "close":
-                        os.system(fileContent.get('system').get('window').get('close'))
-                    case "floating":
-                        os.system(fileContent.get('system').get('window').get('floating'))
-                    case "full":
-                        os.system(fileContent.get('system').get('window').get('full_screen'))
-                    case "stick":
-                        os.system(fileContent.get('system').get('window').get('stick'))
-                    case "focus":
-                        match userCommandArray[3]:
-                            case "up":
-                                os.system(fileContent.get('system').get('window').get('focus').get('up'))
-                            case "left":
-                                os.system(fileContent.get('system').get('window').get('focus').get('left'))
-                            case "right":
-                                os.system(fileContent.get('system').get('window').get('focus').get('right'))
-                            case "down":
-                                os.system(fileContent.get('system').get('window').get('focus').get('down'))
-                            case _:
-                                print(codeError)
-                                Utils.shellScriptCommandSpeak(codeError)
-
-                    case "move":
-                        match userCommandArray[3]:
-                            case "up":
-                                os.system(fileContent.get('system').get('window').get('move').get('up'))
-                            case "left":
-                                os.system(fileContent.get('system').get('window').get('move').get('left'))
-                            case "right":
-                                os.system(fileContent.get('system').get('window').get('move').get('right'))
-                            case "down":
-                                os.system(fileContent.get('system').get('window').get('move').get('down'))
-                            case _:
-                                print(codeError)
-                                Utils.shellScriptCommandSpeak(codeError)
-                    case _:
-                        print(codeError)
-                        Utils.shellScriptCommandSpeak(codeError)
-                
-            case "workspace":
-                match userCommandArray[2]:
-                    case "go":
-                        match userCommandArray[3]:
-                            case "last":
-                                os.system(fileContent.get('system').get('workspace').get('go').get('last'))
-                            case "number":
-                                os.system(fileContent.get('system').get('workspace').get('go').get('number'))
-                            case "next":
-                                os.system(fileContent.get('system').get('workspace').get('go').get('next'))
-                            case "previous":
-                                os.system(fileContent.get('system').get('workspace').get('go').get('prev'))
-                            case _:
-                                print(codeError)
-                                Utils.shellScriptCommandSpeak(codeError)
-
-                    case "move":
-                        match userCommandArray[3]:
-                            case "last":
-                                os.system(fileContent.get('system').get('workspace').get('move').get('last'))
-                            case "number":
-                                os.system(fileContent.get('system').get('workspace').get('move').get('number'))
-                            case "next":
-                                os.system(fileContent.get('system').get('workspace').get('move').get('next'))
-                            case "previous":
-                                os.system(fileContent.get('system').get('workspace').get('move').get('prev'))
-                            case _:
-                                print(codeError)
-                                Utils.shellScriptCommandSpeak(codeError)
-                    case _:
-                        print(codeError)
-                        Utils.shellScriptCommandSpeak(codeError)
-            case _:
+        if userCommandArray[1] in Utils.AUX_WORD_BRIGHTNESS:
+            print()
+            if userCommandArray[2] in Utils.AUX_WORD_UP:
+                os.system(fileContent.get('system').get('brightness').get('up'))
+            elif userCommandArray[2] in Utils.AUX_WORD_DOWN:
+                os.system(fileContent.get('system').get('brightness').get('down'))
+            else:
+                print(codeError)
+                Utils.shellScriptCommandSpeak(codeError)
+        
+        elif userCommandArray[1] in Utils.AUX_WORD_VOLUME:
+            print()
+            if userCommandArray[2] in Utils.AUX_WORD_UP:
+                os.system(fileContent.get('system').get('volume').get('up'))
+            elif userCommandArray[2] in Utils.AUX_WORD_DOWN:
+                os.system(fileContent.get('system').get('volume').get('down'))
+            else:
                 print(codeError)
                 Utils.shellScriptCommandSpeak(codeError)
 
+        elif userCommandArray[1] in Utils.AUX_WORD_WINDOW:
+            if userCommandArray[2] in Utils.AUX_WORD_CLOSE:
+                os.system(fileContent.get('system').get('window').get('close'))
+            elif userCommandArray[2] in Utils.AUX_WORD_FLOAT:
+                os.system(fileContent.get('system').get('window').get('floating'))
+            elif userCommandArray[2] in Utils.AUX_WORD_FULL:
+                os.system(fileContent.get('system').get('window').get('full_screen'))
+            elif userCommandArray[2] in Utils.AUX_WORD_STICK:
+                os.system(fileContent.get('system').get('window').get('stick'))
+            elif userCommandArray[2] in Utils.AUX_WORD_FOCUS:
+                if userCommandArray[3] in Utils.AUX_WORD_UP:
+                    os.system(fileContent.get('system').get('window').get('focus').get('up'))
+                elif userCommandArray[3] in Utils.AUX_WORD_LEFT:
+                    os.system(fileContent.get('system').get('window').get('focus').get('left'))
+                elif userCommandArray[3] in Utils.AUX_WORD_RIGHT:
+                    os.system(fileContent.get('system').get('window').get('focus').get('right'))
+                elif userCommandArray[3] in Utils.AUX_WORD_DOWN:
+                    os.system(fileContent.get('system').get('window').get('focus').get('down'))
+                else:
+                    print(codeError)
+                    Utils.shellScriptCommandSpeak(codeError)
+
+            elif userCommandArray[2] in Utils.AUX_WORD_MOVE:
+                if userCommandArray[3] in Utils.AUX_WORD_UP:
+                    os.system(fileContent.get('system').get('window').get('move').get('up'))
+                elif userCommandArray[3] in Utils.AUX_WORD_LEFT:
+                    os.system(fileContent.get('system').get('window').get('move').get('left'))
+                elif userCommandArray[3] in Utils.AUX_WORD_RIGHT:
+                    os.system(fileContent.get('system').get('window').get('move').get('right'))
+                elif userCommandArray[3] in Utils.AUX_WORD_DOWN:
+                    os.system(fileContent.get('system').get('window').get('move').get('down'))
+                else:
+                    print(codeError)
+                    Utils.shellScriptCommandSpeak(codeError)
+            
+        elif userCommandArray[1] in Utils.AUX_WORD_WORKSPACE:
+            if userCommandArray[2] in Utils.AUX_WORD_GO:
+                if userCommandArray[3] in Utils.AUX_WORD_LAST:
+                    os.system(fileContent.get('system').get('workspace').get('go').get('last'))
+                elif userCommandArray[3] in Utils.ZZZZZZZZZZZ_NUMBER:
+                    os.system(fileContent.get('system').get('workspace').get('go').get('number'))
+                elif userCommandArray[3] in Utils.AUX_WORD_NEXT:
+                    os.system(fileContent.get('system').get('workspace').get('go').get('next'))
+                elif userCommandArray[3] in Utils.AUX_WORD_PREVIOUS:
+                    os.system(fileContent.get('system').get('workspace').get('go').get('prev'))
+                else:
+                    print(codeError)
+                    Utils.shellScriptCommandSpeak(codeError)
+
+            elif userCommandArray[2] in Utils.AUX_WORD_MOVE:
+                if userCommandArray[3] in Utils.AUX_WORD_LAST:
+                    os.system(fileContent.get('system').get('workspace').get('move').get('last'))
+                elif userCommandArray[3] in Utils.ZZZZZZZZZZZ_NUMBER:
+                    os.system(fileContent.get('system').get('workspace').get('move').get('number'))
+                elif userCommandArray[3] in Utils.AUX_WORD_NEXT:
+                    os.system(fileContent.get('system').get('workspace').get('move').get('next'))
+                elif userCommandArray[3] in Utils.AUX_WORD_PREVIOUS:
+                    os.system(fileContent.get('system').get('workspace').get('move').get('prev'))
+                else:
+                    print(codeError)
+                    Utils.shellScriptCommandSpeak(codeError)
+
+            else:
+                print(codeError)
+                Utils.shellScriptCommandSpeak(codeError)
+        
+        else:
+            print(codeError)
+            Utils.shellScriptCommandSpeak(codeError)
+
     def valCommandValidation(fileContent, userCommandArray):
+        if fileContent.get('settings').get('debug') == 'on':
+            print("Validating: " + userCommandArray)
+
+        return True
+        
+        '''
+        if userCommandArray[1] in Utils.AUX_WORD_SOFTWARE or userCommandArray[1] in Utils.AUX_WORD_SYSTEM:
+            return True
+        else:
+            print(fileContent.get('val').get('message_error_command_not_listed'))
+            return False
+        '''
+            
+        '''
         if userCommandArray in fileContent:
             print(fileContent.get('val').get('message_success_command_listed'))
             return True
         else:
             print(fileContent.get('val').get('message_error_command_not_listed'))
             return False
+        '''
 
     def valCommandDebugOn(fileContent):
         #Debugging commands for softwares
@@ -255,7 +431,7 @@ class Utils:
         #userCommand = "software menu"
         #userCommand = "software nautilus"
         #userCommand = "software spotify" #Not working
-        userCommand = "software terminal"
+        #userCommand = "software terminal"
 
         #Debugging commands for system
         #userCommand = "system brightness up"
@@ -265,7 +441,7 @@ class Utils:
         #userCommand = "system window close"
         #userCommand = "system window floating"
         #userCommand = "system window stick"
-        #userCommand = "system window full screen"
+        userCommand = "system window full screen"
         #userCommand = "system window focus up"
         #userCommand = "system window focus left"
         #userCommand = "system window focus right"
@@ -282,5 +458,11 @@ class Utils:
         #userCommand = "system workspace move number" #Not working
         #userCommand = "system workspace move next"
         #userCommand = "system workspace move previous"
+
+        #TRAINING
+        #userCommand = "software sowfjoj softwari dgdkkgl"
+        #userCommand = "software terminal"
+        userCommand = "open terminal"
+        #userCommand = "lalal terminal"
 
         return userCommand
