@@ -56,11 +56,8 @@ class Main:
     def controller(fileContent):
         if fileContent.get('settings').get('training').get('mode') == 'off':
             Main.runningModeNormal(fileContent)
-
-        #Training feature
         elif fileContent.get('settings').get('training').get('mode') == 'on':
             Main.runningModeTraining(fileContent)
-
         else:
             #codeError = fileContent.get('val').get('message_error_microphone')
             codeError = "Debug mode must be defined"
@@ -81,16 +78,9 @@ class Main:
             
             print(codeError)
             Utils.shellScriptCommandSpeak(codeError)
-            #exit()
-
-        '''
-        if 'val' in userCommand:
-            print(userCommand)
-        '''
+            exit()
 
         #Format the voice command transcription
-        #userCommand = userCommand[1:] #Get all elements from list except first - the 'VAL' calling
-        #userCommand = "val " + userCommand #Get all elements from list except first - the 'VAL' calling
         userCommand = userCommand.lower() #Convert all the characters to lower case
         userCommandArray = userCommand.split() #Split all text word into an array
 
@@ -126,7 +116,7 @@ class Main:
             
             print(codeError)
             Utils.shellScriptCommandSpeak(codeError)
-            #exit()
+            exit()
 
         #Format the voice command transcription
         userCommand = userCommand.lower() #Convert all the characters to lower case

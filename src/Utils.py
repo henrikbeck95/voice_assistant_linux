@@ -243,7 +243,7 @@ class Utils:
             print("Something unexpected has been happened!")
             print(codeError)
             Utils.shellScriptCommandSpeak(codeError)
-            #exit()
+            exit()
 
     def valCommandRecording(fileContent, source):
         #Inspect audio file for removing some ambient noise
@@ -261,11 +261,14 @@ class Utils:
         pathFileValUserVoice = fileContent.get('user').get('file_recording')
 
         with open(pathFileValUserVoice, 'wb') as file_external:
-            userVoiceTranscription = audio.listen(source)
+            source.dynamic_energy_threshold = False
+            userVoiceTranscription = audio.listen(source, phrase_time_limit=5)
             file_external.write(userVoiceTranscription.get_wav_data())
 
+        #Load the user's voice recording
+        result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
 
-
+        '''
         try:
             #Load the user's voice recording
             result = audio.recognize_google(userVoiceTranscription, language=fileContent.get('settings').get('language'))
@@ -273,8 +276,7 @@ class Utils:
             print("Could not understand audio")
         except audio.RequestError as e:
             print("Could not request results {0}".format(e))
-
-
+        '''
 
         #Remove the user's voice recording file if exists
         if Utils.checkIfFileExists(pathFileValUserVoice) == True:
